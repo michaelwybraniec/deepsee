@@ -1,6 +1,6 @@
 # Task ID: 6
 # Title: Notifications worker for due tasks
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 8h
@@ -9,7 +9,7 @@
 Implement a background worker/service that checks for tasks due in the next 24 hours and logs “reminder sent” events in an idempotent and fault-tolerant way (no duplicate reminders).
 
 ## Dependencies
-- [ ] Task ID: 3
+- [x] Task ID: 3
 
 ## Testing Instructions
 - Worker/queue tests for:

@@ -1,6 +1,6 @@
 # Task ID: 6.1
 # Title: Confirm notification requirements
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 0.5h
@@ -36,7 +36,7 @@ Confirm notification requirements from `docs/requirements.md` and `docs/technica
 - Reference exact section numbers from docs for traceability.
 
 ## Dependencies
-- [ ] Task ID: 3.1 (Task field requirements must be confirmed - need due_date field)
+- [x] Task ID: 3.1 (Task field requirements must be confirmed - need due_date field)
 
 ## Testing Instructions
 - N/A. Verify the summary aligns with the docs.
@@ -50,9 +50,9 @@ Confirm notification requirements from `docs/requirements.md` and `docs/technica
 - Unclear requirements (e.g., what "reminder sent" means, how to track idempotency) may need clarification during design.
 
 ## Acceptance Criteria
-- [ ] Summary explicitly mentions: tasks due in next 24 hours, logging "reminder sent" events, idempotency, and fault tolerance.
-- [ ] Summary includes source references (which doc section each requirement came from).
-- [ ] Summary is documented (in code comments, design doc, or `backend/docs/notification-requirements.md`).
+- [x] Summary explicitly mentions: tasks due in next 24 hours, logging "reminder sent" events, idempotency, and fault tolerance.
+- [x] Summary includes source references (which doc section each requirement came from).
+- [x] Summary is documented (in code comments, design doc, or `backend/docs/notification-requirements.md`).
 
 ## Definition of Done
 - [ ] Summary written and stored with worker design notes or code (file committed or documented).
@@ -65,6 +65,15 @@ Confirm notification requirements from `docs/requirements.md` and `docs/technica
 
 ## Notes
 This anchors worker design to the requirements. The actual worker design and implementation happen in tasks 6.2, 6.3, and 6.4.
+
+**Completed**: Created `backend/docs/notification-requirements.md` documenting all notification requirements:
+- Background worker/service that checks tasks due in next 24 hours
+- Logs "reminder sent" events (not actual notifications)
+- Idempotent (no duplicate reminders)
+- Fault-tolerant (handles failures, retry, restartable)
+- Reminder tracking mechanism
+- Audit trail integration
+- Design decisions needed (scheduling, idempotency mechanism, retry strategy)
 
 ## Strengths
 Reduces risk around reminder semantics and behavior. Provides single source of truth for notification requirements.
@@ -79,6 +88,6 @@ Reduces risk around reminder semantics and behavior. Provides single source of t
 - [ ] Verify summary covers all notification-related bullets (cross-check against both docs).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
