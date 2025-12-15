@@ -1,6 +1,6 @@
 # Task ID: 8.1
 # Title: Confirm rate limiting requirements
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: medium
 # Owner: Backend Dev
 # Estimated Effort: 0.5h
@@ -34,7 +34,7 @@ Confirm rate limiting requirements from `docs/requirements.md` and `docs/technic
 - Reference exact section numbers from docs for traceability.
 
 ## Dependencies
-- [ ] Task ID: 1.3 (Documentation must exist)
+- [x] Task ID: 1.3 (Documentation must exist)
 
 ## Testing Instructions
 - N/A. Verify that the summary matches the docs.
@@ -48,9 +48,9 @@ Confirm rate limiting requirements from `docs/requirements.md` and `docs/technic
 - Unclear requirements (e.g., exact limits, window duration) may need clarification during design.
 
 ## Acceptance Criteria
-- [ ] Summary mentions: per-user or per-IP rate limiting and requirement for meaningful error responses on limit exceedance.
-- [ ] Summary includes source references (which doc section each requirement came from).
-- [ ] Summary is documented (in code comments, design doc, or `backend/docs/rate-limiting-requirements.md`).
+- [x] Summary mentions: per-user or per-IP rate limiting and requirement for meaningful error responses on limit exceedance.
+- [x] Summary includes source references (which doc section each requirement came from).
+- [x] Summary is documented (in code comments, design doc, or `backend/docs/rate-limiting-requirements.md`).
 
 ## Definition of Done
 - [ ] Summary documented with rate limiting design notes (file committed or documented).
@@ -63,6 +63,13 @@ Confirm rate limiting requirements from `docs/requirements.md` and `docs/technic
 
 ## Notes
 This provides clarity before choosing a specific strategy. The actual rate limiting design and implementation happen in tasks 8.2 and 8.3.
+
+**Completed**: Created `backend/docs/rate-limiting-requirements.md` documenting all rate limiting requirements:
+- Scope: per-user or per-IP (design decision needed)
+- Target: API requests (all or specific endpoints)
+- Error responses: 429 status, meaningful message, retry_after
+- Basic implementation: simple algorithm, reasonable limits
+- Implicit requirements: API boundary, not trivially bypassable
 
 ## Strengths
 Reduces risk of implementing the wrong kind of limits. Provides single source of truth for rate limiting requirements.
@@ -77,6 +84,6 @@ Reduces risk of implementing the wrong kind of limits. Provides single source of
 - [ ] Verify summary covers all rate limiting-related bullets (cross-check against both docs).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

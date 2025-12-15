@@ -1,6 +1,6 @@
 # Task ID: 8
 # Title: Rate limiting
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: medium
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -9,7 +9,7 @@
 Implement basic per-user or per-IP rate limiting on API requests and return meaningful error responses when limits are exceeded.
 
 ## Dependencies
-- [ ] Task ID: 2
+- [x] Task ID: 2
 
 ## Testing Instructions
 - Integration tests that:
