@@ -1,6 +1,6 @@
 # Task ID: 5.1
 # Title: Confirm search and filter requirements
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 0.5h
@@ -36,7 +36,7 @@ Extract and confirm search, filtering, sorting, and pagination requirements from
 - Reference exact section numbers from docs for traceability.
 
 ## Dependencies
-- [ ] Task ID: 3.1 (Task field requirements must be confirmed)
+- [x] Task ID: 3.1 (Task field requirements must be confirmed)
 
 ## Testing Instructions
 - N/A. Verify that the requirement list matches the docs.
@@ -50,9 +50,9 @@ Extract and confirm search, filtering, sorting, and pagination requirements from
 - Unclear requirements (e.g., exact search vs partial match) may need clarification during design.
 
 ## Acceptance Criteria
-- [ ] Written list includes search by title/description, filters (status, priority, tags, due date), sorting, and pagination.
-- [ ] Summary includes source references (which doc section each requirement came from).
-- [ ] Summary is documented (in code comments, design doc, or `backend/docs/search-filter-requirements.md`).
+- [x] Written list includes search by title/description, filters (status, priority, tags, due date), sorting, and pagination.
+- [x] Summary includes source references (which doc section each requirement came from).
+- [x] Summary is documented (in code comments, design doc, or `backend/docs/search-filter-requirements.md`).
 
 ## Definition of Done
 - [ ] Requirements summarized and stored with search/filter code or design notes (file committed or documented).
@@ -65,6 +65,14 @@ Extract and confirm search, filtering, sorting, and pagination requirements from
 
 ## Notes
 Guides the design of query parameters and backend logic (tasks 5.2, 5.3, 5.4). Keep requirements strictly aligned with docs.
+
+**Completed**: Created `backend/docs/search-filter-requirements.md` documenting all search/filter requirements:
+- Search by title and description (OR logic, partial match, case-insensitive)
+- Filters: status, priority, tags, due date
+- Sorting and pagination
+- Combination of search + filters + sort + pagination
+- Authorization rules (all users can search/filter all tasks)
+- Design decisions needed (search algorithm, defaults, response format)
 
 ## Strengths
 Ensures implementation is feature-complete relative to requirements. Provides single source of truth for search/filter requirements.
@@ -79,6 +87,6 @@ Ensures implementation is feature-complete relative to requirements. Provides si
 - [ ] Verify summary covers all search/filter-related bullets (cross-check against both docs).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

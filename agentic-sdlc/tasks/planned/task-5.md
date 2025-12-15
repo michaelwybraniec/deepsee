@@ -1,6 +1,6 @@
 # Task ID: 5
 # Title: Search, filtering, sorting, and pagination
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 8h
@@ -9,7 +9,7 @@
 Implement search, filtering, sorting, and pagination for tasks as described in the requirements.
 
 ## Dependencies
-- [ ] Task ID: 3
+- [x] Task ID: 3
 
 ## Testing Instructions
 - Integration tests for:
