@@ -1,10 +1,48 @@
-"""Main FastAPI application."""
+"""
+Task Tracker API - Enterprise-grade task management system.
+
+A comprehensive RESTful API for secure task management with advanced features including 
+authentication, file attachments, search capabilities, notifications, and comprehensive audit trails.
+
+## Architecture
+
+Built following **Clean Architecture** principles with clear separation of concerns across 
+domain, application, and infrastructure layers. Developed using the **Agentic Workflow Protocol (AWP)** 
+for structured, systematic development. See `agentic-sdlc/AWP.md` for workflow details.
+
+## Key Features
+
+- **Secure Authentication**: JWT-based authentication with bcrypt password hashing
+- **Task Management**: Full CRUD operations with ownership-based authorization
+- **File Attachments**: Upload and manage files associated with tasks
+- **Advanced Search**: Filter and search tasks by multiple criteria
+- **Notifications**: Automated reminder system for due tasks
+- **Audit Trail**: Comprehensive logging of all system actions
+- **Rate Limiting**: Per-user and per-IP request rate limiting
+- **Monitoring**: Structured logging with correlation IDs and health checks
+
+## Technology Stack
+
+- **Framework**: FastAPI (Python)
+- **Database**: SQLAlchemy ORM with SQLite/PostgreSQL support
+- **Authentication**: JWT tokens with python-jose
+- **Validation**: Pydantic for request/response validation
+
+## Author
+
+Michael Wybraniec (ONE-FRONT)
+"""
 
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
-from infrastructure.app_config import app_config
 from api.routes import auth, tasks
+import os
+
+# API Metadata - automatically used by FastAPI
+API_VERSION = os.getenv("API_VERSION", "1.0.0")
+API_TITLE = "Task Tracker API"
+API_AUTHOR = "Michael Wybraniec (ONE-FRONT)"
 
 # Initialize database
 init_db()
@@ -17,11 +55,11 @@ except ValueError as e:
     print("Please set JWT_SECRET_KEY environment variable (min 32 characters)")
 
 app = FastAPI(
-    title=app_config.API_TITLE,
-    description=app_config.API_DESCRIPTION,
-    version=app_config.API_VERSION,
+    title=API_TITLE,
+    description=__doc__,  # Automatically uses module docstring above
+    version=API_VERSION,
     contact={
-        "name": app_config.API_AUTHOR,
+        "name": API_AUTHOR,
     },
     docs_url="/docs",
     redoc_url="/redoc",
