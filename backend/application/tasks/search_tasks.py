@@ -1,6 +1,6 @@
 """Search and list tasks use case with search, filters, sorting, and pagination."""
 
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_, func
@@ -10,19 +10,6 @@ import math
 from domain.models.task import Task
 from application.tasks.schemas import TaskResponse
 from application.tasks.repository import TaskRepository
-
-
-class PaginatedTaskResponse:
-    """Paginated task response."""
-    
-    def __init__(self, tasks: List[TaskResponse], page: int, page_size: int, total: int):
-        self.tasks = tasks
-        self.pagination = {
-            "page": page,
-            "page_size": page_size,
-            "total": total,
-            "total_pages": math.ceil(total / page_size) if page_size > 0 else 0
-        }
 
 
 def search_tasks(
@@ -37,7 +24,7 @@ def search_tasks(
     sort: Optional[str] = None,
     page: int = 1,
     page_size: int = 20
-) -> PaginatedTaskResponse:
+) -> Dict[str, Any]:
     """
     Search and list tasks with filters, sorting, and pagination.
     
@@ -57,7 +44,7 @@ def search_tasks(
         page_size: Number of items per page (max 100)
     
     Returns:
-        PaginatedTaskResponse with tasks and pagination metadata
+        Dictionary with "tasks" and "pagination" keys matching PaginatedTaskResponse schema
     """
     # Validate and limit page_size
     page_size = min(page_size, 100)  # Max 100 to prevent DoS
@@ -69,12 +56,12 @@ def search_tasks(
     # Apply search (q parameter)
     if q:
         search_term = f"%{q}%"
-        query = query.filter(
-            or_(
-                Task.title.ilike(search_term),
-                Task.description.ilike(search_term) if Task.description else False
-            )
-        )
+        # Build OR condition for title and description
+        conditions = [Task.title.ilike(search_term)]
+        # Add description condition only if description field exists (not None check per row)
+        # SQLAlchemy will handle None values in description field
+        conditions.append(Task.description.ilike(search_term))
+        query = query.filter(or_(*conditions))
     
     # Apply filters
     if status:
@@ -83,11 +70,8 @@ def search_tasks(
     if priority:
         query = query.filter(Task.priority == priority)
     
-    if tags and len(tags) > 0:
-        # For SQLite with JSON string storage, filter in Python
-        # We'll filter after fetching (inefficient but works for SQLite)
-        # For PostgreSQL, could use JSONB operators
-        pass  # Will filter in Python after query
+    # Tags filter will be applied in Python after fetching (for SQLite JSON string storage)
+    # Note: This is less efficient but works for SQLite. For PostgreSQL, could use JSONB operators.
     
     if due_date:
         query = query.filter(Task.due_date == due_date)
@@ -98,10 +82,7 @@ def search_tasks(
     if due_date_to:
         query = query.filter(Task.due_date <= due_date_to)
     
-    # Get total count (before pagination)
-    total = query.count()
-    
-    # Apply sorting
+    # Apply sorting (before getting count, for consistency)
     if sort:
         # Parse sort parameter (format: "field:direction")
         parts = sort.split(":")
@@ -126,14 +107,15 @@ def search_tasks(
         # Default sort: newest first
         query = query.order_by(Task.created_at.desc())
     
-    # Apply pagination
-    offset = (page - 1) * page_size
-    tasks = query.offset(offset).limit(page_size).all()
-    
-    # Filter by tags in Python (for SQLite JSON string storage)
+    # For tags filter with SQLite JSON storage, we need to filter in Python
+    # This requires fetching all matching tasks first, then filtering by tags, then paginating
     if tags and len(tags) > 0:
+        # Fetch all tasks matching other filters (before tags filter)
+        all_tasks = query.all()
+        
+        # Filter by tags in Python
         filtered_tasks = []
-        for task in tasks:
+        for task in all_tasks:
             if task.tags:
                 try:
                     task_tags = json.loads(task.tags) if isinstance(task.tags, str) else task.tags
@@ -143,11 +125,34 @@ def search_tasks(
                             filtered_tasks.append(task)
                 except (json.JSONDecodeError, TypeError):
                     pass
-        tasks = filtered_tasks
-        # Recalculate total if tags filter applied (approximate)
-        # For accurate count, would need to query all and filter, but that's expensive
-        # For now, use filtered count as approximation
-        total = len(filtered_tasks) if page == 1 else total
+        
+        # Get total count after tags filter
+        total = len(filtered_tasks)
+        
+        # Apply sorting to filtered list
+        if sort:
+            parts = sort.split(":")
+            if len(parts) == 2:
+                sort_field, sort_direction = parts[0].strip(), parts[1].strip().lower()
+                allowed_fields = ["due_date", "priority", "created_at", "updated_at", "title"]
+                if sort_field in allowed_fields:
+                    reverse = (sort_direction == "desc")
+                    filtered_tasks.sort(key=lambda t: getattr(t, sort_field) or "", reverse=reverse)
+        else:
+            # Default sort: newest first
+            filtered_tasks.sort(key=lambda t: t.created_at or "", reverse=True)
+        
+        # Apply pagination
+        offset = (page - 1) * page_size
+        tasks = filtered_tasks[offset:offset + page_size]
+    else:
+        # No tags filter - can use SQL pagination
+        # Get total count (before pagination)
+        total = query.count()
+        
+        # Apply pagination
+        offset = (page - 1) * page_size
+        tasks = query.offset(offset).limit(page_size).all()
     
     # Convert to response models
     result = []
@@ -173,9 +178,13 @@ def search_tasks(
             updated_at=task.updated_at
         ))
     
-    return PaginatedTaskResponse(
-        tasks=result,
-        page=page,
-        page_size=page_size,
-        total=total
-    )
+    # Return dictionary matching PaginatedTaskResponse schema
+    return {
+        "tasks": result,
+        "pagination": {
+            "page": page,
+            "page_size": page_size,
+            "total": total,
+            "total_pages": math.ceil(total / page_size) if page_size > 0 else 0
+        }
+    }

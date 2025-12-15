@@ -1,6 +1,6 @@
 # Task ID: 5.4
 # Title: Implement filters, sorting, and pagination
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -60,7 +60,7 @@ Implement filtering by status, priority, tags, and due date, plus sorting and pa
 - Consider database indexes on filterable fields (status, priority, due_date, tags) for performance.
 
 ## Dependencies
-- [ ] Task ID: 5.2 (API design must be complete)
+- [x] Task ID: 5.2 (API design must be complete)
 
 ## Testing Instructions
 - Integration tests (API + DB):
@@ -82,11 +82,11 @@ Implement filtering by status, priority, tags, and due date, plus sorting and pa
 - Performance issues if queries not optimized (missing indexes, inefficient pagination).
 
 ## Acceptance Criteria
-- [ ] Filters for status, priority, tags, and due date work as specified (exact match for status/priority, contains for tags, exact/range for due date).
-- [ ] Sorting is applied consistently based on query parameters (field and direction, default sort).
-- [ ] Pagination returns correct pages of results (correct page, total count, total_pages calculated).
-- [ ] All query parameters are validated (enum values, date formats, integers).
-- [ ] Tests for filters, sorting, and pagination are passing (individual and combined).
+- [x] Filters for status, priority, tags, and due date work as specified (exact match for status/priority, contains for tags, exact/range for due date).
+- [x] Sorting is applied consistently based on query parameters (field and direction, default sort).
+- [x] Pagination returns correct pages of results (correct page, total count, total_pages calculated).
+- [x] All query parameters are validated (enum values, date formats, integers).
+- [x] Tests for filters, sorting, and pagination are passing (individual and combined).
 
 ## Definition of Done
 - [ ] Filter/sort/pagination logic implemented in list endpoint (use-case and API handler).
@@ -104,6 +104,14 @@ Implement filtering by status, priority, tags, and due date, plus sorting and pa
 ## Notes
 Completes the "Search & Filtering" requirement from the assignment. This task builds on task 5.3 (search) and combines all query parameters.
 
+**Completed**: 
+- All filters implemented: status, priority, tags, due_date (exact and range)
+- Sorting implemented with field and direction validation, default sort (created_at DESC)
+- Pagination implemented with page, page_size, total count, and total_pages calculation
+- Query parameter validation (FastAPI Query with constraints)
+- Tags filter works with SQLite JSON string storage (Python filtering)
+- All features work together (search + filters + sort + pagination)
+
 ## Strengths
 Provides a robust and user-friendly way to explore the task list. Enables efficient task discovery and management.
 
@@ -117,6 +125,6 @@ Provides a robust and user-friendly way to explore the task list. Enables effici
 - [ ] Test manually with API client to verify filter/sort/pagination behavior.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

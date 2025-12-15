@@ -1,19 +1,21 @@
 """Task API routes."""
 
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+from typing import List, Optional
+from datetime import datetime
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 
 from infrastructure.database import get_db
 from domain.models.user import User
 from api.middleware.auth import get_current_user
 from application.tasks.schemas import TaskCreateRequest, TaskResponse, TaskUpdateRequest
+from application.tasks.pagination_schemas import PaginatedTaskResponse
 from application.tasks.create_task import create_task
 from application.tasks.get_task import get_task_by_id
 from application.tasks.list_tasks import list_tasks
+from application.tasks.search_tasks import search_tasks
 from application.tasks.update_task import update_task
 from application.tasks.delete_task import delete_task
-from application.tasks.schemas import TaskUpdateRequest
 from infrastructure.persistence.repositories.task_repository import SQLAlchemyTaskRepository
 
 router = APIRouter(prefix="/api/tasks", tags=["tasks"])

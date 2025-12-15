@@ -24,11 +24,11 @@ Implement search, filtering, sorting, and pagination for tasks as described in t
 - Incorrect search/filter logic could confuse users or hide important tasks.
 
 ## Acceptance Criteria
-- [ ] API supports search by title and description.
-- [ ] API supports filter by status, priority, tags, and due date.
-- [ ] API supports sorting and pagination of results.
-- [ ] Search and filter endpoints respect authorization rules.
-- [ ] Tests covering typical search/filter scenarios are passing.
+- [x] API supports search by title and description.
+- [x] API supports filter by status, priority, tags, and due date.
+- [x] API supports sorting and pagination of results.
+- [x] Search and filter endpoints respect authorization rules.
+- [x] Tests covering typical search/filter scenarios are passing.
 
 ## Definition of Done
 - [ ] Search and filter capabilities implemented in the API.
@@ -46,12 +46,12 @@ This task focuses on backend capabilities; frontend integration is covered under
 Delivers the full “Search & Filtering” requirement in a testable way.
 
 ## Sub-tasks (Children)
-- [ ] [Task 5.1: Confirm search and filter requirements](task-5-1.md)
-- [ ] [Task 5.2: Design search, filter, sort, and pagination API](task-5-2.md)
-- [ ] [Task 5.3: Implement search by title and description](task-5-3.md)
-- [ ] [Task 5.4: Implement filters, sorting, and pagination](task-5-4.md)
+- [x] [Task 5.1: Confirm search and filter requirements](task-5-1.md)
+- [x] [Task 5.2: Design search, filter, sort, and pagination API](task-5-2.md)
+- [x] [Task 5.3: Implement search by title and description](task-5-3.md)
+- [x] [Task 5.4: Implement filters, sorting, and pagination](task-5-4.md)
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
