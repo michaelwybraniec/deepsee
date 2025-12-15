@@ -15,7 +15,7 @@ Set up the React (or similar) frontend project with routing and a basic layout s
    - Use `Vite` (recommended), `create-react-app`, or `Next.js` per `docs/technology.md`.
    - Place in `frontend/` directory.
    - Install dependencies: `react` 18+, `react-router-dom` 6.20+ (or similar for routing) per `docs/technology.md`.
-4. Set up project structure:
+3. Set up project structure:
    - `frontend/src/components/` - Reusable components.
    - `frontend/src/pages/` or `frontend/src/views/` - Page components.
    - `frontend/src/services/` - API client code.
