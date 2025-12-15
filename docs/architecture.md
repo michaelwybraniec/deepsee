@@ -3,8 +3,9 @@
 This document describes the planned architecture for the Task Tracker application, based on:
 - The assignment in `docs/requirements.md`
 - The structured view in `docs/technical-specs.md`
+- Technology choices documented in `docs/technology.md`
 
-Where this document goes beyond those files, items are clearly marked as **Design Choice**.
+Where this document goes beyond those files, items are clearly marked as **Design Choice**. For specific technology, library, and version decisions, see `docs/technology.md`.
 
 ---
 
@@ -41,6 +42,7 @@ From the requirements, the system will contain at least:
     - Client‑side validation errors.
     - Toasts/alerts for success and failure.
   - Exposes change‑password functionality.
+  - See `docs/technology.md` for specific React setup, routing, and library choices.
 
 - **Backend API service (Python)**:
   - Exposes endpoints for:
@@ -48,6 +50,7 @@ From the requirements, the system will contain at least:
     - Task management (CRUD with required fields).
     - Attachments (upload, list, delete).
     - Search, filtering, sorting, pagination of tasks.
+  - See `docs/technology.md` for specific Python framework, ORM, and library choices.
     - Change password.
   - Enforces:
     - “User can modify only their own data, but can view all records.”
@@ -143,7 +146,7 @@ These concerns apply across multiple components:
   - Consistent error response shape (as a design choice).
   - Worker retry and restart strategies to avoid duplicate reminders.
 
-> **Design Choice**: The specific logging/metrics libraries, rate limiting strategy, and retry mechanisms are not fixed by the requirements and can be chosen based on familiarity and ecosystem support.
+> **Design Choice**: The specific logging/metrics libraries, rate limiting strategy, and retry mechanisms are not fixed by the requirements and can be chosen based on familiarity and ecosystem support. See `docs/technology.md` for specific library choices and rationale.
 
 ---
 
