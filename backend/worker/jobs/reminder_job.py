@@ -54,9 +54,10 @@ def process_reminders() -> None:
         for task in tasks:
             try:
                 # Atomic check-and-set: only update if reminder not sent recently
+                from sqlalchemy import update
                 result = db.execute(
-                    db.query(Task)
-                    .filter(
+                    update(Task)
+                    .where(
                         and_(
                             Task.id == task.id,
                             or_(
@@ -65,10 +66,7 @@ def process_reminders() -> None:
                             )
                         )
                     )
-                    .update(
-                        {"reminder_sent_at": now},
-                        synchronize_session=False
-                    )
+                    .values(reminder_sent_at=now)
                 )
                 
                 if result == 0:

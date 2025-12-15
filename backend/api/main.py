@@ -39,7 +39,9 @@ from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
 from api.routes import auth, tasks, attachments
+from worker.scheduler import start_scheduler, stop_scheduler
 import os
+import logging
 
 # API Metadata - automatically used by FastAPI
 API_VERSION = os.getenv("API_VERSION", "1.0.0")
@@ -55,6 +57,12 @@ try:
 except ValueError as e:
     print(f"Warning: Auth configuration validation failed: {e}")
     print("Please set JWT_SECRET_KEY environment variable (min 32 characters)")
+
+# Initialize logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 app = FastAPI(
     title=API_TITLE,
@@ -93,3 +101,25 @@ def root():
 def health():
     """Health check endpoint."""
     return {"status": "healthy"}
+
+
+# Initialize database on startup
+@app.on_event("startup")
+async def startup_event():
+    """Startup event handler."""
+    # Start worker scheduler (only if not in test mode)
+    if os.getenv("ENVIRONMENT") != "test":
+        try:
+            start_scheduler()
+        except Exception as e:
+            logging.error(f"Failed to start worker scheduler: {e}", exc_info=True)
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Shutdown event handler."""
+    # Stop worker scheduler
+    try:
+        stop_scheduler()
+    except Exception as e:
+        logging.error(f"Error stopping worker scheduler: {e}", exc_info=True)

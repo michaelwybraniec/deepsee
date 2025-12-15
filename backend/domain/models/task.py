@@ -52,6 +52,7 @@ class Task(Base):
     owner_user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    reminder_sent_at = Column(DateTime, nullable=True, index=True)  # For idempotency tracking
     
     # Relationship
     owner = relationship("User", backref="tasks")
