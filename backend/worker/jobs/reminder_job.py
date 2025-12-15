@@ -10,6 +10,10 @@ from sqlalchemy.exc import SQLAlchemyError, OperationalError
 
 from infrastructure.database import SessionLocal
 from domain.models.task import Task
+from domain.audit.audit_event import AuditActionType
+from application.audit.audit_logger import AuditLogger
+from infrastructure.audit.audit_logger import AuditLoggerImpl
+from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
 
 logger = logging.getLogger(__name__)
 
@@ -99,9 +103,14 @@ def process_reminders() -> None:
     3. Marks tasks as having reminder sent (idempotency)
     4. Handles errors gracefully (continues with next task on error)
     5. Retries on transient failures with exponential backoff
+    6. Logs audit events for reminder sent actions
     """
     db: Session = SessionLocal()
     worker_run_id = datetime.utcnow().strftime("worker-run-%Y-%m-%d-%H-%M-%S")
+    
+    # Initialize audit logger
+    audit_repository = SQLAlchemyAuditRepository(db)
+    audit_logger = AuditLoggerImpl(audit_repository)
     
     try:
         logger.info(f"Starting reminder job run: {worker_run_id}")
@@ -140,6 +149,19 @@ def process_reminders() -> None:
                         f"Reminder sent for task {task.id} (due: {task.due_date}), "
                         f"worker_run_id: {worker_run_id}"
                     )
+                    
+                    # Log audit event (system action - user_id is None)
+                    audit_logger.log(
+                        action_type=AuditActionType.REMINDER_SENT,
+                        user_id=None,  # System action, not user-driven
+                        resource_type="reminder",
+                        resource_id=str(task.id),
+                        metadata={
+                            "task_id": task.id,
+                            "due_date": task.due_date.isoformat() if task.due_date else None
+                        }
+                    )
+                    
                     reminders_sent += 1
                 else:
                     # Already sent or failed after retries

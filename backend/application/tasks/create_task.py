@@ -5,14 +5,17 @@ from typing import Optional
 import json
 
 from domain.models.task import Task
+from domain.audit.audit_event import AuditActionType
 from application.tasks.schemas import TaskCreateRequest, TaskResponse
 from application.tasks.repository import TaskRepository
+from application.audit.audit_logger import AuditLogger
 
 
 def create_task(
     repository: TaskRepository,
     request: TaskCreateRequest,
-    owner_user_id: int
+    owner_user_id: int,
+    audit_logger: Optional[AuditLogger] = None
 ) -> TaskResponse:
     """
     Create a new task.
@@ -52,6 +55,20 @@ def create_task(
     
     # Persist via repository
     created_task = repository.create(task)
+    
+    # Log audit event
+    if audit_logger:
+        audit_logger.log(
+            action_type=AuditActionType.TASK_CREATED,
+            user_id=owner_user_id,
+            resource_type="task",
+            resource_id=str(created_task.id),
+            metadata={
+                "title": created_task.title,
+                "status": created_task.status,
+                "priority": created_task.priority
+            }
+        )
     
     # Convert tags JSON string back to list for response
     tags_list = None

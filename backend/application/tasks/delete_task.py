@@ -2,13 +2,16 @@
 
 from typing import Optional
 from domain.models.task import Task
+from domain.audit.audit_event import AuditActionType
 from application.tasks.repository import TaskRepository
+from application.audit.audit_logger import AuditLogger
 
 
 def delete_task(
     repository: TaskRepository,
     task_id: int,
-    authenticated_user_id: int
+    authenticated_user_id: int,
+    audit_logger: Optional[AuditLogger] = None
 ) -> bool:
     """
     Delete a task.
@@ -35,5 +38,23 @@ def delete_task(
     if task.owner_user_id != authenticated_user_id:
         raise PermissionError("You can only modify your own tasks")
     
+    # Store task title for audit before deletion
+    task_title = task.title
+    
     # Delete task
-    return repository.delete(task_id)
+    deleted = repository.delete(task_id)
+    
+    # Log audit event (only if deletion was successful)
+    if deleted and audit_logger:
+        audit_logger.log(
+            action_type=AuditActionType.TASK_DELETED,
+            user_id=authenticated_user_id,
+            resource_type="task",
+            resource_id=str(task_id),
+            metadata={
+                "task_id": task_id,
+                "title": task_title
+            }
+        )
+    
+    return deleted

@@ -17,6 +17,9 @@ from application.tasks.repository import TaskRepository
 from infrastructure.persistence.repositories.attachment_repository import SQLAlchemyAttachmentRepository
 from infrastructure.persistence.repositories.task_repository import SQLAlchemyTaskRepository
 from infrastructure.attachments.storage import LocalFileStorage
+from application.audit.audit_logger import AuditLogger
+from infrastructure.audit.audit_logger import AuditLoggerImpl
+from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
 
 router = APIRouter(prefix="/api", tags=["attachments"])
 
@@ -36,6 +39,12 @@ def get_storage() -> LocalFileStorage:
     return LocalFileStorage()
 
 
+def get_audit_logger(db: Session = Depends(get_db)) -> AuditLogger:
+    """Dependency to get audit logger."""
+    audit_repository = SQLAlchemyAuditRepository(db)
+    return AuditLoggerImpl(audit_repository)
+
+
 @router.post(
     "/tasks/{task_id}/attachments",
     response_model=AttachmentResponse,
@@ -53,7 +62,8 @@ async def upload_attachment_endpoint(
     current_user: User = Depends(get_current_user),
     task_repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
     attachment_repository: SQLAlchemyAttachmentRepository = Depends(get_attachment_repository),
-    storage: LocalFileStorage = Depends(get_storage)
+    storage: LocalFileStorage = Depends(get_storage),
+    audit_logger: AuditLogger = Depends(get_audit_logger)
 ):
     """
     Upload an attachment for a task.
@@ -74,7 +84,8 @@ async def upload_attachment_endpoint(
             file=file_bytes,
             filename=file.filename or "file",
             content_type=file.content_type,
-            authenticated_user_id=current_user.id
+            authenticated_user_id=current_user.id,
+            audit_logger=audit_logger
         )
         
         if not result:
@@ -148,7 +159,8 @@ def delete_attachment_endpoint(
     current_user: User = Depends(get_current_user),
     task_repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
     attachment_repository: SQLAlchemyAttachmentRepository = Depends(get_attachment_repository),
-    storage: LocalFileStorage = Depends(get_storage)
+    storage: LocalFileStorage = Depends(get_storage),
+    audit_logger: AuditLogger = Depends(get_audit_logger)
 ):
     """
     Delete an attachment.
@@ -161,7 +173,8 @@ def delete_attachment_endpoint(
             attachment_repository=attachment_repository,
             storage=storage,
             attachment_id=attachment_id,
-            authenticated_user_id=current_user.id
+            authenticated_user_id=current_user.id,
+            audit_logger=audit_logger
         )
         
         if not deleted:

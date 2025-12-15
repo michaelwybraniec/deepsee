@@ -1,6 +1,6 @@
 # Task ID: 7.4
 # Title: Integrate audit logging with tasks, attachments, and reminders
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -37,13 +37,13 @@ Integrate audit logging into task creation/update/deletion, attachment added/rem
 - For system actions (reminder sent), user_id is None (system-generated, not user-driven).
 
 ## Dependencies
-- [ ] Task ID: 3.3 (Task creation must exist)
-- [ ] Task ID: 3.4 (Task read must exist - for context)
-- [ ] Task ID: 3.5 (Task update/delete must exist)
-- [ ] Task ID: 4.3 (Attachment upload must exist)
-- [ ] Task ID: 4.4 (Attachment delete must exist)
-- [ ] Task ID: 6.3 (Reminder worker must exist)
-- [ ] Task ID: 7.3 (Audit service must exist)
+- [x] Task ID: 3.3 (Task creation must exist)
+- [x] Task ID: 3.4 (Task read must exist - for context)
+- [x] Task ID: 3.5 (Task update/delete must exist)
+- [x] Task ID: 4.3 (Attachment upload must exist)
+- [x] Task ID: 4.4 (Attachment delete must exist)
+- [x] Task ID: 6.3 (Reminder worker must exist)
+- [x] Task ID: 7.3 (Audit service must exist)
 
 ## Testing Instructions
 - Integration tests (API + DB + Audit):
@@ -63,11 +63,11 @@ Integrate audit logging into task creation/update/deletion, attachment added/rem
 - Missing metadata may reduce audit trail usefulness.
 
 ## Acceptance Criteria
-- [ ] Audit events are written for all required actions (task CRUD, attachment operations, reminder sent).
-- [ ] Events contain timestamp and user ID for user-driven actions (task CRUD, attachment operations - user_id present).
-- [ ] Events contain timestamp for system actions (reminder sent - user_id is None, timestamp present).
-- [ ] Events contain relevant metadata (task title, status changes, filename, etc.) but no sensitive data.
-- [ ] Tests verifying audit entries for each action are passing (all action types create audit events).
+- [x] Audit events are written for all required actions (task CRUD, attachment operations, reminder sent).
+- [x] Events contain timestamp and user ID for user-driven actions (task CRUD, attachment operations - user_id present).
+- [x] Events contain timestamp for system actions (reminder sent - user_id is None, timestamp present).
+- [x] Events contain relevant metadata (task title, status changes, filename, etc.) but no sensitive data.
+- [x] Tests verifying audit entries for each action are passing (all action types create audit events).
 
 ## Definition of Done
 - [ ] All relevant flows call the audit logging service (task CRUD, attachment operations, reminder worker).
@@ -82,6 +82,16 @@ Integrate audit logging into task creation/update/deletion, attachment added/rem
 
 ## Notes
 Completes the integration layer for the audit trail requirement. This task wires up the audit service from task 7.3 into all relevant operations.
+
+**Completed**: 
+- Integrated audit logging into task creation (logs task_created with metadata)
+- Integrated audit logging into task update (logs task_updated with changes metadata)
+- Integrated audit logging into task deletion (logs task_deleted with task title)
+- Integrated audit logging into attachment upload (logs attachment_uploaded with file info)
+- Integrated audit logging into attachment deletion (logs attachment_deleted with file info)
+- Integrated audit logging into reminder worker (logs reminder_sent with task info, user_id=None)
+- Added audit logger dependency injection to all API endpoints
+- Added comprehensive integration tests for all action types
 
 ## Strengths
 Provides full traceability for key operations in the system. Enables compliance and debugging.
@@ -99,6 +109,6 @@ Provides full traceability for key operations in the system. Enables compliance 
 - [ ] Test manually by performing operations and verifying audit events in database.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

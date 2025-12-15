@@ -16,7 +16,10 @@ from application.tasks.list_tasks import list_tasks
 from application.tasks.search_tasks import search_tasks
 from application.tasks.update_task import update_task
 from application.tasks.delete_task import delete_task
+from application.audit.audit_logger import AuditLogger
 from infrastructure.persistence.repositories.task_repository import SQLAlchemyTaskRepository
+from infrastructure.audit.audit_logger import AuditLoggerImpl
+from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
 
 router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 
@@ -24,6 +27,12 @@ router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 def get_task_repository(db: Session = Depends(get_db)) -> SQLAlchemyTaskRepository:
     """Dependency to get task repository."""
     return SQLAlchemyTaskRepository(db)
+
+
+def get_audit_logger(db: Session = Depends(get_db)) -> AuditLogger:
+    """Dependency to get audit logger."""
+    audit_repository = SQLAlchemyAuditRepository(db)
+    return AuditLoggerImpl(audit_repository)
 
 
 @router.post(
@@ -38,7 +47,8 @@ def get_task_repository(db: Session = Depends(get_db)) -> SQLAlchemyTaskReposito
 def create_task_endpoint(
     request: TaskCreateRequest,
     current_user: User = Depends(get_current_user),
-    repository: SQLAlchemyTaskRepository = Depends(get_task_repository)
+    repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
+    audit_logger: AuditLogger = Depends(get_audit_logger)
 ):
     """
     Create a new task.
@@ -46,7 +56,7 @@ def create_task_endpoint(
     Requires authentication. Task owner is automatically set to the authenticated user.
     """
     try:
-        created_task = create_task(repository, request, current_user.id)
+        created_task = create_task(repository, request, current_user.id, audit_logger)
         return created_task
     except ValueError as e:
         raise HTTPException(
@@ -184,7 +194,8 @@ def update_task_endpoint(
     task_id: int,
     request: TaskUpdateRequest,
     current_user: User = Depends(get_current_user),
-    repository: SQLAlchemyTaskRepository = Depends(get_task_repository)
+    repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
+    audit_logger: AuditLogger = Depends(get_audit_logger)
 ):
     """
     Update an existing task.
@@ -192,7 +203,7 @@ def update_task_endpoint(
     Only the task owner can update the task. Requires authentication.
     """
     try:
-        updated_task = update_task(repository, task_id, request, current_user.id)
+        updated_task = update_task(repository, task_id, request, current_user.id, audit_logger)
         
         if not updated_task:
             raise HTTPException(
@@ -230,7 +241,8 @@ def update_task_endpoint(
 def delete_task_endpoint(
     task_id: int,
     current_user: User = Depends(get_current_user),
-    repository: SQLAlchemyTaskRepository = Depends(get_task_repository)
+    repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
+    audit_logger: AuditLogger = Depends(get_audit_logger)
 ):
     """
     Delete a task.
@@ -238,7 +250,7 @@ def delete_task_endpoint(
     Only the task owner can delete the task. Requires authentication.
     """
     try:
-        deleted = delete_task(repository, task_id, current_user.id)
+        deleted = delete_task(repository, task_id, current_user.id, audit_logger)
         
         if not deleted:
             raise HTTPException(

@@ -4,8 +4,10 @@ from typing import Optional
 import json
 
 from domain.models.task import Task
+from domain.audit.audit_event import AuditActionType
 from application.tasks.schemas import TaskUpdateRequest, TaskResponse
 from application.tasks.repository import TaskRepository
+from application.audit.audit_logger import AuditLogger
 from api.middleware.authorization import check_ownership
 
 
@@ -13,7 +15,8 @@ def update_task(
     repository: TaskRepository,
     task_id: int,
     request: TaskUpdateRequest,
-    authenticated_user_id: int
+    authenticated_user_id: int,
+    audit_logger: Optional[AuditLogger] = None
 ) -> Optional[TaskResponse]:
     """
     Update an existing task.
@@ -41,6 +44,10 @@ def update_task(
     if task.owner_user_id != authenticated_user_id:
         raise PermissionError("You can only modify your own tasks")
     
+    # Store old values for audit metadata
+    old_status = task.status
+    old_priority = task.priority
+    
     # Update fields (only provided fields)
     if request.title is not None:
         task.title = request.title.strip()
@@ -62,6 +69,28 @@ def update_task(
     
     # Persist via repository
     updated_task = repository.update(task)
+    
+    # Log audit event
+    if audit_logger:
+        # Build changes metadata
+        changes = {}
+        if request.status is not None and old_status != updated_task.status:
+            changes["status"] = {"old": old_status, "new": updated_task.status}
+        if request.priority is not None and old_priority != updated_task.priority:
+            changes["priority"] = {"old": old_priority, "new": updated_task.priority}
+        if request.title is not None:
+            changes["title"] = {"new": updated_task.title}
+        
+        audit_logger.log(
+            action_type=AuditActionType.TASK_UPDATED,
+            user_id=authenticated_user_id,
+            resource_type="task",
+            resource_id=str(task_id),
+            metadata={
+                "task_id": task_id,
+                "changes": changes
+            }
+        )
     
     # Convert tags JSON string back to list for response
     tags_list = None

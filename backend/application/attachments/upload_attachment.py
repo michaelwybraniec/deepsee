@@ -6,10 +6,12 @@ from io import BytesIO
 
 from domain.models.attachment import Attachment
 from domain.models.task import Task
+from domain.audit.audit_event import AuditActionType
 from application.attachments.schemas import AttachmentResponse
 from application.attachments.repository import AttachmentRepository
 from application.attachments.storage_interface import AttachmentStorage
 from application.tasks.repository import TaskRepository
+from application.audit.audit_logger import AuditLogger
 
 
 # Security constants
@@ -62,7 +64,8 @@ def upload_attachment(
     file: BytesIO,
     filename: str,
     content_type: Optional[str],
-    authenticated_user_id: int
+    authenticated_user_id: int,
+    audit_logger: Optional[AuditLogger] = None
 ) -> Optional[AttachmentResponse]:
     """
     Upload an attachment for a task.
@@ -126,6 +129,21 @@ def upload_attachment(
     
     # Persist metadata
     created_attachment = attachment_repository.create(attachment)
+    
+    # Log audit event
+    if audit_logger:
+        audit_logger.log(
+            action_type=AuditActionType.ATTACHMENT_UPLOADED,
+            user_id=authenticated_user_id,
+            resource_type="attachment",
+            resource_id=str(created_attachment.id),
+            metadata={
+                "attachment_id": created_attachment.id,
+                "task_id": task_id,
+                "filename": sanitized_filename,
+                "file_size": file_size
+            }
+        )
     
     return AttachmentResponse(
         id=created_attachment.id,
