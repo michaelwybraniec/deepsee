@@ -1,6 +1,6 @@
 # Task ID: 4.4
 # Title: Implement attachment list and delete endpoints
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 3h
@@ -49,8 +49,8 @@ Implement endpoints to list attachments for a task (showing file name and size) 
 - Response format: `[{"id": 1, "filename": "document.pdf", "file_size": 1024, "task_id": 123}, ...]` for list, 204 No Content for delete.
 
 ## Dependencies
-- [ ] Task ID: 2.5 (Authorization guards must exist - middleware checks)
-- [ ] Task ID: 4.2 (Attachment model and storage design must be complete)
+- [x] Task ID: 2.5 (Authorization guards must exist - middleware checks)
+- [x] Task ID: 4.2 (Attachment model and storage design must be complete)
 
 ## Testing Instructions
 - Integration tests (API + DB + Storage):
@@ -72,11 +72,11 @@ Implement endpoints to list attachments for a task (showing file name and size) 
 - Missing ownership check could allow users to delete others' attachments.
 
 ## Acceptance Criteria
-- [ ] List endpoint (`GET /api/tasks/:id/attachments`) returns attachments with file name and size for a task (200 OK, array with filename and file_size).
-- [ ] Delete endpoint (`DELETE /api/attachments/:id`) allows only the task owner to remove attachments (403 if not owner, 204 if owner).
-- [ ] Delete operation removes both file from storage and metadata from database.
-- [ ] Both endpoints require authentication (401 if not authenticated).
-- [ ] Tests for list and delete operations are passing (list success, delete success/forbidden, 404).
+- [x] List endpoint (`GET /api/tasks/:id/attachments`) returns attachments with file name and size for a task (200 OK, array with filename and file_size).
+- [x] Delete endpoint (`DELETE /api/attachments/:id`) allows only the task owner to remove attachments (403 if not owner, 204 if owner).
+- [x] Delete operation removes both file from storage and metadata from database.
+- [x] Both endpoints require authentication (401 if not authenticated).
+- [x] Tests for list and delete operations are passing (list success, delete success/forbidden, 404).
 
 ## Definition of Done
 - [ ] List and delete endpoints implemented (use-cases and API handlers).
@@ -94,6 +94,13 @@ Implement endpoints to list attachments for a task (showing file name and size) 
 ## Notes
 Supports the "Show file name and size, allow deletion" requirement. Authorization middleware from task 2.5 provides additional protection, but use-case checks are required for defense in depth.
 
+**Completed**: 
+- List attachments endpoint: GET /api/tasks/:id/attachments
+- Delete attachment endpoint: DELETE /api/attachments/:id
+- Use cases implemented: list_attachments, delete_attachment
+- Ownership checks in delete use-case (defense in depth)
+- Delete removes both file from storage and metadata from database
+
 ## Strengths
 Provides complete lifecycle management for attachments. Enforces ownership rules and ensures proper file cleanup.
 
@@ -108,6 +115,6 @@ Provides complete lifecycle management for attachments. Enforces ownership rules
 - [ ] Test manually with API client to verify list and delete behavior.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

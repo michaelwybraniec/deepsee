@@ -1,6 +1,6 @@
 # Task ID: 4
 # Title: Attachments API
-# Status: [x] In Progress
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 8h
@@ -23,11 +23,11 @@ Implement attachment handling for tasks, allowing users to upload files per task
 - Poor file handling could lead to security or storage issues.
 
 ## Acceptance Criteria
-- [ ] Endpoint(s) to upload attachments for a task.
-- [ ] Endpoint(s) to list attachments for a task including file name and size.
-- [ ] Endpoint(s) to delete attachments.
-- [ ] Owner-only modification of attachments enforced.
-- [ ] Tests for success and common failure cases are passing.
+- [x] Endpoint(s) to upload attachments for a task.
+- [x] Endpoint(s) to list attachments for a task including file name and size.
+- [x] Endpoint(s) to delete attachments.
+- [x] Owner-only modification of attachments enforced.
+- [x] Tests for success and common failure cases are passing.
 
 ## Definition of Done
 - [ ] Attachment metadata model and storage mechanism implemented.
@@ -45,12 +45,12 @@ Actual storage backend choice is a design decision; the requirement is to suppor
 Fulfills the “Attachments” requirement while respecting security and ownership rules.
 
 ## Sub-tasks (Children)
-- [ ] [Task 4.1: Confirm attachment requirements](task-4-1.md)
-- [ ] [Task 4.2: Design attachment metadata and storage](task-4-2.md)
-- [ ] [Task 4.3: Implement attachment upload endpoint](task-4-3.md)
-- [ ] [Task 4.4: Implement attachment list and delete endpoints](task-4-4.md)
+- [x] [Task 4.1: Confirm attachment requirements](task-4-1.md)
+- [x] [Task 4.2: Design attachment metadata and storage](task-4-2.md)
+- [x] [Task 4.3: Implement attachment upload endpoint](task-4-3.md)
+- [x] [Task 4.4: Implement attachment list and delete endpoints](task-4-4.md)
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

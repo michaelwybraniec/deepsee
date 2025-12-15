@@ -71,11 +71,11 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 3.3: Implement create task endpoint](tasks/planned/task-3-3.md)
   - [x] [Task 3.4: Implement read task endpoints](tasks/planned/task-3-4.md)
   - [x] [Task 3.5: Implement update and delete task endpoints](tasks/planned/task-3-5.md)
-- [ ] [Task 4: Attachments API](tasks/planned/task-4.md)
+- [x] [Task 4: Attachments API](tasks/planned/task-4.md)
   - [x] [Task 4.1: Confirm attachment requirements](tasks/planned/task-4-1.md)
   - [x] [Task 4.2: Design attachment metadata and storage](tasks/planned/task-4-2.md)
   - [x] [Task 4.3: Implement attachment upload endpoint](tasks/planned/task-4-3.md)
-  - [ ] [Task 4.4: Implement attachment list and delete endpoints](tasks/planned/task-4-4.md)
+  - [x] [Task 4.4: Implement attachment list and delete endpoints](tasks/planned/task-4-4.md)
 - [ ] [Task 5: Search, filtering, sorting, pagination](tasks/planned/task-5.md)
   - [ ] [Task 5.1: Confirm search and filter requirements](tasks/planned/task-5-1.md)
   - [ ] [Task 5.2: Design search, filter, sort, and pagination API](tasks/planned/task-5-2.md)
@@ -121,5 +121,6 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 - [x] [Task 1: Project environment and documentation](tasks/planned/task-1.md)
 - [x] [Task 2: Secure login and authorization](tasks/planned/task-2.md)
 - [x] [Task 3: Task management API (CRUD)](tasks/planned/task-3.md)
+- [x] [Task 4: Attachments API](tasks/planned/task-4.md)
 
 

@@ -10,6 +10,8 @@ from domain.models.user import User
 from api.middleware.auth import get_current_user
 from application.attachments.schemas import AttachmentResponse
 from application.attachments.upload_attachment import upload_attachment
+from application.attachments.list_attachments import list_attachments
+from application.attachments.delete_attachment import delete_attachment
 from application.attachments.repository import AttachmentRepository
 from application.tasks.repository import TaskRepository
 from infrastructure.persistence.repositories.attachment_repository import SQLAlchemyAttachmentRepository
