@@ -11,7 +11,6 @@ and single-tenant requirements. See docs/technology.md section 3.1 for rationale
 import os
 from typing import Optional
 from jose import jwt
-from jose.constants import ALGORITHMS
 
 
 class AuthConfig:

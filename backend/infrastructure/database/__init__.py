@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from domain.models.user import Base
+from domain.models import Base  # This imports all models and Base
 
 # Database URL from environment variable
 DATABASE_URL = "sqlite:///./task_tracker.db"  # Default for development
