@@ -11,6 +11,9 @@ from application.tasks.schemas import TaskCreateRequest, TaskResponse
 from application.tasks.create_task import create_task
 from application.tasks.get_task import get_task_by_id
 from application.tasks.list_tasks import list_tasks
+from application.tasks.update_task import update_task
+from application.tasks.delete_task import delete_task
+from application.tasks.schemas import TaskUpdateRequest
 from infrastructure.persistence.repositories.task_repository import SQLAlchemyTaskRepository
 
 router = APIRouter(prefix="/api/tasks", tags=["tasks"])

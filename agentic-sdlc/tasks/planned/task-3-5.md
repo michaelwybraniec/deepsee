@@ -1,6 +1,6 @@
 # Task ID: 3.5
 # Title: Implement update and delete task endpoints
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 3h
@@ -51,8 +51,8 @@ Implement update and delete endpoints for tasks, enforcing that only the owner c
 - Authorization errors: `{"error": {"code": "FORBIDDEN", "message": "You can only modify your own tasks"}}`.
 
 ## Dependencies
-- [ ] Task ID: 2.5 (Authorization guards must exist - middleware checks)
-- [ ] Task ID: 3.2 (Task model must exist)
+- [x] Task ID: 2.5 (Authorization guards must exist - middleware checks)
+- [x] Task ID: 3.2 (Task model must exist)
 
 ## Testing Instructions
 - Integration tests (API + DB):
@@ -73,11 +73,11 @@ Implement update and delete endpoints for tasks, enforcing that only the owner c
 - Bypass paths (e.g., direct repository access) can allow unauthorized modifications.
 
 ## Acceptance Criteria
-- [ ] Update task endpoint (`PUT /api/tasks/:id` or `PATCH /api/tasks/:id`) implemented and enforces ownership (403 if not owner, 200 if owner).
-- [ ] Delete task endpoint (`DELETE /api/tasks/:id`) implemented and enforces ownership (403 if not owner, 204 if owner).
-- [ ] Both endpoints require authentication (401 if not authenticated).
-- [ ] Ownership checks happen in use-case (defense in depth, even if middleware checks).
-- [ ] Tests for allowed and forbidden operations are passing (owner can update/delete, non-owner gets 403).
+- [x] Update task endpoint (`PUT /api/tasks/:id` or `PATCH /api/tasks/:id`) implemented and enforces ownership (403 if not owner, 200 if owner).
+- [x] Delete task endpoint (`DELETE /api/tasks/:id`) implemented and enforces ownership (403 if not owner, 204 if owner).
+- [x] Both endpoints require authentication (401 if not authenticated).
+- [x] Ownership checks happen in use-case (defense in depth, even if middleware checks).
+- [x] Tests for allowed and forbidden operations are passing (owner can update/delete, non-owner gets 403).
 
 ## Definition of Done
 - [ ] Endpoints implemented and wired to auth/authorization logic (use-cases and API handlers).
@@ -94,6 +94,13 @@ Implement update and delete endpoints for tasks, enforcing that only the owner c
 ## Notes
 This completes the "Edit" and "Delete" parts of Task Management. Authorization middleware from task 2.5 provides additional protection, but use-case checks are required for defense in depth.
 
+**Completed**: 
+- Update task endpoint: PUT /api/tasks/:id
+- Delete task endpoint: DELETE /api/tasks/:id
+- Ownership checks in use-cases (defense in depth)
+- Use cases implemented: update_task, delete_task
+- Integration tests for owner success, non-owner 403, 404, and unauthenticated cases
+
 ## Strengths
 Enforces data ownership rules as required by the assignment. Provides secure task modification and deletion.
 
@@ -108,6 +115,6 @@ Enforces data ownership rules as required by the assignment. Provides secure tas
 - [ ] Test manually with different user tokens to verify ownership enforcement.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
