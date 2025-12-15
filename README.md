@@ -2,11 +2,11 @@
 
 This repository contains the implementation of the Task Tracker application for the Full Stack Developer technical assessment.
 
-- **Requirements (source)**: `docs/requirements.md`
-- **Technical spec (structured restatement)**: `docs/technical-specs.md`
-- **Architecture overview & diagrams**: `docs/architecture.md`
-- **Technology stack & decisions**: `docs/technology.md`
-- **Implementation suggestions (optional, good practice)**: `docs/suggestions.md`
+- **[Requirements (source)](docs/requirements.md)** - Original assignment (source of truth)
+- **[Technical spec (structured restatement)](docs/technical-specs.md)** - Structured restatement of requirements
+- **[Architecture overview & diagrams](docs/architecture.md)** - System architecture and design
+- **[Technology stack & decisions](docs/technology.md)** - Technology decisions and rationale
+- **[Implementation suggestions (optional, good practice)](docs/suggestions.md)** - Optional best practices
 - **Backend**: Python (API + worker), following Clean Architecture principles.
 - **Frontend**: React-based UI for authentication and task management.
 

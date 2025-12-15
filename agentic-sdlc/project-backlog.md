@@ -54,7 +54,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 
 - [x] [Task 1: Project environment and documentation](tasks/planned/task-1.md)
   - [x] [Task 1.1: Verify repository structure](tasks/planned/task-1-1.md)
-  - [ ] [Task 1.2: Verify root README links](tasks/planned/task-1-2.md)
+  - [x] [Task 1.2: Verify root README links](tasks/planned/task-1-2.md)
   - [ ] [Task 1.3: Verify requirements source document](tasks/planned/task-1-3.md)
   - [ ] [Task 1.4: Verify technical spec restatement](tasks/planned/task-1-4.md)
   - [ ] [Task 1.5: Verify architecture document alignment](tasks/planned/task-1-5.md)
