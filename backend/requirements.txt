@@ -1,21 +1,21 @@
 # Authentication & Security
-python-jose[cryptography]==3.3.0
-bcrypt==4.1.2
+python-jose[cryptography]>=3.3.0
+bcrypt>=4.1.0
 
 # API Framework (FastAPI recommended per docs/technology.md)
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
 
 # Data Validation
-pydantic==2.5.0
-pydantic-settings==2.1.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
 
 # Database (SQLAlchemy recommended per docs/technology.md)
-sqlalchemy==2.0.23
+sqlalchemy>=2.0.0
 
 # Environment variables
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
 
 # Testing
-pytest==7.4.3
-httpx==0.25.2
+pytest>=7.4.0
+httpx>=0.25.0
