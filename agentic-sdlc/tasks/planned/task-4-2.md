@@ -1,6 +1,6 @@
 # Task ID: 4.2
 # Title: Design attachment metadata and storage
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 2h
@@ -41,7 +41,7 @@ Design the attachment metadata model and choose a storage approach (e.g. filesys
 - Always validate filename (remove path separators, limit length).
 
 ## Dependencies
-- [ ] Task ID: 4.1 (Requirements analysis must be complete)
+- [x] Task ID: 4.1 (Requirements analysis must be complete)
 
 ## Testing Instructions
 - N/A for design task. Verify that the model includes task reference, filename, size, and storage reference.
@@ -59,11 +59,11 @@ Design the attachment metadata model and choose a storage approach (e.g. filesys
 - Choosing wrong storage backend may require refactoring later.
 
 ## Acceptance Criteria
-- [ ] Attachment metadata model defined with at least: `id`, `task_id`, `filename`, `file_size`, `storage_reference` (path or URL).
-- [ ] Storage approach decided and documented (filesystem, S3, or other) with rationale.
-- [ ] Storage interface (abstraction) defined with methods: save, get_url, delete.
-- [ ] Security considerations documented (path traversal prevention, access control, file size limits).
-- [ ] Design is implementable (clear enough to code without guesswork).
+- [x] Attachment metadata model defined with at least: `id`, `task_id`, `filename`, `file_size`, `storage_reference` (path or URL).
+- [x] Storage approach decided and documented (filesystem, S3, or other) with rationale.
+- [x] Storage interface (abstraction) defined with methods: save, get_url, delete.
+- [x] Security considerations documented (path traversal prevention, access control, file size limits).
+- [x] Design is implementable (clear enough to code without guesswork).
 
 ## Definition of Done
 - [ ] Model schema documented (fields, types, constraints) in code or design doc.
@@ -79,6 +79,13 @@ Design the attachment metadata model and choose a storage approach (e.g. filesys
 ## Notes
 The actual storage backend is a design decision; the requirement is to support upload, list, and delete. Choose based on project constraints (time, infrastructure, scalability needs).
 
+**Completed**: 
+- Attachment model implemented in `backend/domain/models/attachment.py`
+- Storage interface defined in `backend/application/attachments/storage_interface.py`
+- Local filesystem storage implemented in `backend/infrastructure/attachments/storage.py`
+- Design documented in `backend/docs/attachment-design.md`
+- Security considerations: filename sanitization, path traversal prevention, file size limits (10MB), access control
+
 ## Strengths
 Provides a solid base for implementing attachment operations with clear separation of concerns (domain model vs storage implementation).
 
@@ -92,6 +99,6 @@ Provides a solid base for implementing attachment operations with clear separati
 - [ ] Create design document or code comments summarizing model, storage choice, and interface.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
