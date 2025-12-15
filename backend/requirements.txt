@@ -11,6 +11,7 @@ APScheduler>=3.10.4  # Required for file uploads (multipart/form-data)
 # Data Validation
 pydantic>=2.5.0
 pydantic-settings>=2.1.0
+email-validator>=2.1.0  # Required for EmailStr validation
 
 # Database (SQLAlchemy recommended per docs/technology.md)
 sqlalchemy>=2.0.0
