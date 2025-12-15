@@ -16,6 +16,10 @@ dist/
 *.sqlite
 *.sqlite3
 
+# Uploads
+backend/uploads/
+uploads/
+
 # Environment
 .env
 

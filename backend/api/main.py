@@ -1,4 +1,26 @@
 """
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║     ████████╗ █████╗ ███████╗██╗  ██╗    ████████╗██████╗  █████╗        ║
+║     ╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝    ╚══██╔══╝██╔══██╗██╔══██╗       ║
+║        ██║   ███████║███████╗█████╔╝        ██║   ██████╔╝███████║       ║
+║        ██║   ██╔══██║╚════██║██╔═██╗        ██║   ██╔══██╗██╔══██║       ║
+║        ██║   ██║  ██║███████║██║  ██╗       ██║   ██║  ██║██║  ██║       ║
+║        ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝       ║
+║                                                                           ║
+║                    █████╗ ██████╗ ██╗                                    ║
+║                   ██╔══██╗██╔══██╗██║                                    ║
+║                   ███████║██████╔╝██║                                    ║
+║                   ██╔══██║██╔═══╝ ██║                                    ║
+║                   ██║  ██║██║     ██║                                    ║
+║                   ╚═╝  ╚═╝╚═╝     ╚═╝                                    ║
+║                                                                           ║
+║              Enterprise-grade task management system                      ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+Author: Michael Wybraniec
+
 Task Tracker API - Enterprise-grade task management system.
 
 A comprehensive RESTful API for secure task management with advanced features including 
@@ -6,9 +28,9 @@ authentication, file attachments, search capabilities, notifications, and compre
 
 ## Architecture
 
-Built following **Clean Architecture** principles with clear separation of concerns across 
-domain, application, and infrastructure layers. Developed using the **Agentic Workflow Protocol (AWP)** 
-for structured, systematic development. See `agentic-sdlc/AWP.md` for workflow details.
+Built following Clean Architecture principles with clear separation of concerns across 
+domain, application, and infrastructure layers. Developed using the Agentic Workflow Protocol (AWP) 
+for structured, systematic development. See agentic-sdlc/AWP.md for workflow details.
 
 ## Key Features
 
@@ -38,7 +60,7 @@ ONE-FRONT | michael@one-front.com | AWP - Agentic Workflow Protocol | EU AI ACT 
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
-from api.routes import auth, tasks
+from api.routes import auth, tasks, attachments
 import os
 
 # API Metadata - automatically used by FastAPI
@@ -80,6 +102,7 @@ app = FastAPI(
 # Include routers
 app.include_router(auth.router)
 app.include_router(tasks.router)
+app.include_router(attachments.router)
 
 
 @app.get("/")

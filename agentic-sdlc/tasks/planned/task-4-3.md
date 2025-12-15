@@ -1,6 +1,6 @@
 # Task ID: 4.3
 # Title: Implement attachment upload endpoint
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 3h
@@ -46,7 +46,7 @@ Implement endpoint(s) to upload attachments for a task, including validation and
 - Response format: `{"id": 1, "filename": "document.pdf", "file_size": 1024, "task_id": 123}`.
 
 ## Dependencies
-- [ ] Task ID: 4.2 (Attachment model and storage design must be complete)
+- [x] Task ID: 4.2 (Attachment model and storage design must be complete)
 
 ## Testing Instructions
 - Integration tests (API + DB + Storage):
@@ -69,11 +69,11 @@ Implement endpoint(s) to upload attachments for a task, including validation and
 - Missing file size limits may allow DoS attacks.
 
 ## Acceptance Criteria
-- [ ] Upload endpoint (`POST /api/tasks/:id/attachments`) accepts files for a given task and stores metadata (201 Created).
-- [ ] Endpoint enforces task ownership (403 Forbidden if user is not task owner).
-- [ ] File validation implemented (size limits, filename sanitization, path validation).
-- [ ] Errors for invalid uploads are clear and safe (400 Bad Request with meaningful messages).
-- [ ] Tests for successful and failing uploads are passing (success, non-owner, validation errors).
+- [x] Upload endpoint (`POST /api/tasks/:id/attachments`) accepts files for a given task and stores metadata (201 Created).
+- [x] Endpoint enforces task ownership (403 Forbidden if user is not task owner).
+- [x] File validation implemented (size limits, filename sanitization, path validation).
+- [x] Errors for invalid uploads are clear and safe (400 Bad Request with meaningful messages).
+- [x] Tests for successful and failing uploads are passing (success, non-owner, validation errors).
 
 ## Definition of Done
 - [ ] Endpoint implemented and wired to attachment storage (use-case and API handler).
@@ -89,6 +89,13 @@ Implement endpoint(s) to upload attachments for a task, including validation and
 ## Notes
 Owner-only modification enforcement is handled in this task (authorization check in use-case). Delete behavior is handled in task 4.4.
 
+**Completed**: 
+- Upload endpoint: POST /api/tasks/:id/attachments
+- Use case implemented with ownership check, file validation, and storage
+- Security: filename sanitization, file size limits (10MB), path validation
+- Repository pattern implemented (interface + SQLAlchemy implementation)
+- Integration with task ownership rules
+
 ## Strengths
 Implements the "Allow users to upload files for each task" requirement. Provides secure file upload with proper validation and authorization.
 
@@ -101,6 +108,6 @@ Implements the "Allow users to upload files for each task" requirement. Provides
 - [ ] Test manually with API client to verify file upload and storage.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
