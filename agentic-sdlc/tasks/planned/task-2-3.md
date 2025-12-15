@@ -1,6 +1,6 @@
 # Task ID: 2.3
 # Title: Implement login endpoint
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: critical
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -44,7 +44,7 @@ Implement a login endpoint that authenticates users using the chosen auth mechan
 - Response format: `{"token": "jwt-token-string", "user": {"id": 1, "username": "..."}}` or similar.
 
 ## Dependencies
-- [ ] Task ID: 2.2 (Auth configuration must be complete)
+- [x] Task ID: 2.2 (Auth configuration must be complete)
 
 ## Testing Instructions
 - Integration tests (API + DB):
@@ -69,21 +69,21 @@ Implement a login endpoint that authenticates users using the chosen auth mechan
 - User enumeration (revealing if username exists) can aid attackers.
 
 ## Acceptance Criteria
-- [ ] Login endpoint (`POST /api/auth/login`) exists and authenticates users according to the chosen auth method (JWT or OAuth2).
-- [ ] Successful login returns necessary auth information to the client (token + user info, 200 status).
-- [ ] Failed login attempts return meaningful error responses without leaking sensitive details (401, generic "Invalid username or password").
-- [ ] Password verification uses secure hashing (bcrypt/argon2, not plaintext).
-- [ ] Integration tests for successful and failed login are passing.
+- [x] Login endpoint (`POST /api/auth/login`) exists and authenticates users according to the chosen auth method (JWT or OAuth2).
+- [x] Successful login returns necessary auth information to the client (token + user info, 200 status).
+- [x] Failed login attempts return meaningful error responses without leaking sensitive details (401, generic "Invalid username or password").
+- [x] Password verification uses secure hashing (bcrypt/argon2, not plaintext).
+- [x] Integration tests for successful and failed login are passing.
 - [ ] Rate limiting is implemented (optional but recommended).
 
 ## Definition of Done
-- [ ] Endpoint implemented and wired to user credentials storage (database).
-- [ ] Login use-case/service implemented (password verification, token generation).
-- [ ] Request/response schemas defined (Pydantic or similar).
-- [ ] Validation and error handling implemented (generic errors, no user enumeration).
-- [ ] Security best practices applied (password hashing, token expiration, rate limiting if implemented).
-- [ ] Integration tests added and passing (success and failure cases).
-- [ ] All acceptance criteria met.
+- [x] Endpoint implemented and wired to user credentials storage (database).
+- [x] Login use-case/service implemented (password verification, token generation).
+- [x] Request/response schemas defined (Pydantic or similar).
+- [x] Validation and error handling implemented (generic errors, no user enumeration).
+- [x] Security best practices applied (password hashing, token expiration, rate limiting if implemented).
+- [x] Integration tests added and passing (success and failure cases).
+- [x] All acceptance criteria met (rate limiting deferred to Task 8).
 
 ## Measurable Outcomes
 - **Verification Criteria**: Login tests pass and manual login via API works as expected (token returned, token is valid).
@@ -91,6 +91,16 @@ Implement a login endpoint that authenticates users using the chosen auth mechan
 
 ## Notes
 Frontend UI for login is covered in Task 10.4 and will consume this endpoint. Ensure response format is consistent for frontend consumption.
+
+**Completed**: 
+- Login endpoint implemented: POST /api/auth/login
+- User domain model created with SQLAlchemy
+- Login use case with bcrypt password verification and JWT token generation
+- Generic error messages to prevent user enumeration
+- Constant-time password comparison
+- Integration tests for success and failure cases
+- FastAPI application structure following Clean Architecture
+- Rate limiting deferred to Task 8 (rate limiting)
 
 ## Strengths
 Directly supports the "Secure Login" requirement of the assignment. Provides foundation for all authenticated API calls.
@@ -105,6 +115,6 @@ Directly supports the "Secure Login" requirement of the assignment. Provides fou
 - [ ] Test manually with API client to verify behavior and token validity.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
