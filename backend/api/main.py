@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
+from infrastructure.app_config import app_config
 from api.routes import auth, tasks
 
 # Initialize database
@@ -16,15 +17,12 @@ except ValueError as e:
     print("Please set JWT_SECRET_KEY environment variable (min 32 characters)")
 
 app = FastAPI(
-    title="Task Tracker API",
-    description="""
-    Task Tracker API - Full-stack task management application.
-    
-    **Built with Agentic Workflow Protocol (AWP)** - See `agentic-sdlc/AWP.md` for structured development workflow.
-    
-    Features: JWT authentication, task management, file attachments, search & filtering, notifications, audit trail.
-    """,
-    version="1.0.0",
+    title=app_config.API_TITLE,
+    description=app_config.API_DESCRIPTION,
+    version=app_config.API_VERSION,
+    contact={
+        "name": app_config.API_AUTHOR,
+    },
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
