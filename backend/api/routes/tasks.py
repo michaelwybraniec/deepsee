@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from infrastructure.database import get_db
 from domain.models.user import User
 from api.middleware.auth import get_current_user
-from application.tasks.schemas import TaskCreateRequest, TaskResponse
+from application.tasks.schemas import TaskCreateRequest, TaskResponse, TaskUpdateRequest
 from application.tasks.create_task import create_task
 from application.tasks.get_task import get_task_by_id
 from application.tasks.list_tasks import list_tasks
@@ -113,3 +113,97 @@ def get_task_endpoint(
         )
     
     return task
+
+
+@router.put(
+    "/{task_id}",
+    response_model=TaskResponse,
+    status_code=status.HTTP_200_OK,
+    responses={
+        403: {"description": "Forbidden - not the owner"},
+        404: {"description": "Task not found"},
+        401: {"description": "Unauthorized"}
+    }
+)
+def update_task_endpoint(
+    task_id: int,
+    request: TaskUpdateRequest,
+    current_user: User = Depends(get_current_user),
+    repository: SQLAlchemyTaskRepository = Depends(get_task_repository)
+):
+    """
+    Update an existing task.
+    
+    Only the task owner can update the task. Requires authentication.
+    """
+    try:
+        updated_task = update_task(repository, task_id, request, current_user.id)
+        
+        if not updated_task:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail={
+                    "error": {
+                        "code": "TASK_NOT_FOUND",
+                        "message": f"Task with ID {task_id} not found"
+                    }
+                }
+            )
+        
+        return updated_task
+    except PermissionError as e:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "error": {
+                    "code": "FORBIDDEN",
+                    "message": str(e)
+                }
+            }
+        )
+
+
+@router.delete(
+    "/{task_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        403: {"description": "Forbidden - not the owner"},
+        404: {"description": "Task not found"},
+        401: {"description": "Unauthorized"}
+    }
+)
+def delete_task_endpoint(
+    task_id: int,
+    current_user: User = Depends(get_current_user),
+    repository: SQLAlchemyTaskRepository = Depends(get_task_repository)
+):
+    """
+    Delete a task.
+    
+    Only the task owner can delete the task. Requires authentication.
+    """
+    try:
+        deleted = delete_task(repository, task_id, current_user.id)
+        
+        if not deleted:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail={
+                    "error": {
+                        "code": "TASK_NOT_FOUND",
+                        "message": f"Task with ID {task_id} not found"
+                    }
+                }
+            )
+        
+        return None  # 204 No Content
+    except PermissionError as e:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "error": {
+                    "code": "FORBIDDEN",
+                    "message": str(e)
+                }
+            }
+        )
