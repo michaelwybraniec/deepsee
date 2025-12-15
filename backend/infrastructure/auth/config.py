@@ -34,7 +34,7 @@ class AuthConfig:
         if len(cls.JWT_SECRET_KEY) < 32:
             raise ValueError("JWT_SECRET_KEY must be at least 32 characters long for security")
         
-        if cls.JWT_ALGORITHM not in [ALGORITHMS.HS256, ALGORITHMS.RS256]:
+        if cls.JWT_ALGORITHM not in ["HS256", "RS256"]:
             raise ValueError(f"JWT_ALGORITHM must be one of: HS256, RS256")
     
     @classmethod
