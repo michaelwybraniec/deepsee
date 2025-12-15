@@ -1,12 +1,49 @@
 #!/usr/bin/env python3
-"""Script to query audit events from the database."""
+"""Script to query audit events from the database.
+
+Usage:
+    # Activate virtual environment first:
+    cd backend
+    source .venv/bin/activate  # On macOS/Linux
+    # OR
+    .venv\Scripts\activate  # On Windows
+    
+    # Then run:
+    python3 scripts/query_audit_events.py [options]
+"""
 
 import sys
 import os
 from datetime import datetime, timedelta
 
 # Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, backend_dir)
+
+# Check if we're in a virtual environment or if dependencies are available
+try:
+    import sqlalchemy
+except ImportError:
+    venv_python = os.path.join(backend_dir, '.venv', 'bin', 'python3')
+    if os.path.exists(venv_python):
+        print("ERROR: Virtual environment not activated!")
+        print(f"\nPlease activate the virtual environment first:")
+        print(f"  cd {backend_dir}")
+        print(f"  source .venv/bin/activate  # On macOS/Linux")
+        print(f"  # OR")
+        print(f"  .venv\\Scripts\\activate  # On Windows")
+        print(f"\nThen run this script again.")
+        print(f"\nAlternatively, run directly with venv Python:")
+        print(f"  {venv_python} scripts/query_audit_events.py")
+        sys.exit(1)
+    else:
+        print("ERROR: SQLAlchemy not found and virtual environment not found!")
+        print(f"\nPlease install dependencies:")
+        print(f"  cd {backend_dir}")
+        print(f"  python3 -m venv .venv")
+        print(f"  source .venv/bin/activate")
+        print(f"  pip install -r requirements.txt")
+        sys.exit(1)
 
 from sqlalchemy.orm import Session
 from infrastructure.database import SessionLocal
