@@ -1,6 +1,6 @@
 # Task ID: 8.2
 # Title: Design rate limiting strategy
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: medium
 # Owner: Backend Dev
 # Estimated Effort: 2h
@@ -43,7 +43,7 @@ Design a basic rate limiting strategy (per-user or per-IP) at the API boundary t
 - Use dependency injection for rate limiter (inject into middleware).
 
 ## Dependencies
-- [ ] Task ID: 8.1 (Rate limiting requirements must be confirmed)
+- [x] Task ID: 8.1 (Rate limiting requirements must be confirmed)
 
 ## Testing Instructions
 - N/A for design task. Verify design describes limits, window, and scope (user or IP).
@@ -61,11 +61,11 @@ Design a basic rate limiting strategy (per-user or per-IP) at the API boundary t
 - Too loose limits may not protect against abuse.
 
 ## Acceptance Criteria
-- [ ] Strategy documented (type of limit, window, thresholds) with specific values (e.g., 100 requests per minute per user).
-- [ ] Decision on whether limits are per-user or per-IP (or both) is explicit (documented choice with rationale).
-- [ ] Storage and algorithm chosen (Redis + fixed window counter or similar).
-- [ ] Error response format documented (429 status, error message, retry_after).
-- [ ] Design is implementable (clear enough to code without guesswork).
+- [x] Strategy documented (type of limit, window, thresholds) with specific values (e.g., 100 requests per minute per user).
+- [x] Decision on whether limits are per-user or per-IP (or both) is explicit (documented choice with rationale).
+- [x] Storage and algorithm chosen (Redis + fixed window counter or similar).
+- [x] Error response format documented (429 status, error message, retry_after).
+- [x] Design is implementable (clear enough to code without guesswork).
 
 ## Definition of Done
 - [ ] Design captured in comments or design doc (file committed or documented).
@@ -78,6 +78,15 @@ Design a basic rate limiting strategy (per-user or per-IP) at the API boundary t
 
 ## Notes
 Actual implementation is covered in task 8.3. This task only designs the strategy.
+
+**Completed**: Created `backend/docs/rate-limiting-design.md` with complete rate limiting strategy:
+- Limit key: Per-user for authenticated endpoints, per-IP for unauthenticated endpoints
+- Thresholds: 100 requests per minute (configurable via environment variables)
+- Algorithm: Fixed window counter with Redis
+- Storage: Redis (with graceful degradation if unavailable)
+- Error response: 429 status with detailed message and retry_after header
+- Implementation: Middleware at API boundary
+- Architecture: Rate limiter service, middleware, Redis client components
 
 ## Strengths
 Provides a clear blueprint for implementing limits. Ensures consistent rate limiting approach.
@@ -92,6 +101,6 @@ Provides a clear blueprint for implementing limits. Ensures consistent rate limi
 - [ ] Document design (limit key, thresholds, window, storage, algorithm, error response) in code comments or design doc.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
