@@ -1,6 +1,6 @@
 # Task ID: 7
 # Title: Audit trail implementation
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 6h
@@ -9,9 +9,9 @@
 Implement an audit trail that records key actions (task creation, update, attachment added/removed, reminder sent) with timestamps and user IDs.
 
 ## Dependencies
-- [ ] Task ID: 3
-- [ ] Task ID: 4
-- [ ] Task ID: 6
+- [x] Task ID: 3
+- [x] Task ID: 4
+- [x] Task ID: 6
 
 ## Testing Instructions
 - Integration tests that:
