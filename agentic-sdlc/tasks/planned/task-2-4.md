@@ -1,6 +1,6 @@
 # Task ID: 2.4
 # Title: Implement change-password endpoint
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 3h
@@ -48,7 +48,7 @@ Implement a change-password endpoint that allows authenticated users to change t
 - Error format: `{"error": {"code": "INVALID_CURRENT_PASSWORD", "message": "Current password is incorrect"}}`.
 
 ## Dependencies
-- [ ] Task ID: 2.3 (Login endpoint must exist for authentication)
+- [x] Task ID: 2.3 (Login endpoint must exist for authentication)
 
 ## Testing Instructions
 - Integration tests (API + DB):
@@ -72,12 +72,12 @@ Implement a change-password endpoint that allows authenticated users to change t
 - Weak password strength allows easily compromised accounts.
 
 ## Acceptance Criteria
-- [ ] Change-password endpoint (`POST /api/auth/change-password` or similar) requires authentication (returns 401 if not authenticated).
-- [ ] Endpoint verifies current password before allowing change (returns error if current password incorrect).
-- [ ] Endpoint updates the user password in storage securely (hashed with bcrypt, not plaintext).
-- [ ] Error responses are meaningful without exposing sensitive information (generic errors, no password hints).
-- [ ] Integration tests for change-password flows are passing (success, wrong current password, unauthenticated).
-- [ ] New password works for login after change (verify end-to-end).
+- [x] Change-password endpoint (`POST /api/auth/change-password` or similar) requires authentication (returns 401 if not authenticated).
+- [x] Endpoint verifies current password before allowing change (returns error if current password incorrect).
+- [x] Endpoint updates the user password in storage securely (hashed with bcrypt, not plaintext).
+- [x] Error responses are meaningful without exposing sensitive information (generic errors, no password hints).
+- [x] Integration tests for change-password flows are passing (success, wrong current password, unauthenticated).
+- [x] New password works for login after change (verify end-to-end).
 
 ## Definition of Done
 - [ ] Endpoint implemented and integrated with user storage (database).
@@ -95,6 +95,15 @@ Implement a change-password endpoint that allows authenticated users to change t
 ## Notes
 Frontend UI for change-password is implemented in Task 10.6 and will consume this endpoint. Ensure response format is consistent for frontend consumption.
 
+**Completed**: 
+- Change password endpoint implemented: POST /api/auth/change-password
+- Requires authentication via JWT token
+- Verifies current password before allowing change
+- Password strength validation (minimum 8 characters)
+- Secure password hashing with bcrypt
+- Integration tests for all scenarios
+- Authentication middleware created for token validation
+
 ## Strengths
 Completes the "Change password functionality" part of the requirements. Provides secure password management for users.
 
@@ -108,6 +117,6 @@ Completes the "Change password functionality" part of the requirements. Provides
 - [ ] Test manually with API client and verify new password works for login.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

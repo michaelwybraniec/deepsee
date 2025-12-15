@@ -63,7 +63,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 2.1: Analyze authentication and authorization requirements](tasks/planned/task-2-1.md)
   - [x] [Task 2.2: Choose and configure authentication approach](tasks/planned/task-2-2.md)
   - [x] [Task 2.3: Implement login endpoint](tasks/planned/task-2-3.md)
-  - [ ] [Task 2.4: Implement change-password endpoint](tasks/planned/task-2-4.md)
+  - [x] [Task 2.4: Implement change-password endpoint](tasks/planned/task-2-4.md)
   - [ ] [Task 2.5: Implement authorization guards](tasks/planned/task-2-5.md)
 - [ ] [Task 3: Task management API (CRUD)](tasks/planned/task-3.md)
   - [ ] [Task 3.1: Confirm task field requirements](tasks/planned/task-3-1.md)
