@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
-from api.routes import auth
+from api.routes import auth, tasks
 
 # Initialize database
 init_db()
@@ -41,6 +41,7 @@ app = FastAPI(
 
 # Include routers
 app.include_router(auth.router)
+app.include_router(tasks.router)
 
 
 @app.get("/")
