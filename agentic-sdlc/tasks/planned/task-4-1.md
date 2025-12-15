@@ -1,6 +1,6 @@
 # Task ID: 4.1
 # Title: Confirm attachment requirements
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 0.5h
@@ -34,7 +34,7 @@ Confirm attachment-related requirements from `docs/requirements.md` and `docs/te
 - Reference exact section numbers from docs for traceability.
 
 ## Dependencies
-- [ ] Task ID: 1.3 (Documentation must exist)
+- [x] Task ID: 1.3 (Documentation must exist)
 
 ## Testing Instructions
 - N/A. Verify that the summarized requirements match the docs.
@@ -48,9 +48,9 @@ Confirm attachment-related requirements from `docs/requirements.md` and `docs/te
 - Missing requirements (e.g., file size limits, allowed types) may need to be clarified or decided during design.
 
 ## Acceptance Criteria
-- [ ] Short summary lists required attachment behaviors (upload per task, list with name and size, delete).
-- [ ] Summary includes source references (which doc section each requirement came from).
-- [ ] Summary is documented (in code comments, design doc, or `backend/docs/attachment-requirements.md`).
+- [x] Short summary lists required attachment behaviors (upload per task, list with name and size, delete).
+- [x] Summary includes source references (which doc section each requirement came from).
+- [x] Summary is documented (in code comments, design doc, or `backend/docs/attachment-requirements.md`).
 
 ## Definition of Done
 - [ ] Summary documented near the attachment service or in design notes (file committed or documented).
@@ -63,6 +63,14 @@ Confirm attachment-related requirements from `docs/requirements.md` and `docs/te
 
 ## Notes
 This will guide API and storage design for attachments (tasks 4.2, 4.3, 4.4). Keep requirements strictly aligned with docs.
+
+**Completed**: Created `backend/docs/attachment-requirements.md` documenting all attachment requirements:
+- Upload files for each task
+- Display file name and size
+- Delete attachments
+- Authorization rules (owner-only modification, all can view)
+- Implicit requirements (task relationship, storage)
+- Design decisions needed (storage backend, file size limits, file types)
 
 ## Strengths
 Keeps implementation aligned with explicit requirements. Provides single source of truth for attachment requirements.
@@ -77,6 +85,6 @@ Keeps implementation aligned with explicit requirements. Provides single source 
 - [ ] Verify summary covers all attachment-related bullets (cross-check against both docs).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

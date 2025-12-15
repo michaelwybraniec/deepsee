@@ -1,6 +1,6 @@
 # Task ID: 4
 # Title: Attachments API
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 8h
@@ -9,7 +9,7 @@
 Implement attachment handling for tasks, allowing users to upload files per task, display file name and size, and delete attachments.
 
 ## Dependencies
-- [ ] Task ID: 3
+- [x] Task ID: 3
 
 ## Testing Instructions
 - Integration tests for upload, list, and delete operations.
