@@ -1,6 +1,6 @@
 # Task ID: 3.4
 # Title: Implement read task endpoints
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 3h
@@ -43,7 +43,7 @@ Implement endpoints to read a single task by ID and to list tasks (later extende
 - No ownership filtering for reads (all authenticated users can view all tasks per requirements).
 
 ## Dependencies
-- [ ] Task ID: 3.2 (Task model must exist)
+- [x] Task ID: 3.2 (Task model must exist)
 
 ## Testing Instructions
 - Integration tests (API + DB):
@@ -64,10 +64,10 @@ Implement endpoints to read a single task by ID and to list tasks (later extende
 - Missing authentication check could allow unauthorized access.
 
 ## Acceptance Criteria
-- [ ] Endpoint to fetch a single task by ID (`GET /api/tasks/:id`) implemented (returns 200 with task data or 404 if not found).
-- [ ] Endpoint to list tasks (`GET /api/tasks`) implemented, returning tasks the user is allowed to view (all tasks, not filtered by owner).
-- [ ] Both endpoints require authentication (return 401 if not authenticated).
-- [ ] Tests for basic read operations are passing (get by ID, list all, 404, 401).
+- [x] Endpoint to fetch a single task by ID (`GET /api/tasks/:id`) implemented (returns 200 with task data or 404 if not found).
+- [x] Endpoint to list tasks (`GET /api/tasks`) implemented, returning tasks the user is allowed to view (all tasks, not filtered by owner).
+- [x] Both endpoints require authentication (return 401 if not authenticated).
+- [x] Tests for basic read operations are passing (get by ID, list all, 404, 401).
 
 ## Definition of Done
 - [ ] Read endpoints wired to the task model (use-cases and API handlers implemented).
@@ -84,6 +84,14 @@ Implement endpoints to read a single task by ID and to list tasks (later extende
 ## Notes
 Advanced search/filter functionality is implemented in Task 5. This task only implements basic read operations (get by ID, list all).
 
+**Completed**: 
+- Get task by ID endpoint: GET /api/tasks/:id
+- List tasks endpoint: GET /api/tasks
+- Both endpoints require authentication
+- All users can view all tasks (no ownership filter for reads)
+- Use cases implemented: get_task_by_id, list_tasks
+- Integration tests for success, 404, and unauthenticated cases
+
 ## Strengths
 Implements the "View" part of Task Management. Provides foundation for search/filter operations in task 5.
 
@@ -98,6 +106,6 @@ Implements the "View" part of Task Management. Provides foundation for search/fi
 - [ ] Test manually with API client to verify behavior.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

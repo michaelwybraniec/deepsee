@@ -69,7 +69,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 3.1: Confirm task field requirements](tasks/planned/task-3-1.md)
   - [x] [Task 3.2: Design task data model](tasks/planned/task-3-2.md)
   - [x] [Task 3.3: Implement create task endpoint](tasks/planned/task-3-3.md)
-  - [ ] [Task 3.4: Implement read task endpoints](tasks/planned/task-3-4.md)
+  - [x] [Task 3.4: Implement read task endpoints](tasks/planned/task-3-4.md)
   - [ ] [Task 3.5: Implement update and delete task endpoints](tasks/planned/task-3-5.md)
 - [ ] [Task 4: Attachments API](tasks/planned/task-4.md)
   - [ ] [Task 4.1: Confirm attachment requirements](tasks/planned/task-4-1.md)
