@@ -1,6 +1,6 @@
 # Task ID: 3.2
 # Title: Design task data model
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 2h
@@ -51,7 +51,7 @@ Design the task data model and database representation to store all required fie
 - Use repository pattern: interface in `backend/application/tasks/repository.py`, implementation in `backend/infrastructure/persistence/repositories/task_repository.py`.
 
 ## Dependencies
-- [ ] Task ID: 3.1 (Field list must be confirmed)
+- [x] Task ID: 3.1 (Field list must be confirmed)
 
 ## Testing Instructions
 - N/A for design task. Verify by checking that the model includes all fields and an owner reference.
@@ -67,10 +67,10 @@ Design the task data model and database representation to store all required fie
 - Incorrect data types can cause validation or query issues.
 
 ## Acceptance Criteria
-- [ ] Task model includes all required fields (title, description, status, priority, due_date, tags) and owner reference (owner_user_id).
-- [ ] Model design supports search/filter/sort/pagination requirements (indexes on searchable/filterable fields, owner_user_id indexed).
-- [ ] Model is implemented in code (ORM/entity definition exists).
-- [ ] Model is documented (schema diagram, code comments, or design doc).
+- [x] Task model includes all required fields (title, description, status, priority, due_date, tags) and owner reference (owner_user_id).
+- [x] Model design supports search/filter/sort/pagination requirements (indexes on searchable/filterable fields, owner_user_id indexed).
+- [x] Model is implemented in code (ORM/entity definition exists).
+- [x] Model is documented (schema diagram, code comments, or design doc).
 
 ## Definition of Done
 - [ ] Model documented and implemented in code (e.g. ORM/entity definition in `backend/domain/tasks/task.py` and `backend/infrastructure/persistence/models/task.py`).
@@ -85,6 +85,12 @@ Design the task data model and database representation to store all required fie
 ## Notes
 This forms the basis for CRUD and search/filter operations (tasks 3.3, 3.4, 3.5, 5). Ensure model design supports all these use cases.
 
+**Completed**: 
+- Task model implemented in `backend/domain/models/task.py` with all required fields
+- Indexes defined for search (title), filtering (due_date, owner_user_id), and composite queries
+- Model documented in `backend/docs/task-model.md` with schema, relationships, and design decisions
+- Supports all CRUD operations and search/filter requirements (Task 5)
+
 ## Strengths
 Enables consistent handling of tasks across the API and worker. Provides foundation for all task operations.
 
@@ -98,6 +104,6 @@ Enables consistent handling of tasks across the API and worker. Provides foundat
 - [ ] Create database migration or SQL script to create table.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
