@@ -38,7 +38,7 @@ authentication, file attachments, search capabilities, notifications, and compre
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
-from api.routes import auth, tasks, attachments
+from api.routes import auth, tasks, attachments, worker
 from worker.scheduler import start_scheduler, stop_scheduler
 import os
 import logging
@@ -89,6 +89,7 @@ app = FastAPI(
 app.include_router(auth.router)
 app.include_router(tasks.router)
 app.include_router(attachments.router)
+app.include_router(worker.router)
 
 
 @app.get("/")

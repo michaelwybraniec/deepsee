@@ -4,6 +4,68 @@
 
 The reminder worker is a background service that automatically checks for tasks due in the next 24 hours and logs "reminder sent" events. It runs automatically when the API starts.
 
+## API Interface
+
+The worker has a REST API interface for monitoring and control:
+
+### Get Worker Status
+```bash
+GET /api/worker/status
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "status": "running",
+  "running": true,
+  "next_run": "2024-01-15T11:00:00",
+  "last_reminder_sent": "2024-01-15T10:00:00",
+  "schedule": "Every hour",
+  "message": "Worker is running and will check for due tasks every hour"
+}
+```
+
+### Manually Trigger Worker
+```bash
+POST /api/worker/trigger
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Reminder worker job executed successfully",
+  "triggered_at": "2024-01-15T10:30:00"
+}
+```
+
+### Get Worker Statistics
+```bash
+GET /api/worker/statistics
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "statistics": {
+    "total_tasks_with_reminders": 150,
+    "tasks_due_next_24h": 25,
+    "tasks_needing_reminders": 5,
+    "recent_reminders_24h": 12
+  },
+  "timestamp": "2024-01-15T10:30:00"
+}
+```
+
+**Statistics Explained:**
+- `total_tasks_with_reminders`: Total number of tasks that have ever received reminders
+- `tasks_due_next_24h`: Total tasks due in the next 24 hours
+- `tasks_needing_reminders`: Tasks due in next 24h that haven't been reminded recently
+- `recent_reminders_24h`: Number of reminders sent in the last 24 hours
+
 ## How It Works
 
 1. **Scheduling**: The worker runs every hour automatically (using APScheduler)
@@ -72,6 +134,21 @@ print(f"Reminder sent at: {task.reminder_sent_at}")
 ```
 
 ## Checking Worker Status
+
+### Using API Endpoints
+
+The easiest way to check worker status is via the API:
+
+```bash
+# Check if worker is running
+curl -H "Authorization: Bearer <token>" http://localhost:8000/api/worker/status
+
+# Get worker statistics
+curl -H "Authorization: Bearer <token>" http://localhost:8000/api/worker/statistics
+
+# Manually trigger worker (for testing)
+curl -X POST -H "Authorization: Bearer <token>" http://localhost:8000/api/worker/trigger
+```
 
 ### View Logs
 
@@ -234,8 +311,52 @@ The worker runs in the same process as the FastAPI application. It:
 - Shares the same database connection pool
 - Uses the same logging configuration
 - Starts/stops with the API lifecycle
+- Exposes REST API endpoints for monitoring and control
 
-For production, consider:
+### API Endpoints Summary
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/worker/status` | GET | Get worker status and next run time |
+| `/api/worker/statistics` | GET | Get worker statistics (tasks, reminders) |
+| `/api/worker/trigger` | POST | Manually trigger worker job |
+
+All endpoints require authentication (Bearer token).
+
+### Example: Using Worker API
+
+```bash
+# Get worker status
+curl -H "Authorization: Bearer <token>" \
+  http://localhost:8000/api/worker/status
+
+# Get statistics
+curl -H "Authorization: Bearer <token>" \
+  http://localhost:8000/api/worker/statistics
+
+# Manually trigger worker
+curl -X POST -H "Authorization: Bearer <token>" \
+  http://localhost:8000/api/worker/trigger
+```
+
+### Swagger Documentation
+
+All worker endpoints are documented in Swagger UI:
+- Visit `http://localhost:8000/docs`
+- Look for the "worker" section
+- Test endpoints directly from the browser
+
+## Documentation Files
+
+Complete documentation is available in:
+- **`backend/docs/worker-usage.md`** - This file (usage guide)
+- **`backend/docs/worker-design.md`** - Design documentation
+- **`backend/docs/notification-requirements.md`** - Requirements documentation
+
+## For Production
+
+Consider:
 - Running worker in a separate process/container
 - Using a message queue (Celery) for distributed workers
 - Adding monitoring/alerting for worker failures
+- Setting up health checks (see Task 9.4 for health check endpoints)
