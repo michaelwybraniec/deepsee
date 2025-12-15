@@ -30,7 +30,9 @@ for structured, systematic development. See `agentic-sdlc/AWP.md` for workflow d
 
 ## Author
 
-Michael Wybraniec (ONE-FRONT)
+Michael Wybraniec
+
+ONE-FRONT | michael@one-front.com | AWP - Agentic Workflow Protocol | EU AI ACT Audit Reporting
 """
 
 from fastapi import FastAPI
