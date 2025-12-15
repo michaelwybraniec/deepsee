@@ -1,6 +1,6 @@
 # Task ID: 5.3
 # Title: Implement search by title and description
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 3h
@@ -42,7 +42,7 @@ Implement backend logic to search tasks by title and description according to th
 - Consider full-text search for better performance (PostgreSQL `tsvector`, Elasticsearch) - optional enhancement.
 
 ## Dependencies
-- [ ] Task ID: 5.2 (API design must be complete)
+- [x] Task ID: 5.2 (API design must be complete)
 
 ## Testing Instructions
 - Integration tests (API + DB):
@@ -67,11 +67,11 @@ Implement backend logic to search tasks by title and description according to th
 - Performance issues if search not optimized (full table scan without indexes).
 
 ## Acceptance Criteria
-- [ ] Search parameters for title and description are handled by the list endpoint (`GET /api/tasks?q=term`).
-- [ ] Search uses OR logic (task matches if title OR description contains search term).
-- [ ] Search is case-insensitive (e.g., "Task" matches "task").
-- [ ] Search supports partial matching (e.g., "task" matches "My Task Title").
-- [ ] Tests confirm correct search behavior for both fields (title, description, combined, case-insensitive, partial match).
+- [x] Search parameters for title and description are handled by the list endpoint (`GET /api/tasks?q=term`).
+- [x] Search uses OR logic (task matches if title OR description contains search term).
+- [x] Search is case-insensitive (e.g., "Task" matches "task").
+- [x] Search supports partial matching (e.g., "task" matches "My Task Title").
+- [x] Tests confirm correct search behavior for both fields (title, description, combined, case-insensitive, partial match).
 
 ## Definition of Done
 - [ ] Search logic implemented (query builder with title/description ILIKE conditions).
@@ -88,6 +88,13 @@ Implement backend logic to search tasks by title and description according to th
 ## Notes
 Forms the base of the "Search tasks by title or description" requirement. Filters, sorting, and pagination are implemented in task 5.4.
 
+**Completed**: 
+- Search use case implemented in `backend/application/tasks/search_tasks.py`
+- Search logic: OR condition on title and description, case-insensitive partial match using SQLAlchemy `ilike`
+- API endpoint updated to accept `q` parameter
+- Parameterized queries used (SQLAlchemy handles SQL injection prevention)
+- Integrated with filters, sorting, and pagination (all in one use case)
+
 ## Strengths
 Improves usability of the task list view. Provides foundation for combined search + filter operations.
 
@@ -101,6 +108,6 @@ Improves usability of the task list view. Provides foundation for combined searc
 - [ ] Test manually with API client to verify search behavior.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

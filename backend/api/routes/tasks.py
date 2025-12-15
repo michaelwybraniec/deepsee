@@ -60,24 +60,77 @@ def create_task_endpoint(
 
 @router.get(
     "/",
-    response_model=List[TaskResponse],
+    response_model=PaginatedTaskResponse,
     status_code=status.HTTP_200_OK,
     responses={
+        400: {"description": "Validation error"},
         401: {"description": "Unauthorized"}
     }
 )
 def list_tasks_endpoint(
+    q: Optional[str] = Query(None, description="Search term (searches in title and description)"),
+    status: Optional[str] = Query(None, description="Filter by status (exact match)"),
+    priority: Optional[str] = Query(None, description="Filter by priority (exact match)"),
+    tags: Optional[str] = Query(None, description="Filter by tags (comma-separated, e.g., 'urgent,important')"),
+    due_date: Optional[datetime] = Query(None, description="Filter by exact due date (ISO format)"),
+    due_date_from: Optional[datetime] = Query(None, description="Filter by due date range (start, ISO format)"),
+    due_date_to: Optional[datetime] = Query(None, description="Filter by due date range (end, ISO format)"),
+    sort: Optional[str] = Query(None, description="Sort field and direction (e.g., 'due_date:asc', 'priority:desc')"),
+    page: int = Query(1, ge=1, description="Page number (1-indexed)"),
+    page_size: int = Query(20, ge=1, le=100, description="Number of items per page (max 100)"),
     current_user: User = Depends(get_current_user),
-    repository: SQLAlchemyTaskRepository = Depends(get_task_repository)
+    db: Session = Depends(get_db)
 ):
     """
-    List all tasks.
+    List tasks with search, filtering, sorting, and pagination.
     
     All authenticated users can view all tasks (no ownership filter for reads).
-    Search/filter/sort/pagination will be added in Task 5.
+    
+    **Query Parameters:**
+    - `q`: Search term (searches in title and description, case-insensitive partial match)
+    - `status`: Filter by status (exact match)
+    - `priority`: Filter by priority (exact match)
+    - `tags`: Filter by tags (comma-separated, tasks containing any tag)
+    - `due_date`: Filter by exact due date
+    - `due_date_from`: Filter by due date range (start)
+    - `due_date_to`: Filter by due date range (end)
+    - `sort`: Sort field and direction (e.g., "due_date:asc", "priority:desc")
+    - `page`: Page number (default: 1)
+    - `page_size`: Items per page (default: 20, max: 100)
     """
-    tasks = list_tasks(repository)
-    return tasks
+    # Parse tags if provided
+    tags_list = None
+    if tags:
+        tags_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
+    
+    # Validate due_date range
+    if due_date_from and due_date_to and due_date_from > due_date_to:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "due_date_from must be less than or equal to due_date_to"
+                }
+            }
+        )
+    
+    # Call search use case
+    result = search_tasks(
+        db=db,
+        q=q,
+        status=status,
+        priority=priority,
+        tags=tags_list,
+        due_date=due_date,
+        due_date_from=due_date_from,
+        due_date_to=due_date_to,
+        sort=sort,
+        page=page,
+        page_size=page_size
+    )
+    
+    return result
 
 
 @router.get(

@@ -79,7 +79,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 - [ ] [Task 5: Search, filtering, sorting, pagination](tasks/planned/task-5.md)
   - [x] [Task 5.1: Confirm search and filter requirements](tasks/planned/task-5-1.md)
   - [x] [Task 5.2: Design search, filter, sort, and pagination API](tasks/planned/task-5-2.md)
-  - [ ] [Task 5.3: Implement search by title and description](tasks/planned/task-5-3.md)
+  - [x] [Task 5.3: Implement search by title and description](tasks/planned/task-5-3.md)
   - [ ] [Task 5.4: Implement filters, sorting, and pagination](tasks/planned/task-5-4.md)
 - [ ] [Task 6: Notifications worker for due tasks](tasks/planned/task-6.md)
   - [ ] [Task 6.1: Confirm notification requirements](tasks/planned/task-6-1.md)
