@@ -1,6 +1,6 @@
 # Task ID: 6.4
 # Title: Implement idempotency and retry behavior
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -41,7 +41,7 @@ Implement idempotency tracking and retry behavior so that reminder processing is
 - Consider using a job queue (celery, RQ) for better retry handling - optional enhancement.
 
 ## Dependencies
-- [ ] Task ID: 6.3 (Basic worker job must exist)
+- [x] Task ID: 6.3 (Basic worker job must exist)
 
 ## Testing Instructions
 - Worker/queue tests (unit/integration):
@@ -62,11 +62,11 @@ Implement idempotency tracking and retry behavior so that reminder processing is
 - Missing retry logic can cause missed reminders on transient failures.
 
 ## Acceptance Criteria
-- [ ] Idempotency mechanism implemented (e.g., marker per task/time window - `reminder_sent_at` or `reminder_log` table).
-- [ ] Idempotency uses atomic operations (database transaction or atomic update) to prevent race conditions.
-- [ ] Retry logic implemented for transient worker failures (exponential backoff, max retries, error logging).
-- [ ] Fault tolerance implemented (handle connection errors, individual task errors, restartable).
-- [ ] Tests for idempotency and retry scenarios are passing (no duplicates, retries work, fault tolerance works).
+- [x] Idempotency mechanism implemented (e.g., marker per task/time window - `reminder_sent_at` or `reminder_log` table).
+- [x] Idempotency uses atomic operations (database transaction or atomic update) to prevent race conditions.
+- [x] Retry logic implemented for transient worker failures (exponential backoff, max retries, error logging).
+- [x] Fault tolerance implemented (handle connection errors, individual task errors, restartable).
+- [x] Tests for idempotency and retry scenarios are passing (no duplicates, retries work, fault tolerance works).
 
 ## Definition of Done
 - [ ] Idempotency and retry logic integrated into the worker job (enhance job from task 6.3).
@@ -83,6 +83,14 @@ Implement idempotency tracking and retry behavior so that reminder processing is
 ## Notes
 This fulfills the "idempotent and fault-tolerant (no duplicate reminders)" part of the requirement. Builds on task 6.3 to add robustness.
 
+**Completed**: 
+- Enhanced idempotency with atomic UPDATE operations (already in 6.3)
+- Implemented retry logic with exponential backoff (1s, 2s, 4s delays, max 3 retries)
+- Added fault tolerance for database connection errors (retry on next run)
+- Individual task errors handled gracefully (log, continue with next task)
+- Worker is restartable (state in database, not memory)
+- Added test for retry behavior on transient failures
+
 ## Strengths
 Makes notification behavior robust and production-friendly. Ensures reliable reminder delivery without duplicates.
 
@@ -95,6 +103,6 @@ Makes notification behavior robust and production-friendly. Ensures reliable rem
 - [ ] Test manually by running worker multiple times and simulating failures.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

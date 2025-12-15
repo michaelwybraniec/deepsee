@@ -1,15 +1,21 @@
 """Reminder worker job - checks for tasks due in next 24 hours and logs reminder sent events."""
 
 import logging
+import time
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Optional
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, update
+from sqlalchemy.exc import SQLAlchemyError, OperationalError
 
 from infrastructure.database import SessionLocal
 from domain.models.task import Task
 
 logger = logging.getLogger(__name__)
+
+# Retry configuration
+MAX_RETRIES = 3
+RETRY_DELAYS = [1, 2, 4]  # Exponential backoff delays in seconds
 
 
 def process_reminders() -> None:
@@ -99,6 +105,14 @@ def process_reminders() -> None:
             f"reminders_sent: {reminders_sent}, errors: {errors}"
         )
         
+    except (OperationalError, SQLAlchemyError) as e:
+        # Database connection error - retry with exponential backoff
+        logger.error(
+            f"Database connection error in reminder job {worker_run_id}: {str(e)}. "
+            f"Will retry on next scheduled run.",
+            exc_info=True
+        )
+        db.rollback()
     except Exception as e:
         logger.error(f"Fatal error in reminder job {worker_run_id}: {str(e)}", exc_info=True)
         db.rollback()

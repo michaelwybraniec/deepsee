@@ -193,3 +193,60 @@ def test_reminder_job_excludes_past_due_tasks(db_session: Session):
     # Check that past due task did not get reminder
     db_session.refresh(past_task)
     assert past_task.reminder_sent_at is None, "Past due task should NOT get reminder"
+
+
+def test_reminder_job_retry_on_transient_failure(db_session: Session, monkeypatch):
+    """Test that reminder job retries on transient database errors."""
+    # Create user
+    hashed_password = bcrypt.hashpw(b"testpassword", bcrypt.gensalt()).decode('utf-8')
+    user = User(
+        username="testuser_retry",
+        email="testretry@example.com",
+        hashed_password=hashed_password
+    )
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+    
+    now = datetime.utcnow()
+    
+    # Task due in 12 hours
+    task = Task(
+        title="Task for retry test",
+        description="Test retry logic",
+        due_date=now + timedelta(hours=12),
+        owner_user_id=user.id,
+        status="todo",
+        priority="high"
+    )
+    
+    db_session.add(task)
+    db_session.commit()
+    
+    # Simulate transient failure on first attempt, success on second
+    call_count = [0]
+    original_execute = db_session.execute
+    
+    def mock_execute(*args, **kwargs):
+        call_count[0] += 1
+        if call_count[0] == 1:
+            # First attempt: raise transient error
+            from sqlalchemy.exc import OperationalError
+            raise OperationalError("Connection lost", None, None)
+        # Second attempt: succeed
+        return original_execute(*args, **kwargs)
+    
+    monkeypatch.setattr(db_session, "execute", mock_execute)
+    
+    # Run reminder job (should retry and succeed)
+    from worker.jobs.reminder_job import _process_single_reminder
+    last_24h = now - timedelta(hours=24)
+    success = _process_single_reminder(db_session, task, now, last_24h)
+    
+    # Should succeed after retry
+    assert success, "Reminder should succeed after retry"
+    assert call_count[0] == 2, "Should retry once after transient failure"
+    
+    # Check that reminder was sent
+    db_session.refresh(task)
+    assert task.reminder_sent_at is not None, "Reminder should be sent after successful retry"

@@ -1,6 +1,6 @@
 # Task ID: 6
 # Title: Notifications worker for due tasks
-# Status: [x] In Progress
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 8h
@@ -47,12 +47,12 @@ The requirement is to log reminders; actual user-facing notification channels ca
 Satisfies the “Notifications” requirement in a robust, testable way.
 
 ## Sub-tasks (Children)
-- [ ] [Task 6.1: Confirm notification requirements](task-6-1.md)
-- [ ] [Task 6.2: Design worker schedule and query](task-6-2.md)
-- [ ] [Task 6.3: Implement reminder worker job](task-6-3.md)
-- [ ] [Task 6.4: Implement idempotency and retry behavior](task-6-4.md)
+- [x] [Task 6.1: Confirm notification requirements](task-6-1.md)
+- [x] [Task 6.2: Design worker schedule and query](task-6-2.md)
+- [x] [Task 6.3: Implement reminder worker job](task-6-3.md)
+- [x] [Task 6.4: Implement idempotency and retry behavior](task-6-4.md)
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
