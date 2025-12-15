@@ -2,6 +2,28 @@
 
 This guide explains how to use and query the audit trail system.
 
+**Quick Links:**
+- [Quick Start](#quick-start-using-the-query-script) - Fastest way to query events
+- [Event Structure](#event-structure) - What's in each event
+- [Common Use Cases](#common-use-cases) - Practical examples
+- [Database Schema](#database-schema) - Technical details
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Automatic Logging](#automatic-logging)
+3. [Quick Start: Using the Query Script](#quick-start-using-the-query-script)
+4. [Querying Audit Events](#querying-audit-events)
+   - [Using Python Interactively](#using-python-interactively)
+   - [Using the Repository Interface](#using-the-repository-interface)
+   - [Using SQLite Command Line](#using-sqlite-command-line)
+5. [Event Structure](#event-structure)
+6. [Common Use Cases](#common-use-cases)
+7. [Database Schema](#database-schema)
+8. [Important Notes](#important-notes)
+9. [Troubleshooting](#troubleshooting)
+10. [Example: Complete Audit Trail for a Task](#example-complete-audit-trail-for-a-task)
+
 ## Overview
 
 The audit trail automatically logs all key actions in the system:
