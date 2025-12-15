@@ -1,6 +1,6 @@
 # Task ID: 2.1
 # Title: Analyze authentication and authorization requirements
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 1h
@@ -34,7 +34,7 @@ Review `docs/requirements.md` and `docs/technical-specs.md` to extract all authe
 - Reference exact section numbers from docs for traceability.
 
 ## Dependencies
-- [ ] Task ID: 1 (Documentation must exist)
+- [x] Task ID: 1 (Documentation must exist)
 
 ## Testing Instructions
 - N/A (documentation/analysis task). Verify outcomes by checking that the summary list covers all relevant bullets in the docs.
@@ -49,16 +49,16 @@ Review `docs/requirements.md` and `docs/technical-specs.md` to extract all authe
 - Unclear authorization rules could cause security vulnerabilities.
 
 ## Acceptance Criteria
-- [ ] A short written summary (in code comments, `backend/docs/auth-requirements.md`, or architecture notes) lists all auth-related requirements from the docs.
-- [ ] The summary explicitly mentions: modern auth (OIDC/OAuth2 or JWT), modify-own-data, view-all-records, and change password.
-- [ ] Each requirement includes a source reference (which doc section it came from).
-- [ ] Summary is stored in a location accessible during implementation (e.g., `backend/docs/` or code comments).
+- [x] A short written summary (in code comments, `backend/docs/auth-requirements.md`, or architecture notes) lists all auth-related requirements from the docs.
+- [x] The summary explicitly mentions: modern auth (OIDC/OAuth2 or JWT), modify-own-data, view-all-records, and change password.
+- [x] Each requirement includes a source reference (which doc section it came from).
+- [x] Summary is stored in a location accessible during implementation (e.g., `backend/docs/` or code comments).
 
 ## Definition of Done
-- [ ] Requirements have been reviewed and summarized.
-- [ ] The summary is stored alongside backend auth code or architecture notes (file committed or documented).
-- [ ] Summary covers all auth-related bullets from both docs.
-- [ ] All acceptance criteria met.
+- [x] Requirements have been reviewed and summarized.
+- [x] The summary is stored alongside backend auth code or architecture notes (file committed or documented).
+- [x] Summary covers all auth-related bullets from both docs.
+- [x] All acceptance criteria met.
 
 ## Measurable Outcomes
 - **Verification Criteria**: Every auth-related bullet in the docs is accounted for in the summary (cross-check complete).
@@ -67,19 +67,26 @@ Review `docs/requirements.md` and `docs/technical-specs.md` to extract all authe
 ## Notes
 This task prepares for choosing and implementing the auth mechanism. The summary will guide decisions in tasks 2.2, 2.3, 2.4, and 2.5.
 
+**Completed**: Created `backend/docs/auth-requirements.md` with all authentication and authorization requirements extracted from documentation. Summary includes:
+- Authentication method requirement (OIDC/OAuth2 or JWT)
+- Authorization rule 1: Modify own data only
+- Authorization rule 2: View all records
+- Change password functionality requirement
+- All requirements include source references (doc sections)
+
 ## Strengths
 Reduces risk of missing or misreading security-sensitive requirements. Provides a single source of truth for auth requirements during implementation.
 
 ## Sub-tasks (Children)
-- [ ] Open `docs/requirements.md` and locate section "1. Secure Login".
-- [ ] Open `docs/technical-specs.md` and locate section "3.1 Secure Login".
-- [ ] Check `docs/requirements.md` section "10. Front-End" for change password requirement.
-- [ ] Extract key requirements: auth method (OIDC/OAuth2 or JWT), modify-own-data, view-all-records, change password.
-- [ ] Create summary file (e.g., `backend/docs/auth-requirements.md`) or add to architecture notes.
-- [ ] Document each requirement with source reference (doc section numbers).
-- [ ] Verify summary covers all auth-related bullets (cross-check against both docs).
+- [x] Open `docs/requirements.md` and locate section "1. Secure Login".
+- [x] Open `docs/technical-specs.md` and locate section "3.1 Secure Login".
+- [x] Check `docs/requirements.md` section "10. Front-End" for change password requirement.
+- [x] Extract key requirements: auth method (OIDC/OAuth2 or JWT), modify-own-data, view-all-records, change password.
+- [x] Create summary file (e.g., `backend/docs/auth-requirements.md`) or add to architecture notes.
+- [x] Document each requirement with source reference (doc section numbers).
+- [x] Verify summary covers all auth-related bullets (cross-check against both docs).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

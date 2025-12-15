@@ -60,7 +60,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 1.5: Verify architecture document alignment](tasks/planned/task-1-5.md)
   - [x] [Task 1.6: Review agentic SDLC backlog coverage](tasks/planned/task-1-6.md)
 - [ ] [Task 2: Secure login and authorization](tasks/planned/task-2.md)
-  - [ ] [Task 2.1: Analyze authentication and authorization requirements](tasks/planned/task-2-1.md)
+  - [x] [Task 2.1: Analyze authentication and authorization requirements](tasks/planned/task-2-1.md)
   - [ ] [Task 2.2: Choose and configure authentication approach](tasks/planned/task-2-2.md)
   - [ ] [Task 2.3: Implement login endpoint](tasks/planned/task-2-3.md)
   - [ ] [Task 2.4: Implement change-password endpoint](tasks/planned/task-2-4.md)

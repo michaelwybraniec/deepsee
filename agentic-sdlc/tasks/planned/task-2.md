@@ -1,6 +1,6 @@
 # Task ID: 2
 # Title: Secure login and authorization
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: critical
 # Owner: Backend Dev
 # Estimated Effort: 8h
@@ -9,7 +9,7 @@
 Implement modern authentication (OIDC/OAuth2 or JWT-based) and authorization rules so that each user can modify only their own data while being able to view all records.
 
 ## Dependencies
-- [ ] Task ID: 1
+- [x] Task ID: 1
 
 ## Testing Instructions
 - API integration tests for:
