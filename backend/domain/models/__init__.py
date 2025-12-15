@@ -1,7 +1,7 @@
 """Domain models."""
 
-from .user import User
+from .user import User, Base
 from .task import Task
-from .user import Base
+from .attachment import Attachment
 
-__all__ = ["User", "Task", "Base"]
+__all__ = ["User", "Task", "Attachment", "Base"]
