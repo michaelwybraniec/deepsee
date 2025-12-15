@@ -5,7 +5,8 @@ bcrypt>=4.1.0
 # API Framework (FastAPI recommended per docs/technology.md)
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
-python-multipart>=0.0.6  # Required for file uploads (multipart/form-data)
+python-multipart>=0.0.6
+APScheduler>=3.10.4  # Required for file uploads (multipart/form-data)
 
 # Data Validation
 pydantic>=2.5.0

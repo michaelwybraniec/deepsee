@@ -1,6 +1,6 @@
 # Task ID: 6.3
 # Title: Implement reminder worker job
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -43,7 +43,7 @@ Implement the worker job that queries for tasks due in the next 24 hours and log
 - Worker should be a separate service/process (can run in same container or separate).
 
 ## Dependencies
-- [ ] Task ID: 6.2 (Worker design must be complete)
+- [x] Task ID: 6.2 (Worker design must be complete)
 
 ## Testing Instructions
 - Worker tests (unit/integration):
@@ -65,11 +65,11 @@ Implement the worker job that queries for tasks due in the next 24 hours and log
 - Incorrect query logic may select wrong tasks or miss tasks.
 
 ## Acceptance Criteria
-- [ ] Worker job executes on schedule and queries due tasks correctly (query selects tasks due in next 24h).
-- [ ] "Reminder sent" events are written for each qualifying task (log entries created in database).
-- [ ] Idempotency check implemented (tasks with reminders already sent are excluded from query).
-- [ ] Error handling implemented (worker continues after individual task errors, logs errors).
-- [ ] Tests verifying selection and logging behavior are passing (query correct, logging works, idempotency works).
+- [x] Worker job executes on schedule and queries due tasks correctly (query selects tasks due in next 24h).
+- [x] "Reminder sent" events are written for each qualifying task (log entries created in database).
+- [x] Idempotency check implemented (tasks with reminders already sent are excluded from query).
+- [x] Error handling implemented (worker continues after individual task errors, logs errors).
+- [x] Tests verifying selection and logging behavior are passing (query correct, logging works, idempotency works).
 
 ## Definition of Done
 - [ ] Worker job implemented and integrated with scheduling mechanism (job function, scheduler configured).
@@ -86,6 +86,15 @@ Implement the worker job that queries for tasks due in the next 24 hours and log
 ## Notes
 Idempotency and retry behavior are addressed in task 6.4. This task implements the core reminder logic, while task 6.4 adds robustness.
 
+**Completed**: 
+- Added `reminder_sent_at` column to Task model
+- Implemented `process_reminders()` job function with query logic
+- Integrated APScheduler to run job every hour
+- Implemented atomic check-and-set for idempotency
+- Added error handling (continues on individual task errors)
+- Integrated scheduler with FastAPI app lifecycle (startup/shutdown)
+- Added comprehensive tests (query selection, idempotency, error handling)
+
 ## Strengths
 Implements the core "reminder sent" behavior required by the assignment. Provides foundation for idempotency and retry logic in task 6.4.
 
@@ -99,6 +108,6 @@ Implements the core "reminder sent" behavior required by the assignment. Provide
 - [ ] Test manually by running worker and verifying behavior.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

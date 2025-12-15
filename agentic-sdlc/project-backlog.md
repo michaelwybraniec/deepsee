@@ -84,7 +84,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 - [ ] [Task 6: Notifications worker for due tasks](tasks/planned/task-6.md)
   - [x] [Task 6.1: Confirm notification requirements](tasks/planned/task-6-1.md)
   - [x] [Task 6.2: Design worker schedule and query](tasks/planned/task-6-2.md)
-  - [ ] [Task 6.3: Implement reminder worker job](tasks/planned/task-6-3.md)
+  - [x] [Task 6.3: Implement reminder worker job](tasks/planned/task-6-3.md)
   - [ ] [Task 6.4: Implement idempotency and retry behavior](tasks/planned/task-6-4.md)
 - [ ] [Task 7: Audit trail implementation](tasks/planned/task-7.md)
   - [ ] [Task 7.1: Confirm audit trail requirements](tasks/planned/task-7-1.md)
