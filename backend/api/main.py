@@ -44,7 +44,7 @@ import os
 # API Metadata - automatically used by FastAPI
 API_VERSION = os.getenv("API_VERSION", "1.0.0")
 API_TITLE = "Task Tracker API"
-API_AUTHOR = "Michael Wybraniec (ONE-FRONT)"
+API_AUTHOR = "Michael Wybraniec"
 
 # Initialize database
 init_db()
