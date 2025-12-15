@@ -6,10 +6,13 @@ Usage:
     cd backend
     source .venv/bin/activate  # On macOS/Linux
     # OR
-    .venv\Scripts\activate  # On Windows
+    .venv\\Scripts\\activate  # On Windows
     
     # Then run:
     python3 scripts/query_audit_events.py [options]
+    
+    # OR use venv Python directly (no activation needed):
+    .venv/bin/python3 scripts/query_audit_events.py [options]
 """
 
 import sys
@@ -31,7 +34,7 @@ except ImportError:
         print(f"  cd {backend_dir}")
         print(f"  source .venv/bin/activate  # On macOS/Linux")
         print(f"  # OR")
-        print(f"  .venv\\Scripts\\activate  # On Windows")
+        print(f"  .venv\\\\Scripts\\\\activate  # On Windows")
         print(f"\nThen run this script again.")
         print(f"\nAlternatively, run directly with venv Python:")
         print(f"  {venv_python} scripts/query_audit_events.py")
