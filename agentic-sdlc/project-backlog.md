@@ -88,7 +88,7 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 6.4: Implement idempotency and retry behavior](tasks/planned/task-6-4.md)
 - [ ] [Task 7: Audit trail implementation](tasks/planned/task-7.md)
   - [x] [Task 7.1: Confirm audit trail requirements](tasks/planned/task-7-1.md)
-  - [ ] [Task 7.2: Design audit event schema](tasks/planned/task-7-2.md)
+  - [x] [Task 7.2: Design audit event schema](tasks/planned/task-7-2.md)
   - [ ] [Task 7.3: Implement audit logging service](tasks/planned/task-7-3.md)
   - [ ] [Task 7.4: Integrate audit logging with tasks, attachments, and reminders](tasks/planned/task-7-4.md)
 - [ ] [Task 8: Rate limiting](tasks/planned/task-8.md)
