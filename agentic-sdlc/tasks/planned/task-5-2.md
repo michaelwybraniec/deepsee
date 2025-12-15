@@ -1,6 +1,6 @@
 # Task ID: 5.2
 # Title: Design search, filter, sort, and pagination API
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 2h
@@ -42,7 +42,7 @@ Design API query parameters and internal logic for searching by title/descriptio
 - Consider full-text search for better search performance (PostgreSQL `tsvector`, Elasticsearch, etc.) - optional enhancement.
 
 ## Dependencies
-- [ ] Task ID: 5.1 (Search/filter requirements must be confirmed)
+- [x] Task ID: 5.1 (Search/filter requirements must be confirmed)
 
 ## Testing Instructions
 - N/A for design task. Verify that the design covers all required combinations and is documented.
@@ -60,10 +60,10 @@ Design API query parameters and internal logic for searching by title/descriptio
 - Inefficient query design can cause performance problems.
 
 ## Acceptance Criteria
-- [ ] Query parameter scheme is documented (e.g. `q`, `status`, `priority`, `tags`, `due_date`, `sort`, `page`, `page_size`) with formats and examples.
-- [ ] Internal filter/sort/pagination approach is described (SQL/ORM query building, parameter handling).
-- [ ] Response format is documented (tasks array, pagination metadata).
-- [ ] Design is implementable (clear enough to code without guesswork).
+- [x] Query parameter scheme is documented (e.g. `q`, `status`, `priority`, `tags`, `due_date`, `sort`, `page`, `page_size`) with formats and examples.
+- [x] Internal filter/sort/pagination approach is described (SQL/ORM query building, parameter handling).
+- [x] Response format is documented (tasks array, pagination metadata).
+- [x] Design is implementable (clear enough to code without guesswork).
 
 ## Definition of Done
 - [ ] Design documented in code comments or a short note (file committed or documented).
@@ -79,6 +79,14 @@ Design API query parameters and internal logic for searching by title/descriptio
 ## Notes
 This decouples deciding the interface from actual coding work. The actual implementation happens in tasks 5.3 and 5.4.
 
+**Completed**: Created `backend/docs/search-filter-api-design.md` documenting:
+- Query parameters: `q` (search), `status`, `priority`, `tags`, `due_date`, `due_date_from`, `due_date_to`, `sort`, `page`, `page_size`
+- Response format with pagination metadata
+- Internal query building logic (SQLAlchemy query builder)
+- Parameter validation rules
+- Example requests and error responses
+- Security considerations (SQL injection prevention, parameter validation, pagination limits)
+
 ## Strengths
 Provides a clear contract for both backend code and frontend consumers. Ensures consistent API design before implementation.
 
@@ -93,6 +101,6 @@ Provides a clear contract for both backend code and frontend consumers. Ensures 
 - [ ] Document design (query parameters, internal logic, examples) in code comments or design doc.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
