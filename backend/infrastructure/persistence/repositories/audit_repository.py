@@ -66,6 +66,6 @@ class SQLAlchemyAuditRepository(AuditRepository):
             user_id=model.user_id,
             resource_type=model.resource_type,
             resource_id=model.resource_id,
-            metadata=model.event_metadata or {},
+            metadata=getattr(model, 'event_metadata', None) or {},
             timestamp=model.timestamp
         )

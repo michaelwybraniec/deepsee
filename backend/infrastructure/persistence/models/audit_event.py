@@ -48,13 +48,3 @@ class AuditEvent(Base):
             f"user_id={self.user_id}, resource_type={self.resource_type}, "
             f"resource_id={self.resource_id}, timestamp={self.timestamp})>"
         )
-    
-    @property
-    def metadata(self):
-        """Property to access event_metadata (for compatibility with domain entity)."""
-        return self.event_metadata
-    
-    @metadata.setter
-    def metadata(self, value):
-        """Setter for event_metadata."""
-        self.event_metadata = value
