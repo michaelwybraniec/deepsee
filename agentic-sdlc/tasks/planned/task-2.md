@@ -1,6 +1,6 @@
 # Task ID: 2
 # Title: Secure login and authorization
-# Status: [x] In Progress
+# Status: [x] Completed
 # Priority: critical
 # Owner: Backend Dev
 # Estimated Effort: 8h
