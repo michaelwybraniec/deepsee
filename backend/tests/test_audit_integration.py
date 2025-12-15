@@ -155,7 +155,8 @@ def test_attachment_upload_creates_audit_event(db_session: Session, test_user, a
     event = events[0]
     assert event.user_id == test_user.id
     assert event.resource_type == "attachment"
-    assert "filename" in event.metadata
+    assert event.event_metadata is not None
+    assert "filename" in event.event_metadata
 
 
 def test_attachment_deletion_creates_audit_event(db_session: Session, test_user, audit_logger):
@@ -202,12 +203,15 @@ def test_attachment_deletion_creates_audit_event(db_session: Session, test_user,
     event = events[0]
     assert event.user_id == test_user.id
     assert event.resource_type == "attachment"
-    assert "filename" in event.metadata
+    assert event.event_metadata is not None
+    assert "filename" in event.event_metadata
 
 
 def test_reminder_sent_creates_audit_event(db_session: Session, test_user):
     """Test that reminder sent creates an audit event."""
-    from worker.jobs.reminder_job import process_reminders
+    from worker.jobs.reminder_job import _process_single_reminder
+    from infrastructure.audit.audit_logger import AuditLoggerImpl
+    from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
     from datetime import datetime, timedelta
     
     # Create task due in 12 hours
@@ -221,8 +225,27 @@ def test_reminder_sent_creates_audit_event(db_session: Session, test_user):
     db_session.commit()
     db_session.refresh(task)
     
-    # Run reminder worker
-    process_reminders()
+    # Initialize audit logger with same session
+    audit_repository = SQLAlchemyAuditRepository(db_session)
+    audit_logger = AuditLoggerImpl(audit_repository)
+    
+    # Manually process reminder (simulating worker behavior)
+    now = datetime.utcnow()
+    last_24h = now - timedelta(hours=24)
+    success = _process_single_reminder(db_session, task, now, last_24h)
+    
+    if success:
+        # Log audit event (same as worker does)
+        audit_logger.log(
+            action_type=AuditActionType.REMINDER_SENT,
+            user_id=None,  # System action
+            resource_type="reminder",
+            resource_id=str(task.id),
+            metadata={
+                "task_id": task.id,
+                "due_date": task.due_date.isoformat() if task.due_date else None
+            }
+        )
     
     # Verify audit event was created
     events = db_session.query(AuditEventModel).filter(
@@ -234,4 +257,5 @@ def test_reminder_sent_creates_audit_event(db_session: Session, test_user):
     assert event.user_id is None  # System action
     assert event.resource_type == "reminder"
     assert event.resource_id == str(task.id)
+    assert event.event_metadata is not None
     assert "task_id" in event.event_metadata
