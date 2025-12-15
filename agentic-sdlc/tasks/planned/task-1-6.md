@@ -1,6 +1,6 @@
 # Task ID: 1.6
 # Title: Review agentic SDLC backlog coverage
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: medium
 # Owner: Full Stack Dev
 # Estimated Effort: 1h
@@ -55,7 +55,7 @@ Review `agentic-sdlc/project-backlog.md` and planned tasks to ensure they cover 
 - Document intentionally deferred requirements in backlog notes.
 
 ## Dependencies
-- [ ] Task ID: 1.5 (Architecture document must be verified)
+- [x] Task ID: 1.5 (Architecture document must be verified)
 
 ## Testing Instructions
 - Cross-check each major requirement area (auth, tasks, attachments, search/filter, notifications, audit, rate limiting, monitoring/logging, frontend, tests) against backlog tasks:
@@ -73,15 +73,15 @@ Review `agentic-sdlc/project-backlog.md` and planned tasks to ensure they cover 
 - Unmatched requirements can be missed during implementation.
 
 ## Acceptance Criteria
-- [ ] Every requirement area in `docs/requirements.md` is mapped to at least one planned task (all 11 requirement areas covered, deliverables covered).
-- [ ] All sub-requirements are covered (e.g., task CRUD covers all operations, search covers title/description, etc.).
-- [ ] Any intentionally deferred requirement is documented (deferred requirements listed with rationale).
+- [x] Every requirement area in `docs/requirements.md` is mapped to at least one planned task (all 11 requirement areas covered, deliverables covered).
+- [x] All sub-requirements are covered (e.g., task CRUD covers all operations, search covers title/description, etc.).
+- [x] Any intentionally deferred requirement is documented (deferred requirements listed with rationale).
 
 ## Definition of Done
-- [ ] Backlog updated or confirmed as complete (all requirements mapped to tasks, gaps addressed).
-- [ ] Requirement-to-task mapping verified (checklist complete, no unmatched requirements).
-- [ ] Intentionally deferred requirements documented (if any, listed with rationale).
-- [ ] All acceptance criteria met.
+- [x] Backlog updated or confirmed as complete (all requirements mapped to tasks, gaps addressed).
+- [x] Requirement-to-task mapping verified (checklist complete, no unmatched requirements).
+- [x] Intentionally deferred requirements documented (if any, listed with rationale).
+- [x] All acceptance criteria met.
 
 ## Measurable Outcomes
 - **Verification Criteria**: No unmatched requirement bullet points when comparing docs to backlog (all requirements mapped, checklist complete).
@@ -90,18 +90,38 @@ Review `agentic-sdlc/project-backlog.md` and planned tasks to ensure they cover 
 ## Notes
 This keeps your ASDLc backlog in lockstep with the written requirements. This ensures complete coverage and traceability.
 
+**Verification completed - Requirement-to-Task Mapping**:
+
+1. **Secure Login** → Task 2 (2.1-2.5): Authentication analysis, implementation, change password, authorization guards ✓
+2. **Task Management** → Task 3 (3.1-3.5): Field requirements, data model, CRUD operations ✓
+3. **Attachments** → Task 4 (4.1-4.4): Requirements, metadata/storage design, upload, list/delete ✓
+4. **Search & Filtering** → Task 5 (5.1-5.4): Requirements, API design, search, filters/sort/pagination ✓
+5. **Notifications** → Task 6 (6.1-6.4): Requirements, worker design, implementation, idempotency/retry ✓
+6. **Audit Trail** → Task 7 (7.1-7.4): Requirements, schema design, service implementation, integration ✓
+7. **Rate Limiting** → Task 8 (8.1-8.3): Requirements, strategy design, implementation/tests ✓
+8. **Monitoring & Logging** → Task 9 (9.1-9.4): Requirements, structured logging/correlation IDs, metrics, health checks ✓
+9. **Error Handling & Resilience** → Covered across multiple tasks:
+   - Centralized exception handling: Task 9.2 (structured logging), Task 10.6 (frontend error handling)
+   - Consistent error responses: Task 8.3 (rate limiting errors), Task 9.2 (structured logging)
+   - Worker restarts/retries: Task 6.4 (idempotency and retry behavior) ✓
+10. **Front-End** → Task 10 (10.1-10.6): Requirements, React setup, auth flows, task views, attachments UI, validation/error handling ✓
+11. **Tests** → Task 11 (11.1-11.2): Test requirements, implementation of all test categories ✓
+12. **Deliverables** → Task 11 (11.3-11.5): Docker Compose, Swagger/OpenAPI, architecture rationale/self-assessment ✓
+
+**All requirements mapped**: Every requirement area has corresponding tasks. Error handling is distributed across relevant tasks (6.4, 7.3, 8.3, 9.2, 10.6, 11.2) which is appropriate for cross-cutting concerns. No gaps identified.
+
 ## Strengths
 Improves traceability from requirements to implementation tasks. Ensures no requirements are missed during implementation.
 
 ## Sub-tasks (Children)
-- [ ] List requirement areas from docs (11 requirement areas: auth, tasks, attachments, search/filter, notifications, audit, rate limiting, monitoring/logging, error handling, frontend, tests, plus deliverables).
-- [ ] Review `agentic-sdlc/project-backlog.md` (read backlog, note all planned tasks 1-11 and children, map tasks to requirement areas).
-- [ ] Check each area against planned tasks 1–11 and their children (verify each requirement area covered, verify sub-requirements covered).
-- [ ] Identify coverage gaps (note unmatched requirements, note partially covered requirements).
-- [ ] Add or adjust tasks if coverage gaps are found (add new tasks, update existing tasks, document deferred requirements).
-- [ ] Verify traceability (ensure each requirement maps to task, ensure tasks reference requirement sections).
+- [x] List requirement areas from docs (11 requirement areas: auth, tasks, attachments, search/filter, notifications, audit, rate limiting, monitoring/logging, error handling, frontend, tests, plus deliverables).
+- [x] Review `agentic-sdlc/project-backlog.md` (read backlog, note all planned tasks 1-11 and children, map tasks to requirement areas).
+- [x] Check each area against planned tasks 1–11 and their children (verify each requirement area covered, verify sub-requirements covered).
+- [x] Identify coverage gaps (note unmatched requirements, note partially covered requirements).
+- [x] Add or adjust tasks if coverage gaps are found (add new tasks, update existing tasks, document deferred requirements).
+- [x] Verify traceability (ensure each requirement maps to task, ensure tasks reference requirement sections).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
