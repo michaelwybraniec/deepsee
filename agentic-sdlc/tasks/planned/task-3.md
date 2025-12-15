@@ -1,6 +1,6 @@
 # Task ID: 3
 # Title: Task management API (CRUD)
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: critical
 # Owner: Backend Dev
 # Estimated Effort: 10h
@@ -9,7 +9,7 @@
 Implement the Task management API to create, view, edit, and delete tasks with the required fields (title, description, status, priority, due date, tags) and user-friendly error handling.
 
 ## Dependencies
-- [ ] Task ID: 2
+- [x] Task ID: 2
 
 ## Testing Instructions
 - Integration tests for all CRUD operations (create, read, update, delete).
