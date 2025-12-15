@@ -15,13 +15,13 @@ Set up the React (or similar) frontend project with routing and a basic layout s
    - Use `Vite` (recommended), `create-react-app`, or `Next.js` per `docs/technology.md`.
    - Place in `frontend/` directory.
    - Install dependencies: `react` 18+, `react-router-dom` 6.20+ (or similar for routing) per `docs/technology.md`.
-3. Set up project structure:
+4. Set up project structure:
    - `frontend/src/components/` - Reusable components.
    - `frontend/src/pages/` or `frontend/src/views/` - Page components.
    - `frontend/src/services/` - API client code.
    - `frontend/src/utils/` - Helper functions.
    - `frontend/src/App.jsx` or `App.tsx` - Main app component with routing.
-4. Configure routing:
+5. Configure routing:
    - Install `react-router-dom` (or use framework routing if using Next.js).
    - Set up routes in `App.jsx`:
      - `/login` - Login page.
@@ -32,17 +32,17 @@ Set up the React (or similar) frontend project with routing and a basic layout s
      - `/tasks/:id/attachments` - Attachments section (could be part of detail page).
      - `/change-password` - Change password page.
    - Add route protection (placeholder for now, will be implemented in task 10.3).
-5. Create base layout:
+6. Create base layout:
    - Create `Layout` component with navigation (if needed) and `<Outlet />` for child routes.
    - Or use simple layout with header/footer if required.
-6. Create stub page components:
+7. Create stub page components:
    - `LoginPage.jsx` - Placeholder with "Login" heading.
    - `TaskListPage.jsx` - Placeholder with "Task List" heading.
    - `TaskDetailPage.jsx` - Placeholder with "Task Detail" heading and task ID from route params.
    - `CreateTaskPage.jsx` - Placeholder with "Create Task" heading.
    - `EditTaskPage.jsx` - Placeholder with "Edit Task" heading and task ID.
    - `ChangePasswordPage.jsx` - Placeholder with "Change Password" heading.
-7. Test routing:
+8. Test routing:
    - Start dev server (`npm start` or `npm run dev`).
    - Navigate to each route manually and verify it renders without errors.
    - Verify route parameters work (e.g., `/tasks/123` shows task ID 123).
