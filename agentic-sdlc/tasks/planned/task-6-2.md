@@ -1,6 +1,6 @@
 # Task ID: 6.2
 # Title: Design worker schedule and query
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: high
 # Owner: Backend Dev
 # Estimated Effort: 2h
@@ -43,7 +43,7 @@ Design how often the worker should run and how it queries for tasks due in the n
 - Use transaction to ensure reminder_sent_at is set atomically with reminder log entry.
 
 ## Dependencies
-- [ ] Task ID: 6.1 (Requirements analysis must be complete)
+- [x] Task ID: 6.1 (Requirements analysis must be complete)
 
 ## Testing Instructions
 - N/A for design task. Verify design describes schedule and query semantics clearly.
@@ -59,11 +59,11 @@ Design how often the worker should run and how it queries for tasks due in the n
 - Missing fault tolerance will cause worker crashes and missed reminders.
 
 ## Acceptance Criteria
-- [ ] Schedule (e.g. interval or cron) is documented with specific frequency (e.g., "every hour", "every 6 hours at :00").
-- [ ] Query definition for "due in next 24 hours" is documented with SQL/ORM example.
-- [ ] Idempotency mechanism is documented (how to prevent duplicate reminders).
-- [ ] Fault tolerance strategy is documented (error handling, restartability).
-- [ ] Design is implementable (clear enough to code without guesswork).
+- [x] Schedule (e.g. interval or cron) is documented with specific frequency (e.g., "every hour", "every 6 hours at :00").
+- [x] Query definition for "due in next 24 hours" is documented with SQL/ORM example.
+- [x] Idempotency mechanism is documented (how to prevent duplicate reminders).
+- [x] Fault tolerance strategy is documented (error handling, restartability).
+- [x] Design is implementable (clear enough to code without guesswork).
 
 ## Definition of Done
 - [ ] Worker design documented in code comments or design notes.
@@ -91,6 +91,6 @@ Provides clarity on how and when reminders are processed, ensuring idempotency a
 - [ ] Document schedule, query, idempotency, and fault tolerance in code comments or design doc.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
