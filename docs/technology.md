@@ -104,7 +104,7 @@ This document serves as a decision log for all technology choices, including rat
 ### Authentication Method
 **Decision**: JWT (recommended) or OIDC/OAuth2
 
-**Status**: To be decided during implementation (task 2.2)
+**Status**: ✅ Implemented (task 2.2) - JWT chosen
 
 **Options & Rationale**:
 
