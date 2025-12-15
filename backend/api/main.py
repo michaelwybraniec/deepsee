@@ -17,7 +17,23 @@ except ValueError as e:
 
 app = FastAPI(
     title="Task Tracker API",
-    description="Task Tracker API with authentication",
+    description="""
+    Task Tracker API - A full-stack task management application.
+    
+    Built using **Agentic Workflow Protocol (AWP)** for structured development.
+    This API provides secure authentication, task management, and file attachments.
+    
+    **Features:**
+    - JWT-based authentication
+    - Task CRUD operations
+    - File attachments
+    - Search, filtering, and pagination
+    - Background notifications
+    - Audit trail
+    - Rate limiting
+    
+    See `agentic-sdlc/AWP.md` for development workflow details.
+    """,
     version="1.0.0"
 )
 
