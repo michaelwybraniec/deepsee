@@ -30,7 +30,7 @@ class AuditEvent(Base):
     resource_id = Column(String, nullable=False)  # ID of the affected resource (as string for flexibility)
     
     # Metadata (JSON for flexibility)
-    metadata = Column(JSON, nullable=True)  # Additional context (task title, status changes, filename, etc.)
+    event_metadata = Column(JSON, nullable=True)  # Additional context (task title, status changes, filename, etc.)
     
     # Relationship
     user = relationship("User", foreign_keys=[user_id])
@@ -48,3 +48,13 @@ class AuditEvent(Base):
             f"user_id={self.user_id}, resource_type={self.resource_type}, "
             f"resource_id={self.resource_id}, timestamp={self.timestamp})>"
         )
+    
+    @property
+    def metadata(self):
+        """Property to access event_metadata (for compatibility with domain entity)."""
+        return self.event_metadata
+    
+    @metadata.setter
+    def metadata(self, value):
+        """Setter for event_metadata."""
+        self.event_metadata = value

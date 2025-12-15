@@ -20,7 +20,7 @@ This document describes the database schema and domain model for audit trail eve
 | `timestamp` | DATETIME | NO | When the event occurred (auto-set to NOW()) | Yes |
 | `resource_type` | VARCHAR | NO | Type of resource (e.g., "task", "attachment", "reminder") | Yes |
 | `resource_id` | VARCHAR | NO | ID of the affected resource (as string for flexibility) | Yes |
-| `metadata` | JSON | YES | Additional context (JSON object) | No |
+| `event_metadata` | JSON | YES | Additional context (JSON object) | No |
 
 ### Indexes
 
@@ -42,7 +42,7 @@ CREATE TABLE audit_events (
     timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     resource_type VARCHAR NOT NULL,
     resource_id VARCHAR NOT NULL,
-    metadata JSON,
+    event_metadata JSON,
     FOREIGN KEY (user_id) REFERENCES users(id),
     INDEX idx_audit_action_timestamp (action_type, timestamp),
     INDEX idx_audit_user_timestamp (user_id, timestamp),

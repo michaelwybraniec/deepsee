@@ -68,8 +68,8 @@ def test_task_creation_creates_audit_event(db_session: Session, test_user, audit
     event = events[0]
     assert event.user_id == test_user.id
     assert event.resource_type == "task"
-    assert event.metadata is not None
-    assert "title" in event.metadata
+    assert event.event_metadata is not None
+    assert "title" in event.event_metadata
 
 
 def test_task_update_creates_audit_event(db_session: Session, test_user, audit_logger):
@@ -94,7 +94,7 @@ def test_task_update_creates_audit_event(db_session: Session, test_user, audit_l
     assert event.user_id == test_user.id
     assert event.resource_type == "task"
     assert event.resource_id == str(created_task.id)
-    assert "changes" in event.metadata
+    assert "changes" in event.event_metadata
 
 
 def test_task_deletion_creates_audit_event(db_session: Session, test_user, audit_logger):
@@ -234,4 +234,4 @@ def test_reminder_sent_creates_audit_event(db_session: Session, test_user):
     assert event.user_id is None  # System action
     assert event.resource_type == "reminder"
     assert event.resource_id == str(task.id)
-    assert "task_id" in event.metadata
+    assert "task_id" in event.event_metadata

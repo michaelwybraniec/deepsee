@@ -44,7 +44,7 @@ def test_audit_logger_logs_event(db_session: Session, audit_logger: AuditLogger)
     assert event.user_id == 1
     assert event.resource_type == "task"
     assert event.resource_id == "123"
-    assert event.metadata == {"title": "Test Task", "status": "todo"}
+    assert event.event_metadata == {"title": "Test Task", "status": "todo"}
     assert event.timestamp is not None
 
 

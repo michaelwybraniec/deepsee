@@ -22,7 +22,7 @@ class SQLAlchemyAuditRepository(AuditRepository):
             user_id=event.user_id,
             resource_type=event.resource_type,
             resource_id=str(event.resource_id),
-            metadata=event.metadata,
+            event_metadata=event.metadata,
             timestamp=event.timestamp
         )
         
@@ -66,6 +66,6 @@ class SQLAlchemyAuditRepository(AuditRepository):
             user_id=model.user_id,
             resource_type=model.resource_type,
             resource_id=model.resource_id,
-            metadata=model.metadata or {},
+            metadata=model.event_metadata or {},
             timestamp=model.timestamp
         )
