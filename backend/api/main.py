@@ -24,7 +24,19 @@ app = FastAPI(
     
     Features: JWT authentication, task management, file attachments, search & filtering, notifications, audit trail.
     """,
-    version="1.0.0"
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+    # Simple, standard Swagger UI styling
+    swagger_ui_parameters={
+        "defaultModelsExpandDepth": 1,
+        "defaultModelExpandDepth": 1,
+        "docExpansion": "list",
+        "filter": True,
+        "showExtensions": True,
+        "showCommonExtensions": True,
+    }
 )
 
 # Include routers
