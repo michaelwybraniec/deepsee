@@ -110,3 +110,80 @@ async def upload_attachment_endpoint(
                 }
             }
         )
+
+
+@router.get(
+    "/tasks/{task_id}/attachments",
+    response_model=List[AttachmentResponse],
+    status_code=status.HTTP_200_OK,
+    responses={
+        401: {"description": "Unauthorized"}
+    }
+)
+def list_attachments_endpoint(
+    task_id: int,
+    current_user: User = Depends(get_current_user),
+    attachment_repository: SQLAlchemyAttachmentRepository = Depends(get_attachment_repository)
+):
+    """
+    List all attachments for a task.
+    
+    All authenticated users can view attachments (no ownership filter for reads).
+    """
+    attachments = list_attachments(attachment_repository, task_id)
+    return attachments
+
+
+@router.delete(
+    "/attachments/{attachment_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        403: {"description": "Forbidden - not the task owner"},
+        404: {"description": "Attachment not found"},
+        401: {"description": "Unauthorized"}
+    }
+)
+def delete_attachment_endpoint(
+    attachment_id: int,
+    current_user: User = Depends(get_current_user),
+    task_repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
+    attachment_repository: SQLAlchemyAttachmentRepository = Depends(get_attachment_repository),
+    storage: LocalFileStorage = Depends(get_storage)
+):
+    """
+    Delete an attachment.
+    
+    Only the task owner can delete attachments. Requires authentication.
+    """
+    try:
+        deleted = delete_attachment(
+            task_repository=task_repository,
+            attachment_repository=attachment_repository,
+            storage=storage,
+            attachment_id=attachment_id,
+            authenticated_user_id=current_user.id
+        )
+        
+        if not deleted:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail={
+                    "error": {
+                        "code": "ATTACHMENT_NOT_FOUND",
+                        "message": f"Attachment with ID {attachment_id} not found"
+                    }
+                }
+            )
+        
+        return None  # 204 No Content
+        
+    except PermissionError as e:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "error": {
+                    "code": "FORBIDDEN",
+                    "message": str(e)
+                }
+            }
+        )
