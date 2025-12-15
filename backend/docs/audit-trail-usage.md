@@ -27,30 +27,72 @@ Audit logging happens automatically - you don't need to do anything special. Whe
 - Delete an attachment → `attachment_deleted` event is logged
 - Worker sends a reminder → `reminder_sent` event is logged
 
+## Quick Start: Using the Query Script
+
+The easiest way to query audit events is using the provided script:
+
+```bash
+cd backend
+
+# Show last 20 events
+python3 scripts/query_audit_events.py
+
+# Show all task creation events
+python3 scripts/query_audit_events.py --action-type task_created
+
+# Show events for a specific user
+python3 scripts/query_audit_events.py --user-id 1
+
+# Show events for a specific task
+python3 scripts/query_audit_events.py --resource-type task --resource-id 123
+
+# Show events from last 7 days
+python3 scripts/query_audit_events.py --days 7
+
+# Show all events (no limit)
+python3 scripts/query_audit_events.py --all
+```
+
 ## Querying Audit Events
 
-### Using Python (Direct Database Access)
+### Using Python Interactively
 
-#### Get all audit events
+Start Python with the backend directory in your path:
+
+```bash
+cd backend
+python3
+```
+
+Then in Python:
 
 ```python
 from sqlalchemy.orm import Session
+from infrastructure.database import SessionLocal
 from infrastructure.persistence.models.audit_event import AuditEvent
+from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
+from domain.audit.audit_event import AuditActionType
+
+# Get database session
+db: Session = SessionLocal()
 
 # Get all events, most recent first
-events = db.query(AuditEvent).order_by(AuditEvent.timestamp.desc()).all()
+events = db.query(AuditEvent).order_by(AuditEvent.timestamp.desc()).limit(20).all()
 
 for event in events:
-    print(f"{event.timestamp} - {event.action_type} by user {event.user_id}")
+    user_info = f"user {event.user_id}" if event.user_id else "system"
+    print(f"{event.timestamp} - {event.action_type} by {user_info}")
     print(f"  Resource: {event.resource_type}:{event.resource_id}")
-    print(f"  Metadata: {event.event_metadata}")
+    if event.event_metadata:
+        print(f"  Metadata: {event.event_metadata}")
+
+# Close session
+db.close()
 ```
 
 #### Get events by action type
 
 ```python
-from domain.audit.audit_event import AuditActionType
-
 # Get all task creation events
 created_events = db.query(AuditEvent).filter(
     AuditEvent.action_type == AuditActionType.TASK_CREATED
@@ -86,6 +128,24 @@ seven_days_ago = datetime.utcnow() - timedelta(days=7)
 recent_events = db.query(AuditEvent).filter(
     AuditEvent.timestamp >= seven_days_ago
 ).order_by(AuditEvent.timestamp.desc()).all()
+```
+
+### Using the Repository Interface
+
+```python
+from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
+
+# Initialize repository
+audit_repository = SQLAlchemyAuditRepository(db_session)
+
+# Find by action type
+task_created_events = audit_repository.find_by_action_type(AuditActionType.TASK_CREATED)
+
+# Find by user ID
+user_events = audit_repository.find_by_user_id(user_id=1)
+
+# Find by resource
+task_events = audit_repository.find_by_resource("task", "123")
 ```
 
 ### Using SQLite Command Line
@@ -245,27 +305,6 @@ ORDER BY count DESC;
     "due_date": "2024-01-16T10:00:00Z"
   }
 }
-```
-
-## Using the Repository Interface
-
-If you're writing code that needs to query audit events, use the repository interface:
-
-```python
-from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
-from domain.audit.audit_event import AuditActionType
-
-# Initialize repository
-audit_repository = SQLAlchemyAuditRepository(db_session)
-
-# Find by action type
-task_created_events = audit_repository.find_by_action_type(AuditActionType.TASK_CREATED)
-
-# Find by user ID
-user_events = audit_repository.find_by_user_id(user_id=1)
-
-# Find by resource
-task_events = audit_repository.find_by_resource("task", "123")
 ```
 
 ## Common Use Cases
