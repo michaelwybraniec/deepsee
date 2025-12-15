@@ -13,7 +13,7 @@ class AppConfig:
     # API Metadata
     API_VERSION: str = os.getenv("API_VERSION", "1.0.0")
     API_TITLE: str = os.getenv("API_TITLE", "Task Tracker API")
-    API_AUTHOR: str = os.getenv("API_AUTHOR", "Michael Wybraniec")
+    API_AUTHOR: str = os.getenv("API_AUTHOR", "Michael Wybraniec (ONE-FRONT)")
     API_DESCRIPTION: str = os.getenv(
         "API_DESCRIPTION",
         """Task Tracker API - Enterprise-grade task management system.
@@ -44,7 +44,7 @@ Built following **Clean Architecture** principles with clear separation of conce
 
 ## Author
 
-Michael Wybraniec"""
+Michael Wybraniec (ONE-FRONT)"""
     )
 
 
