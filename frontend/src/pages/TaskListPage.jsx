@@ -17,7 +17,6 @@ function TaskListPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [pagination, setPagination] = useState(null);
-  const [showFilters, setShowFilters] = useState(false);
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -151,7 +150,7 @@ function TaskListPage() {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+      <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 mb-4">
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="mb-3">
           <div className="flex gap-2">
@@ -160,7 +159,7 @@ function TaskListPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tasks by title or description..."
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
             />
             <button
               type="submit"
@@ -172,102 +171,91 @@ function TaskListPage() {
           </div>
         </form>
 
-        {/* Filter Toggle */}
-        <div className="flex items-center justify-between mb-3">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
-          </button>
-          {(statusFilter || priorityFilter || tagsFilter || searchQuery) && (
+        {/* Filters - Always Visible */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Status Filter */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <select
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value);
+                handleFilterChange();
+              }}
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            >
+              <option value="">All</option>
+              <option value="todo">Todo</option>
+              <option value="in_progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+
+          {/* Priority Filter */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
+            <select
+              value={priorityFilter}
+              onChange={(e) => {
+                setPriorityFilter(e.target.value);
+                handleFilterChange();
+              }}
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            >
+              <option value="">All</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+
+          {/* Tags Filter */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
+            <input
+              type="text"
+              value={tagsFilter}
+              onChange={(e) => {
+                setTagsFilter(e.target.value);
+                handleFilterChange();
+              }}
+              placeholder="tag1, tag2"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            />
+          </div>
+
+          {/* Sort */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Sort By</label>
+            <select
+              value={sortBy}
+              onChange={(e) => {
+                setSortBy(e.target.value);
+                handleFilterChange();
+              }}
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            >
+              <option value="created_at:desc">Newest First</option>
+              <option value="created_at:asc">Oldest First</option>
+              <option value="due_date:asc">Due Date (Ascending)</option>
+              <option value="due_date:desc">Due Date (Descending)</option>
+              <option value="priority:desc">Priority (High to Low)</option>
+              <option value="priority:asc">Priority (Low to High)</option>
+              <option value="title:asc">Title (A-Z)</option>
+              <option value="title:desc">Title (Z-A)</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Clear Filters Button */}
+        {(statusFilter || priorityFilter || tagsFilter || searchQuery) && (
+          <div className="mt-3 pt-3 border-t border-gray-200">
             <button
               onClick={clearFilters}
               className="text-sm text-gray-600 hover:text-gray-900"
             >
-              Clear all
+              Clear all filters
             </button>
-          )}
-        </div>
-
-        {/* Filters */}
-        {showFilters && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3 border-t border-gray-200">
-            {/* Status Filter */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
-              <select
-                value={statusFilter}
-                onChange={(e) => {
-                  setStatusFilter(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
-              >
-                <option value="">All</option>
-                <option value="todo">Todo</option>
-                <option value="in_progress">In Progress</option>
-                <option value="done">Done</option>
-              </select>
-            </div>
-
-            {/* Priority Filter */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
-              <select
-                value={priorityFilter}
-                onChange={(e) => {
-                  setPriorityFilter(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
-              >
-                <option value="">All</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-              </select>
-            </div>
-
-            {/* Tags Filter */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
-              <input
-                type="text"
-                value={tagsFilter}
-                onChange={(e) => {
-                  setTagsFilter(e.target.value);
-                  handleFilterChange();
-                }}
-                placeholder="tag1, tag2"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
-              />
-            </div>
-
-            {/* Sort */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Sort By</label>
-              <select
-                value={sortBy}
-                onChange={(e) => {
-                  setSortBy(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
-              >
-                <option value="created_at:desc">Newest First</option>
-                <option value="created_at:asc">Oldest First</option>
-                <option value="due_date:asc">Due Date (Ascending)</option>
-                <option value="due_date:desc">Due Date (Descending)</option>
-                <option value="priority:desc">Priority (High to Low)</option>
-                <option value="priority:asc">Priority (Low to High)</option>
-                <option value="title:asc">Title (A-Z)</option>
-                <option value="title:desc">Title (Z-A)</option>
-              </select>
-            </div>
           </div>
         )}
       </div>
