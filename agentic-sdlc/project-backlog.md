@@ -107,12 +107,12 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 10.4: Implement task list, detail, and edit views](tasks/planned/task-10-4.md)
   - [x] [Task 10.5: Implement attachments UI](tasks/planned/task-10-5.md)
   - [x] [Task 10.6: Implement validation, error handling, and toasts/alerts](tasks/planned/task-10-6.md)
-- [ ] [Task 11: Testing and self-assessment](tasks/planned/task-11.md)
-  - [ ] [Task 11.1: Confirm test and deliverable requirements](tasks/planned/task-11-1.md)
-  - [ ] [Task 11.2: Implement required test categories](tasks/planned/task-11-2.md)
-  - [ ] [Task 11.3: Add Docker Compose configuration](tasks/planned/task-11-3.md)
-  - [ ] [Task 11.4: Integrate Swagger/OpenAPI documentation](tasks/planned/task-11-4.md)
-  - [ ] [Task 11.5: Write architecture rationale and self-assessment](tasks/planned/task-11-5.md)
+- [x] [Task 11: Testing and self-assessment](tasks/planned/task-11.md)
+  - [x] [Task 11.1: Confirm test and deliverable requirements](tasks/planned/task-11-1.md)
+  - [x] [Task 11.2: Implement required test categories](tasks/planned/task-11-2.md)
+  - [x] [Task 11.3: Add Docker Compose configuration](tasks/planned/task-11-3.md)
+  - [x] [Task 11.4: Integrate Swagger/OpenAPI documentation](tasks/planned/task-11-4.md)
+  - [x] [Task 11.5: Write architecture rationale and self-assessment](tasks/planned/task-11-5.md)
 
 ## Unplanned Tasks
 - [ ] [U-1: Prometheus + Grafana observability dashboards](tasks/unplanned/U-1.md)

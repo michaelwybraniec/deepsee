@@ -109,6 +109,6 @@ Provides a clear, machine-readable description of the API surface. Enables API e
 - [ ] Test API docs (access Swagger UI, verify endpoints listed, test "Try it out", verify schemas).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

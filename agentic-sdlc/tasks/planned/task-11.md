@@ -70,6 +70,6 @@ Brings the project to a shippable state with strong validation and clear documen
 - [ ] [Task 11.5: Write architecture rationale and self-assessment](task-11-5.md)
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

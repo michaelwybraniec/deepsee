@@ -122,6 +122,6 @@ Makes the application trivial to run and evaluate. Enables reviewers to test the
 - [ ] Test Docker Compose setup (run `docker compose up`, verify all services start, can communicate, basic functionality works).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
