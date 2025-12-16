@@ -34,7 +34,6 @@ This repository contains the implementation of the Task Tracker application for 
 - **[Technology Stack](docs/technology.md)** - Technology decisions and rationale
 - **[Self-Assessment](docs/self-assessment.md)** - Completion status, design choices, and trade-offs
 - **[Suggestions](docs/suggestions.md)** - Optional best practices
-- **[Unplanned Tasks Analysis](docs/unplanned-tasks-analysis.md)** - Analysis of unplanned enhancements
 
 #### Backend Documentation (`backend/docs/`)
 - **[API Documentation](backend/docs/api-documentation.md)** - Swagger/OpenAPI usage guide
