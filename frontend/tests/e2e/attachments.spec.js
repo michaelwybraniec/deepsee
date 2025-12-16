@@ -6,27 +6,31 @@ test.describe('Attachments', () => {
     await page.goto('/login');
     await page.fill('input[name="username"]', 'testuser');
     await page.fill('input[name="password"]', 'testpassword');
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(/\/tasks/, { timeout: 10000 });
+    
+    // Wait for navigation after login
+    await Promise.all([
+      page.waitForURL(/\/tasks/, { timeout: 10000 }),
+      page.click('button[type="submit"]')
+    ]);
   });
 
   test('should upload attachment to task', async ({ page }) => {
-    // Navigate to a task detail page (create one first if needed)
-    // For now, we'll create a task and then add attachment
-    
-    // Create a task
+    // Navigate to create task page
     await page.click('text=/Create Task/i');
+    await expect(page).toHaveURL(/\/tasks\/new/);
+    
+    // Fill in task form
     await page.fill('input[name="title"]', 'Task with Attachment');
     await page.fill('textarea[name="description"]', 'Test attachment upload');
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(/\/tasks/, { timeout: 10000 });
     
-    // Click on the task we just created
-    await page.click('text=Task with Attachment');
-    await expect(page).toHaveURL(/\/tasks\/\d+/);
+    // Submit and wait for navigation to task detail page
+    await Promise.all([
+      page.waitForURL(/\/tasks\/\d+/, { timeout: 10000 }),
+      page.click('button[type="submit"]')
+    ]);
     
-    // Check if attachments section exists
-    const attachmentsSection = page.locator('text=/Attachments/i');
+    // Check if attachments section exists (use heading to avoid ambiguity)
+    const attachmentsSection = page.locator('h2:has-text("Attachments")');
     await expect(attachmentsSection).toBeVisible();
     
     // Note: File upload testing requires a file - this is a basic smoke test
@@ -42,8 +46,8 @@ test.describe('Attachments', () => {
       await firstTask.click();
       await expect(page).toHaveURL(/\/tasks\/\d+/);
       
-      // Should see attachments section
-      await expect(page.locator('text=/Attachments/i')).toBeVisible();
+      // Should see attachments section (use heading to avoid ambiguity)
+      await expect(page.locator('h2:has-text("Attachments")')).toBeVisible();
     } else {
       test.skip();
     }

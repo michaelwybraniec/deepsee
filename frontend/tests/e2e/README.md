@@ -44,11 +44,18 @@ npx playwright test tests/e2e/auth.spec.js
 
 ## Test User Setup
 
-Before running tests, ensure a test user exists:
+Before running tests, ensure a test user exists. You can use the setup script:
+
 ```bash
+# From project root
+./frontend/tests/e2e/setup-test-user.sh
+
+# Or manually:
 cd backend
 .venv/bin/python3 scripts/create_user.py testuser test@example.com testpassword
 ```
+
+**Note**: If the user already exists, the script will show a warning but tests should still work.
 
 ## Configuration
 
