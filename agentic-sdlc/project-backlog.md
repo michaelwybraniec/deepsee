@@ -95,11 +95,11 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 8.1: Confirm rate limiting requirements](tasks/planned/task-8-1.md)
   - [x] [Task 8.2: Design rate limiting strategy](tasks/planned/task-8-2.md)
   - [x] [Task 8.3: Implement rate limiting and tests](tasks/planned/task-8-3.md)
-- [ ] [Task 9: Monitoring, logging, health checks](tasks/planned/task-9.md)
-  - [ ] [Task 9.1: Confirm monitoring and logging requirements](tasks/planned/task-9-1.md)
-  - [ ] [Task 9.2: Implement structured logging and correlation IDs](tasks/planned/task-9-2.md)
-  - [ ] [Task 9.3: Implement basic metrics collection](tasks/planned/task-9-3.md)
-  - [ ] [Task 9.4: Implement health check endpoints](tasks/planned/task-9-4.md)
+- [x] [Task 9: Monitoring, logging, health checks](tasks/planned/task-9.md)
+  - [x] [Task 9.1: Confirm monitoring and logging requirements](tasks/planned/task-9-1.md)
+  - [x] [Task 9.2: Implement structured logging and correlation IDs](tasks/planned/task-9-2.md)
+  - [x] [Task 9.3: Implement basic metrics collection](tasks/planned/task-9-3.md)
+  - [x] [Task 9.4: Implement health check endpoints](tasks/planned/task-9-4.md)
 - [ ] [Task 10: React frontend](tasks/planned/task-10.md)
   - [ ] [Task 10.1: Confirm frontend requirements](tasks/planned/task-10-1.md)
   - [ ] [Task 10.2: Set up React project and routing](tasks/planned/task-10-2.md)
@@ -115,7 +115,15 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [ ] [Task 11.5: Write architecture rationale and self-assessment](tasks/planned/task-11-5.md)
 
 ## Unplanned Tasks
-- _None yet. Any scope beyond `docs/requirements.md` should be tracked here with `U-` IDs._
+- [ ] [U-1: Prometheus + Grafana observability dashboards](tasks/unplanned/U-1.md)
+  - Set up Prometheus server with scrape config for `/api/metrics`
+  - Create Grafana dashboard with must-have panels:
+    - Request volume (requests/sec) from `http_requests_total`
+    - Error rate (%) from `http_errors_total` / `http_requests_total`
+    - Latency (p50/p95) from `http_request_duration_seconds`
+    - Reminders processed (success/failure) from `reminders_processed_total`
+  - Add docker-compose configuration for Prometheus + Grafana
+  - Document dashboard usage and configuration
 
 ## Completed Tasks
 - [x] [Task 1: Project environment and documentation](tasks/planned/task-1.md)
@@ -126,5 +134,6 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 - [x] [Task 6: Notifications worker for due tasks](tasks/planned/task-6.md)
 - [x] [Task 7: Audit trail implementation](tasks/planned/task-7.md)
 - [x] [Task 8: Rate limiting](tasks/planned/task-8.md)
+- [x] [Task 9: Monitoring, logging, health checks](tasks/planned/task-9.md)
 
 
