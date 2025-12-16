@@ -81,69 +81,69 @@ function TaskListPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
-        <h1 className="text-2xl font-semibold text-gray-900">Tasks</h1>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">Tasks</h1>
         <Link
           to="/tasks/new"
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
+          className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors inline-flex items-center justify-center"
         >
           Create Task
         </Link>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-600 mb-4">No tasks found.</p>
+        <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+          <p className="text-gray-600 mb-4 text-lg">No tasks found.</p>
           <Link
             to="/tasks/new"
-            className="text-blue-600 hover:text-blue-800 underline"
+            className="text-blue-600 hover:text-blue-700 font-medium underline"
           >
             Create your first task
           </Link>
         </div>
       ) : (
-        <div className="border border-gray-200 rounded divide-y divide-gray-200">
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm divide-y divide-gray-200">
           {tasks.map((task) => (
             <div
               key={task.id}
               onClick={() => navigate(`/tasks/${task.id}`)}
-              className="block hover:bg-gray-50 cursor-pointer p-4"
+              className="block hover:bg-gray-50 cursor-pointer p-5 transition-colors"
             >
-              <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <p className="text-base font-medium text-gray-900">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <p className="text-lg font-semibold text-gray-900">
                       {task.title}
                     </p>
                     {task.status && (
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(task.status)}`}
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
                       >
                         {task.status}
                       </span>
                     )}
                     {task.priority && (
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getPriorityColor(task.priority)}`}
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}
                       >
                         {task.priority}
                       </span>
                     )}
                   </div>
                   {task.description && (
-                    <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+                    <p className="text-sm text-gray-600 line-clamp-2 mb-3">
                       {task.description}
                     </p>
                   )}
                   <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                    <span>Due: {formatDate(task.due_date)}</span>
+                    <span className="font-medium">Due: {formatDate(task.due_date)}</span>
                     {task.tags && task.tags.length > 0 && (
                       <span>• Tags: {task.tags.join(', ')}</span>
                     )}
                   </div>
                 </div>
                 <svg
-                  className="h-5 w-5 text-gray-400 flex-shrink-0"
+                  className="h-5 w-5 text-gray-400 flex-shrink-0 mt-1"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

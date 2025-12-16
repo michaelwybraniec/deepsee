@@ -79,17 +79,17 @@ function ChangePasswordPage() {
 
   return (
     <div className="max-w-md">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-4">Change Password</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Change Password</h1>
       
       {success && (
-        <div className="bg-green-50 border border-green-200 rounded p-4 mb-4">
-          <div className="text-sm text-green-800">
+        <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
+          <div className="text-sm text-green-800 font-medium">
             Password changed successfully! Redirecting...
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-5">
         {error && (
           <div className="bg-red-50 border border-red-200 rounded p-4">
             <div className="text-sm text-red-800">{error}</div>

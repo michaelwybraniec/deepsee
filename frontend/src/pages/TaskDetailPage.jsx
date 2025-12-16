@@ -96,21 +96,21 @@ function TaskDetailPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
-        <h1 className="text-2xl font-semibold text-gray-900">{task.title}</h1>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">{task.title}</h1>
         <div className="flex flex-wrap gap-2">
           {isOwner && (
             <>
               <Link
                 to={`/tasks/${task.id}/edit`}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
+                className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Edit
               </Link>
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                className="px-5 py-2.5 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {deleting ? 'Deleting...' : 'Delete'}
               </button>
@@ -118,7 +118,7 @@ function TaskDetailPage() {
           )}
           <Link
             to="/tasks"
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm font-medium"
+            className="px-5 py-2.5 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
           >
             Back
           </Link>
@@ -126,59 +126,59 @@ function TaskDetailPage() {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded p-4 mb-4">
-          <div className="text-sm text-red-800">{error}</div>
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+          <div className="text-sm text-red-800 font-medium">{error}</div>
         </div>
       )}
 
-      <div className="border border-gray-200 rounded p-4 mb-4">
-        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 mb-6">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <dt className="text-sm font-medium text-gray-500 mb-1">Status</dt>
-            <dd className="text-sm text-gray-900">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Status</dt>
+            <dd className="text-base font-medium text-gray-900">
               {task.status || 'Not set'}
             </dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500 mb-1">Priority</dt>
-            <dd className="text-sm text-gray-900">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Priority</dt>
+            <dd className="text-base font-medium text-gray-900">
               {task.priority || 'Not set'}
             </dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500 mb-1">Due Date</dt>
-            <dd className="text-sm text-gray-900">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Due Date</dt>
+            <dd className="text-base font-medium text-gray-900">
               {formatDate(task.due_date)}
             </dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500 mb-1">Tags</dt>
-            <dd className="text-sm text-gray-900">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Tags</dt>
+            <dd className="text-base font-medium text-gray-900">
               {task.tags && task.tags.length > 0 ? task.tags.join(', ') : 'No tags'}
             </dd>
           </div>
           <div className="sm:col-span-2">
-            <dt className="text-sm font-medium text-gray-500 mb-1">Description</dt>
-            <dd className="text-sm text-gray-900 whitespace-pre-wrap">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Description</dt>
+            <dd className="text-base text-gray-900 whitespace-pre-wrap leading-relaxed">
               {task.description || 'No description'}
             </dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500 mb-1">Created</dt>
-            <dd className="text-sm text-gray-900">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Created</dt>
+            <dd className="text-sm text-gray-600">
               {formatDate(task.created_at)}
             </dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500 mb-1">Last Updated</dt>
-            <dd className="text-sm text-gray-900">
+            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Last Updated</dt>
+            <dd className="text-sm text-gray-600">
               {formatDate(task.updated_at)}
             </dd>
           </div>
         </dl>
       </div>
 
-      <div className="mt-4">
+      <div>
         <AttachmentsSection taskId={task.id} isOwner={isOwner} />
       </div>
     </div>

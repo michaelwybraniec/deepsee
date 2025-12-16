@@ -93,9 +93,9 @@ function AttachmentsSection({ taskId, isOwner }) {
   };
 
   return (
-    <div className="border border-gray-200 rounded p-4">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Attachments</h2>
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <h2 className="text-xl font-bold text-gray-900">Attachments</h2>
         {isOwner && (
           <div>
             <input
@@ -108,7 +108,7 @@ function AttachmentsSection({ taskId, isOwner }) {
             />
             <label
               htmlFor="file-upload"
-              className={`inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {uploading ? 'Uploading...' : 'Upload File'}
             </label>
@@ -117,21 +117,21 @@ function AttachmentsSection({ taskId, isOwner }) {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded p-3 mb-4">
-          <div className="text-sm text-red-800">{error}</div>
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+          <div className="text-sm text-red-800 font-medium">{error}</div>
         </div>
       )}
 
       {loading ? (
         <div className="text-sm text-gray-600">Loading attachments...</div>
       ) : attachments.length === 0 ? (
-        <div className="text-sm text-gray-500">No attachments</div>
+        <div className="text-sm text-gray-500 text-center py-8">No attachments</div>
       ) : (
         <ul className="divide-y divide-gray-200">
           {attachments.map((attachment) => (
-            <li key={attachment.id} className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <li key={attachment.id} className="py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm font-semibold text-gray-900 truncate mb-1">
                   {attachment.file_name}
                 </p>
                 <p className="text-xs text-gray-500">
@@ -141,7 +141,7 @@ function AttachmentsSection({ taskId, isOwner }) {
               {isOwner && (
                 <button
                   onClick={() => handleDelete(attachment.id)}
-                  className="px-3 py-1 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
                 >
                   Delete
                 </button>
