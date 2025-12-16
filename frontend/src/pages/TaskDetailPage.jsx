@@ -132,9 +132,9 @@ function TaskDetailPage() {
       )}
 
       {/* Single Card Layout */}
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-6">
         {task.description && (
-          <div className="mb-6 pb-6 border-b border-gray-200">
+          <div>
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Description</h2>
             <p className="text-base text-gray-900 whitespace-pre-wrap leading-relaxed">
               {task.description}
@@ -142,7 +142,7 @@ function TaskDetailPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 pb-6 border-b border-gray-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Status</dt>
             <dd className="text-base font-medium text-gray-900">
@@ -167,9 +167,6 @@ function TaskDetailPage() {
               {task.tags && task.tags.length > 0 ? task.tags.join(', ') : 'No tags'}
             </dd>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 pb-6 border-b border-gray-200">
           <div>
             <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Created</dt>
             <dd className="text-sm text-gray-600">
@@ -185,7 +182,7 @@ function TaskDetailPage() {
         </div>
 
         {/* Attachments inside the card */}
-        <div>
+        <div className="border-t border-gray-200 pt-6">
           <AttachmentsSection taskId={task.id} isOwner={isOwner} />
         </div>
       </div>
