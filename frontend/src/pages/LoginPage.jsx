@@ -69,7 +69,7 @@ function LoginPage() {
               name="username"
               type="text"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -85,7 +85,7 @@ function LoginPage() {
               name="password"
               type="password"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
