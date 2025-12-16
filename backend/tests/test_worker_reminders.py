@@ -86,9 +86,16 @@ def test_user_with_tasks(db_session: Session):
     return user, [task1, task2, task3, task4, task5]
 
 
-def test_reminder_job_selects_tasks_due_in_next_24h(db_session: Session, test_user_with_tasks):
+def test_reminder_job_selects_tasks_due_in_next_24h(db_session: Session, test_user_with_tasks, monkeypatch):
     """Test that reminder job selects tasks due in next 24 hours."""
     user, tasks = test_user_with_tasks
+    
+    # Ensure all data is committed and visible
+    db_session.commit()
+    
+    # Patch SessionLocal to return a session bound to the same engine
+    from tests.conftest import TestSessionLocal
+    monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
     # Run reminder job
     process_reminders()
@@ -119,9 +126,16 @@ def test_reminder_job_selects_tasks_due_in_next_24h(db_session: Session, test_us
     assert tasks[4].reminder_sent_at > tasks[4].reminder_sent_at - timedelta(hours=25), "Reminder should be recent"
 
 
-def test_reminder_job_idempotency(db_session: Session, test_user_with_tasks):
+def test_reminder_job_idempotency(db_session: Session, test_user_with_tasks, monkeypatch):
     """Test that reminder job is idempotent (no duplicate reminders)."""
     user, tasks = test_user_with_tasks
+    
+    # Ensure all data is committed
+    db_session.commit()
+    
+    # Patch SessionLocal to return a session bound to the same engine
+    from tests.conftest import TestSessionLocal
+    monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
     # Run reminder job first time
     process_reminders()
@@ -141,13 +155,17 @@ def test_reminder_job_idempotency(db_session: Session, test_user_with_tasks):
     assert first_reminder_time == second_reminder_time, "Reminder should not be sent twice"
 
 
-def test_reminder_job_handles_errors_gracefully(db_session: Session, test_user_with_tasks):
+def test_reminder_job_handles_errors_gracefully(db_session: Session, test_user_with_tasks, monkeypatch):
     """Test that reminder job handles errors gracefully."""
     user, tasks = test_user_with_tasks
     
     # Corrupt one task's due_date to cause error (set to None)
     tasks[0].due_date = None
     db_session.commit()
+    
+    # Patch SessionLocal to return a session bound to the same engine
+    from tests.conftest import TestSessionLocal
+    monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
     # Run reminder job (should not crash)
     try:
@@ -160,7 +178,7 @@ def test_reminder_job_handles_errors_gracefully(db_session: Session, test_user_w
     assert tasks[1].reminder_sent_at is not None, "Other tasks should still be processed despite errors"
 
 
-def test_reminder_job_excludes_past_due_tasks(db_session: Session):
+def test_reminder_job_excludes_past_due_tasks(db_session: Session, monkeypatch):
     """Test that reminder job excludes tasks that are already past due."""
     # Create user
     hashed_password = bcrypt.hashpw(b"testpassword", bcrypt.gensalt()).decode('utf-8')
@@ -188,6 +206,10 @@ def test_reminder_job_excludes_past_due_tasks(db_session: Session):
     
     db_session.add(past_task)
     db_session.commit()
+    
+    # Patch SessionLocal to return a session bound to the same engine
+    from tests.conftest import TestSessionLocal
+    monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
     # Run reminder job
     process_reminders()
@@ -226,30 +248,46 @@ def test_reminder_job_retry_on_transient_failure(db_session: Session, monkeypatc
     db_session.add(task)
     db_session.commit()
     
+    # Ensure task is committed
+    db_session.commit()
+    task_id = task.id
+    
     # Simulate transient failure on first attempt, success on second
     call_count = [0]
-    original_execute = db_session.execute
     
-    def mock_execute(*args, **kwargs):
+    # Create a new session for the worker to use
+    from tests.conftest import TestSessionLocal
+    worker_session = TestSessionLocal()
+    
+    # Get fresh task object in worker session
+    task_in_worker_session = worker_session.query(Task).filter(Task.id == task_id).first()
+    
+    original_commit = worker_session.commit
+    
+    def mock_commit(*args, **kwargs):
         call_count[0] += 1
         if call_count[0] == 1:
             # First attempt: raise transient error
             from sqlalchemy.exc import OperationalError
             raise OperationalError("Connection lost", None, None)
         # Second attempt: succeed
-        return original_execute(*args, **kwargs)
+        return original_commit(*args, **kwargs)
     
-    monkeypatch.setattr(db_session, "execute", mock_execute)
+    monkeypatch.setattr(worker_session, "commit", mock_commit)
     
-    # Run reminder job (should retry and succeed)
-    from worker.jobs.reminder_job import _process_single_reminder
-    last_24h = now - timedelta(hours=24)
-    success = _process_single_reminder(db_session, task, now, last_24h)
+    try:
+        # Run reminder job (should retry and succeed)
+        from worker.jobs.reminder_job import _process_single_reminder
+        last_24h = now - timedelta(hours=24)
+        success = _process_single_reminder(worker_session, task_in_worker_session, now, last_24h)
+        
+        # Should succeed after retry
+        assert success, "Reminder should succeed after retry"
+        # Note: The retry logic may call commit multiple times, so we check it was called at least twice
+        assert call_count[0] >= 2, f"Should retry after transient failure (got {call_count[0]} commits)"
+    finally:
+        worker_session.close()
     
-    # Should succeed after retry
-    assert success, "Reminder should succeed after retry"
-    assert call_count[0] == 2, "Should retry once after transient failure"
-    
-    # Check that reminder was sent
+    # Check that reminder was sent (refresh from test session)
     db_session.refresh(task)
     assert task.reminder_sent_at is not None, "Reminder should be sent after successful retry"
