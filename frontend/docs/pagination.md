@@ -1,23 +1,13 @@
-# Pagination Feature
+# Pagination
 
-**Implementation**: `src/pages/TaskListPage.jsx` (pagination state and controls)
+**File**: `src/pages/TaskListPage.jsx`
 
-## Features
+## Configuration
 
-- **Page Navigation**: Navigate between pages with Previous/Next buttons
-- **Page Size**: Configurable items per page (default: 20)
-- **Page Numbers**: Display current page and total pages
-- **Item Count**: Show total number of tasks
-- **Top & Bottom Controls**: Pagination controls at both top and bottom of task list
-
-## Implementation Details
-
-- **Backend Integration**: Uses backend pagination API
-- **State Management**: Page and pageSize stored in component state
+- **Default Page Size**: 20 items per page
 - **Auto-reset**: Page resets to 1 when filters change
-- **Pagination Data**: Received from backend API response
 
-## Pagination Response Format
+## API Response Format
 
 ```json
 {
@@ -31,7 +21,6 @@
 }
 ```
 
-## Related Documentation
+## Related
 
 - [Backend Search & Filter API](../backend/docs/search-filter-api-design.md#pagination)
-- [All Features](../README.md#features) - See README for complete feature list

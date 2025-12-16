@@ -1,38 +1,27 @@
-# Search & Filtering Feature
+# Search & Filtering
 
-**Implementation**: `src/pages/TaskListPage.jsx` (search and filter state management)
+**File**: `src/pages/TaskListPage.jsx`
 
-## Features
+## Performance
 
-- **Text Search**: Search by title and description (partial matching)
-- **Status Filter**: Filter by task status (pending, in_progress, done)
-- **Priority Filter**: Filter by priority (low, medium, high)
-- **Tag Filter**: Filter by tags (case-insensitive partial matching)
-- **Due Date Range**: Filter by due date range (from/to dates)
-- **My Tasks Filter**: Show only tasks owned by current user
-- **Clear Filters**: One-click filter reset
+- **Debounce**: 500ms debounce for search and tag filter inputs (reduces API calls)
 
-## Implementation Details
+## Filter Options
 
-- **Debounced Search**: 500ms debounce for search and tag filter inputs
-- **Combined Filters**: Multiple filters can be applied simultaneously
-- **URL State**: Filters persist in component state (can be enhanced with URL params)
-- **Real-time Updates**: Task list updates automatically when filters change
+- **Text Search**: `q` parameter (searches title and description)
+- **Status**: `status` parameter
+- **Priority**: `priority` parameter
+- **Tags**: `tags` parameter (comma-separated, case-insensitive partial match)
+- **Due Date Range**: `due_date_from`, `due_date_to` parameters
+- **My Tasks**: `owner_user_id` parameter
 
-## API Integration
+## API Parameters
 
-- Uses backend search/filter API endpoints
-- Supports all backend filter parameters:
-  - `q`: Search query (title/description)
-  - `status`: Status filter
-  - `priority`: Priority filter
-  - `tags`: Tag filter (comma-separated)
-  - `due_date_from`: Start date
-  - `due_date_to`: End date
-  - `owner_user_id`: Filter by owner
+All filters are passed as query parameters to `GET /api/tasks`:
+```
+?q=search&status=in_progress&priority=high&tags=urgent&due_date_from=2024-01-01&owner_user_id=1
+```
 
-## Related Documentation
+## Related
 
 - [Backend Search & Filter API](../backend/docs/search-filter-api-design.md)
-- [Backend Tag Filtering](../backend/docs/tag-filtering-partial-match.md)
-- [All Features](../README.md#features) - See README for complete feature list

@@ -1,45 +1,25 @@
-# Validation Feature
+# Validation
 
-**Implementation**: All form components (`src/pages/*.jsx`)
-
-## Features
-
-- **Required Fields**: Validation for required form fields
-- **Field Format**: Validation for email, date, password formats
-- **Password Strength**: Minimum length and match validation
-- **File Validation**: File size and type validation
-- **Inline Errors**: Error messages displayed next to fields
-- **Form Submission**: Prevents submission if validation fails
+**Files**: All form components in `src/pages/*.jsx`
 
 ## Validation Rules
 
-### Authentication Forms
+### Authentication
 - **Username**: Required, trimmed
 - **Password**: Required, minimum 8 characters
-- **Email**: Valid email format (for registration)
+- **Email**: Valid email format (registration)
 - **Password Confirmation**: Must match new password
 - **New Password**: Must be different from current password
 
-### Task Forms
+### Tasks
 - **Title**: Required, non-empty after trim
-- **Description**: Optional
-- **Status**: Must be valid status value
-- **Priority**: Must be valid priority value
-- **Due Date**: Valid date format
-- **Tags**: Optional, comma-separated
+- **Status/Priority**: Valid enum values (enforced by dropdowns)
 
-### Attachment Forms
+### Attachments
 - **File Size**: Maximum 10MB per file
-- **File Selection**: At least one file selected (if uploading)
 
-## Implementation Details
+## Implementation
 
-- **Client-side Only**: Validation performed before API calls
-- **User-friendly Messages**: Clear, actionable error messages
-- **Real-time Feedback**: Validation errors shown as user types/submits
+- **Client-side Only**: Validation before API calls
 - **Backend Validation**: Backend also validates (double-check)
-
-## Related Documentation
-
-- [Frontend Requirements - Validation](frontend-requirements.md#3-client-side-validation)
-- [All Features](../README.md#features) - See README for complete feature list
+- **Error Display**: Inline error messages below form fields

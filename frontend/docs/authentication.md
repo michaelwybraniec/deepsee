@@ -1,25 +1,26 @@
-# Authentication Feature
+# Authentication
 
-**Implementation**: `src/pages/LoginPage.jsx`, `src/pages/RegisterPage.jsx`, `src/pages/ChangePasswordPage.jsx`, `src/contexts/AuthContext.jsx`
+**Files**: `src/pages/LoginPage.jsx`, `src/pages/RegisterPage.jsx`, `src/pages/ChangePasswordPage.jsx`, `src/contexts/AuthContext.jsx`
 
-## Features
+## Security
 
-- **Login**: User authentication with username and password
-- **Registration**: New user account creation
-- **Change Password**: Update user password with validation
-- **Token Management**: JWT token storage in localStorage
-- **Protected Routes**: Automatic redirect to login for unauthenticated users
-- **Session Persistence**: User session maintained across page refreshes
+- **Token Storage**: JWT tokens stored in `localStorage` (see [Security Considerations](#security-considerations))
+- **Protected Routes**: All task management routes require authentication via `ProtectedRoute` component
+- **Auto-logout**: Automatic logout on 401 responses (token expired/invalid)
 
-## Implementation Details
+## Key Components
 
-- **AuthContext**: Global authentication state management
-- **ProtectedRoute Component**: Route guard for authenticated pages
-- **API Integration**: JWT token included in all API requests
-- **Auto-logout**: Automatic logout on 401 responses
+- **AuthContext**: Global authentication state (`src/contexts/AuthContext.jsx`)
+- **ProtectedRoute**: Route guard component (`src/components/ProtectedRoute.jsx`)
 
-## Related Documentation
+## Security Considerations
 
-- [Frontend Requirements - Authentication](frontend-requirements.md#21-login-page)
-- [Backend Auth Documentation](../backend/docs/auth-requirements.md)
-- [All Features](../README.md#features) - See README for complete feature list
+**Token Storage**: Currently uses `localStorage` for JWT tokens. For production with XSS concerns, consider:
+- HTTP-only cookies (requires backend changes)
+- Token refresh mechanism
+- Secure token expiration handling
+
+## Related
+
+- [Backend Auth](../backend/docs/auth-requirements.md)
+- [Routing](routing.md) - Protected route implementation

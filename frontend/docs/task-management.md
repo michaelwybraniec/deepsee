@@ -1,33 +1,30 @@
-# Task Management Feature
+# Task Management
 
-**Implementation**: `src/pages/TaskListPage.jsx`, `src/pages/TaskDetailPage.jsx`, `src/pages/CreateTaskPage.jsx`, `src/pages/EditTaskPage.jsx`, `src/services/taskApi.js`
-
-## Features
-
-- **Create Tasks**: Full form with all task fields (title, description, status, priority, due date, tags)
-- **View Tasks**: List view with key information and detailed view with all fields
-- **Edit Tasks**: Update existing tasks with pre-populated forms
-- **Delete Tasks**: Delete with confirmation dialog
-- **Task Ownership**: Users can only manage their own tasks (enforced by backend)
+**Files**: `src/pages/TaskListPage.jsx`, `src/pages/TaskDetailPage.jsx`, `src/pages/CreateTaskPage.jsx`, `src/pages/EditTaskPage.jsx`, `src/services/taskApi.js`
 
 ## Task Fields
 
-- **Title**: Required, text input
-- **Description**: Optional, textarea
-- **Status**: Dropdown (pending, in_progress, done)
-- **Priority**: Dropdown (low, medium, high)
+- **Title**: Required
+- **Description**: Optional
+- **Status**: `pending`, `in_progress`, `done`
+- **Priority**: `low`, `medium`, `high`
 - **Due Date**: Date picker
-- **Tags**: Comma-separated text input
+- **Tags**: Comma-separated string
 
-## Implementation Details
+## Security
 
-- **CRUD Operations**: Complete Create, Read, Update, Delete functionality
-- **Real-time Updates**: Task list refreshes after create/update/delete
-- **Navigation**: Seamless navigation between list, detail, create, and edit views
-- **Error Handling**: User-friendly error messages for all operations
+- **Ownership**: Users can only edit/delete their own tasks (enforced by backend)
+- Frontend shows edit/delete buttons only for owned tasks
 
-## Related Documentation
+## API Service
 
-- [Frontend Requirements - Task Views](frontend-requirements.md#22-task-list-view)
+All task operations use `src/services/taskApi.js`:
+- `getTasks(params)` - List with search/filter/sort/pagination
+- `getTask(id)` - Get single task
+- `createTask(data)` - Create new task
+- `updateTask(id, data)` - Update task
+- `deleteTask(id)` - Delete task
+
+## Related
+
 - [Backend Task API](../backend/docs/task-model.md)
-- [All Features](../README.md#features) - See README for complete feature list

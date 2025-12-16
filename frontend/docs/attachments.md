@@ -1,32 +1,24 @@
-# Attachments Feature
+# Attachments
 
-**Implementation**: `src/components/AttachmentsSection.jsx`, `src/services/attachmentApi.js`, `src/pages/CreateTaskPage.jsx`, `src/pages/EditTaskPage.jsx`
+**Files**: `src/components/AttachmentsSection.jsx`, `src/services/attachmentApi.js`
 
-## Features
+## Limits
 
-- **Upload Attachments**: Upload files when creating or editing tasks
-- **View Attachments**: Display attachment list on task detail page
-- **Delete Attachments**: Remove attachments from tasks
-- **File Information**: Display file name and size
-- **Download**: Download attachment files
+- **File Size**: 10MB maximum per file (client-side validation)
+- **File Types**: All file types accepted
 
-## Implementation Details
+## Security
 
-- **File Size Limit**: 10MB maximum per file
-- **Multiple Files**: Support for multiple file uploads
-- **Client-side Validation**: File size validation before upload
-- **Upload Progress**: Visual feedback during upload
-- **File Types**: Accepts all file types (no restriction)
+- **Client-side Validation**: File size checked before upload (10MB limit)
+- **Backend Validation**: Backend also enforces limits (double-check)
 
-## Attachment Management
+## Usage
 
-- **Create Task**: Attachments can be uploaded during task creation
-- **Edit Task**: Attachments can be added when editing tasks
-- **Task Detail**: Full attachment management interface
-- **Delete Confirmation**: Confirmation dialog before deletion
+Attachments can be uploaded:
+- During task creation (`CreateTaskPage`)
+- When editing tasks (`EditTaskPage`)
+- From task detail page (`AttachmentsSection` component)
 
-## Related Documentation
+## Related
 
-- [Frontend Requirements - Attachments](frontend-requirements.md#26-attachments-section)
 - [Backend Attachment API](../backend/docs/attachment-design.md)
-- [All Features](../README.md#features) - See README for complete feature list
