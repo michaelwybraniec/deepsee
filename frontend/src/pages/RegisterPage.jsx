@@ -79,17 +79,22 @@ function RegisterPage() {
         }
       }
     } catch (err) {
-      // Handle error response structure: {error: {code, message}} or {detail: string}
+      // Handle error response structure: {detail: {error: {code, message}}} or {detail: string}
       let errorMsg = 'Registration failed. Please try again.';
       
       if (err.response?.data) {
         const data = err.response.data;
-        // Check for nested error object
-        if (data.error && typeof data.error === 'object' && data.error.message) {
+        // Check for nested error object: data.detail.error.message
+        if (data.detail) {
+          if (typeof data.detail === 'object' && data.detail.error && data.detail.error.message) {
+            errorMsg = data.detail.error.message;
+          } else if (typeof data.detail === 'string') {
+            errorMsg = data.detail;
+          } else if (data.detail.message) {
+            errorMsg = data.detail.message;
+          }
+        } else if (data.error && typeof data.error === 'object' && data.error.message) {
           errorMsg = data.error.message;
-        } else if (data.detail) {
-          // Handle both string and object detail
-          errorMsg = typeof data.detail === 'string' ? data.detail : data.detail.message || errorMsg;
         } else if (typeof data === 'string') {
           errorMsg = data;
         }
