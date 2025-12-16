@@ -52,12 +52,9 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8 space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900">
             Task Tracker
           </h1>
-          <h2 className="text-lg text-gray-600 font-medium">
-            Login
-          </h2>
         </div>
         <form className="space-y-5" onSubmit={handleSubmit}>
           {error && (
