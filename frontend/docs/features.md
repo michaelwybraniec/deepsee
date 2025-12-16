@@ -384,9 +384,22 @@ This document provides detailed documentation for all frontend features implemen
 
 ---
 
+## Important README Sections
+
+The [Frontend README](../README.md) contains important information that complements this features documentation:
+
+- **[Technology Stack](../README.md#technology-stack)** - Complete list of technologies used (React, Vite, Tailwind CSS, etc.)
+- **[Project Structure](../README.md#project-structure)** - Directory structure and file organization
+- **[Available Scripts](../README.md#available-scripts)** - All npm scripts (dev, build, test, lint)
+- **[Configuration](../README.md#configuration)** - Environment variables and API configuration
+- **[Testing](../README.md#testing)** - E2E test setup, prerequisites, and test coverage
+- **[Quick Reference](../README.md#quick-reference)** - Common commands and access URLs
+- **[Development Setup](../README.md#development)** - First-time setup and user creation instructions
+
 ## Related Documentation
 
 - [Frontend Requirements](frontend-requirements.md) - Complete frontend requirements
 - [Task 10 Review](task-10-review.md) - Implementation review and verification
 - [Backend API Documentation](../backend/docs/README.md) - Backend API reference
 - [E2E Tests](../tests/e2e/README.md) - End-to-end test documentation
+- [Frontend README](../README.md) - Main frontend documentation with setup and usage
