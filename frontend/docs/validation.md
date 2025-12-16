@@ -42,5 +42,4 @@
 ## Related Documentation
 
 - [Frontend Requirements - Validation](frontend-requirements.md#3-client-side-validation)
-- [Task 10 Review - Validation](task-10-review.md#validation-and-error-handling)
 - [All Features](../README.md#features) - See README for complete feature list
