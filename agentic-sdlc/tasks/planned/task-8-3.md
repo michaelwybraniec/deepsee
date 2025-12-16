@@ -1,6 +1,6 @@
 # Task ID: 8.3
 # Title: Implement rate limiting and tests
-# Status: [ ] Pending
+# Status: [x] Completed
 # Priority: medium
 # Owner: Backend Dev
 # Estimated Effort: 4h
@@ -51,7 +51,7 @@ Implement rate limiting checks at the API boundary according to the chosen strat
 - Use dependency injection for rate limiter service (inject into middleware).
 
 ## Dependencies
-- [ ] Task ID: 8.2 (Rate limiting design must be complete)
+- [x] Task ID: 8.2 (Rate limiting design must be complete)
 
 ## Testing Instructions
 - Integration tests (API + Redis):
@@ -73,11 +73,11 @@ Implement rate limiting checks at the API boundary according to the chosen strat
 - Race conditions in counter increment may cause inaccurate limits.
 
 ## Acceptance Criteria
-- [ ] Rate limiting checks integrated into appropriate API endpoints (middleware applied to all or specific endpoints).
-- [ ] Rate limiting uses correct limit key (user ID or IP per design from task 8.2).
-- [ ] Exceeded limits return clear error responses (429 status, error message, retry_after header).
-- [ ] Rate limiting uses fixed window counter algorithm (or chosen algorithm from task 8.2).
-- [ ] Integration tests for typical and abusive patterns are passing (normal rates succeed, bursts trigger limits, error response correct).
+- [x] Rate limiting checks integrated into appropriate API endpoints (middleware applied to all or specific endpoints).
+- [x] Rate limiting uses correct limit key (user ID or IP per design from task 8.2).
+- [x] Exceeded limits return clear error responses (429 status, error message, retry_after header).
+- [x] Rate limiting uses fixed window counter algorithm (or chosen algorithm from task 8.2).
+- [x] Integration tests for typical and abusive patterns are passing (normal rates succeed, bursts trigger limits, error response correct).
 
 ## Definition of Done
 - [ ] Implementation added to API layer (rate limiting middleware and service).
@@ -94,6 +94,17 @@ Implement rate limiting checks at the API boundary according to the chosen strat
 ## Notes
 Fulfills the "Rate Limiting" requirement from the assignment. This task implements the design from task 8.2.
 
+**Completed**: 
+- Created Redis client (`backend/infrastructure/rate_limiting/redis_client.py`)
+- Implemented rate limiter service with fixed window counter (`backend/infrastructure/rate_limiting/rate_limiter.py`)
+- Created rate limiting middleware (`backend/api/middleware/rate_limiting.py`)
+- Integrated middleware into FastAPI app
+- Added comprehensive tests (`backend/tests/test_rate_limiting.py`)
+- Added Redis dependency to requirements.txt
+- Graceful degradation when Redis unavailable
+- Per-user rate limiting for authenticated requests, per-IP for unauthenticated
+- 429 error responses with retry_after header
+
 ## Strengths
 Protects the API from basic abuse while preserving usability. Provides clear error messages for rate limit exceedance.
 
@@ -108,6 +119,6 @@ Protects the API from basic abuse while preserving usability. Provides clear err
 - [ ] Test manually by sending many requests and verifying rate limiting behavior.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
