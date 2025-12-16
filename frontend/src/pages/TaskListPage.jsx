@@ -340,6 +340,35 @@ function TaskListPage() {
           </div>
         </div>
 
+        {/* Due Date Range Filter */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Due Date From</label>
+            <input
+              type="date"
+              value={dueDateFrom}
+              onChange={(e) => {
+                setDueDateFrom(e.target.value);
+                handleFilterChange();
+              }}
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Due Date To</label>
+            <input
+              type="date"
+              value={dueDateTo}
+              onChange={(e) => {
+                setDueDateTo(e.target.value);
+                handleFilterChange();
+              }}
+              min={dueDateFrom || undefined}
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            />
+          </div>
+        </div>
+
         {/* Filter Actions */}
         <div className="mt-3 pt-3 border-t border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <label className="flex items-center gap-2 cursor-pointer">
@@ -354,7 +383,7 @@ function TaskListPage() {
             />
             <span className="text-sm text-gray-900">Show only my tasks</span>
           </label>
-          {(statusFilter || priorityFilter || tagsFilter || searchQuery || myTasksFilter) && (
+          {(statusFilter || priorityFilter || tagsFilter || dueDateFrom || dueDateTo || searchQuery || myTasksFilter) && (
             <button
               onClick={clearFilters}
               className="text-sm text-gray-600 hover:text-gray-900"
