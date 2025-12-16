@@ -106,14 +106,14 @@ def test_task_deletion_creates_audit_event(db_session: Session, test_user, audit
     created_task = create_task(task_repository, request, test_user.id, audit_logger)
     db_session.commit()  # Commit task creation
     
-    # Delete task (with attachment_repository=None, storage=None since we're not testing attachments)
+    # Delete task
     delete_task(
         task_repository, 
         created_task.id, 
-        test_user.id, 
-        audit_logger,
+        test_user.id,
         attachment_repository=None,
-        storage=None
+        storage=None,
+        audit_logger=audit_logger
     )
     db_session.commit()  # Commit deletion and audit event
     
