@@ -135,10 +135,3 @@ async def shutdown_event():
         close_redis_client()
     except Exception as e:
         logging.error(f"Error closing Redis client: {e}", exc_info=True)
-    
-    # Close Redis connection
-    try:
-        from infrastructure.rate_limiting.redis_client import close_redis_client
-        close_redis_client()
-    except Exception as e:
-        logging.error(f"Error closing Redis client: {e}", exc_info=True)
