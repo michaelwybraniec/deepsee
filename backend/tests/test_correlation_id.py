@@ -29,8 +29,10 @@ def test_correlation_id_extracted_from_header(client: TestClient):
         headers={"X-Correlation-ID": custom_correlation_id}
     )
     
-    assert response.status_code == 200
+    # Health endpoint may return 503 if worker/db is unhealthy, but correlation ID should still be present
+    assert response.status_code in [200, 503]
     # Check that same correlation ID is returned
+    assert "X-Correlation-ID" in response.headers
     assert response.headers["X-Correlation-ID"] == custom_correlation_id
 
 

@@ -406,7 +406,7 @@ When unplanned work is identified (new features, bug fixes, improvements, or sco
 5. **Reference in Commits**: When working on unplanned tasks, reference them as `[U-X]` or `[U-X-Y]` in commit messages.
 
 **Current Unplanned Tasks**:
-- _None yet. Any scope beyond `docs/requirements.md` should be tracked here with `U-` IDs._
+- **U-1**: Prometheus + Grafana observability dashboards (see `project-backlog.md` for details)
 
 ## Unplanned Tasks Standard
 
