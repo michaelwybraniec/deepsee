@@ -63,6 +63,9 @@ npm run preview
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run test:e2e` - Run E2E tests (Playwright)
+- `npm run test:e2e:ui` - Run E2E tests with UI mode
+- `npm run test:e2e:headed` - Run E2E tests in headed mode
 
 ## Project Structure
 
