@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useAuth } from '../contexts/AuthContext';
 import apiClient from '../services/api';
 
 function RegisterPage() {
@@ -11,6 +12,7 @@ function RegisterPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,8 +64,19 @@ function RegisterPage() {
       });
 
       if (response.status === 201) {
-        toast.success('Registration successful! Please login.');
-        navigate('/login');
+        toast.success('Registration successful! Logging you in...');
+        
+        // Auto-login after successful registration
+        const loginResult = await login(username.trim(), password);
+        
+        if (loginResult.success) {
+          toast.success('Welcome!');
+          navigate('/tasks');
+        } else {
+          // If auto-login fails, redirect to login page
+          toast.error('Registration successful, but auto-login failed. Please login manually.');
+          navigate('/login');
+        }
       }
     } catch (err) {
       const errorMsg = err.response?.data?.detail || err.response?.data?.error?.message || err.message || 'Registration failed. Please try again.';
