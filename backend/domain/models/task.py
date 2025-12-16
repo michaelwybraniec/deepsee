@@ -20,7 +20,7 @@ Indexes:
 - Full-text search on title/description: For search functionality (Task 5)
 """
 
-from datetime import datetime
+from datetime import datetime, UTC
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Index
 from sqlalchemy.orm import relationship
 from domain.models.user import Base
@@ -50,8 +50,8 @@ class Task(Base):
     
     # System fields (for authorization and tracking)
     owner_user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    updated_at = Column(DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC))
     reminder_sent_at = Column(DateTime, nullable=True, index=True)  # For idempotency tracking
     
     # Relationship

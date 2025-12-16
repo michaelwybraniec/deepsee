@@ -16,7 +16,7 @@ System fields:
 Storage: Local filesystem (development) - files stored in backend/uploads/{task_id}/{filename}
 """
 
-from datetime import datetime
+from datetime import datetime, UTC
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from domain.models.user import Base
@@ -46,9 +46,9 @@ class Attachment(Base):
     content_type = Column(String)  # MIME type (e.g., "image/png", "application/pdf")
     
     # System fields
-    uploaded_at = Column(DateTime, default=datetime.utcnow)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    uploaded_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    updated_at = Column(DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC))
     
     # Relationship
     task = relationship("Task", backref="attachments")
