@@ -193,7 +193,8 @@ function TaskDetailPage() {
         </div>
       </div>
 
-      <div>
+      {/* Attachments Section */}
+      <div className="mt-6">
         <AttachmentsSection taskId={task.id} isOwner={isOwner} />
       </div>
     </div>
