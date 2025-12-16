@@ -23,8 +23,27 @@ function AttachmentsSection({ taskId, isOwner }) {
   }, [taskId]);
 
   useEffect(() => {
-    fetchAttachments();
-  }, [fetchAttachments]);
+    let cancelled = false;
+    
+    (async () => {
+      setLoading(true);
+      setError('');
+      const result = await listAttachments(taskId);
+      
+      if (!cancelled) {
+        if (result.success) {
+          setAttachments(result.data || []);
+        } else {
+          setError(result.error || 'Failed to load attachments');
+        }
+        setLoading(false);
+      }
+    })();
+    
+    return () => {
+      cancelled = true;
+    };
+  }, [taskId]);
 
   const handleFileSelect = async (e) => {
     const file = e.target.files[0];
