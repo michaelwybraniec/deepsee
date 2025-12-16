@@ -18,6 +18,8 @@ from application.tasks.update_task import update_task
 from application.tasks.delete_task import delete_task
 from application.audit.audit_logger import AuditLogger
 from infrastructure.persistence.repositories.task_repository import SQLAlchemyTaskRepository
+from infrastructure.persistence.repositories.attachment_repository import SQLAlchemyAttachmentRepository
+from infrastructure.attachments.storage import LocalFileStorage
 from infrastructure.audit.audit_logger import AuditLoggerImpl
 from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
 
@@ -27,6 +29,16 @@ router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 def get_task_repository(db: Session = Depends(get_db)) -> SQLAlchemyTaskRepository:
     """Dependency to get task repository."""
     return SQLAlchemyTaskRepository(db)
+
+
+def get_attachment_repository(db: Session = Depends(get_db)) -> SQLAlchemyAttachmentRepository:
+    """Dependency to get attachment repository."""
+    return SQLAlchemyAttachmentRepository(db)
+
+
+def get_storage() -> LocalFileStorage:
+    """Dependency to get storage implementation."""
+    return LocalFileStorage()
 
 
 def get_audit_logger(db: Session = Depends(get_db)) -> AuditLogger:
@@ -242,15 +254,25 @@ def delete_task_endpoint(
     task_id: int,
     current_user: User = Depends(get_current_user),
     repository: SQLAlchemyTaskRepository = Depends(get_task_repository),
+    attachment_repository: SQLAlchemyAttachmentRepository = Depends(get_attachment_repository),
+    storage: LocalFileStorage = Depends(get_storage),
     audit_logger: AuditLogger = Depends(get_audit_logger)
 ):
     """
     Delete a task.
     
     Only the task owner can delete the task. Requires authentication.
+    Also deletes all attachments associated with the task.
     """
     try:
-        deleted = delete_task(repository, task_id, current_user.id, audit_logger)
+        deleted = delete_task(
+            repository, 
+            task_id, 
+            current_user.id, 
+            attachment_repository=attachment_repository,
+            storage=storage,
+            audit_logger=audit_logger
+        )
         
         if not deleted:
             raise HTTPException(

@@ -35,7 +35,7 @@ class Attachment(Base):
     id = Column(Integer, primary_key=True, index=True)
     
     # Required fields from requirements
-    task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False, index=True)
+    task_id = Column(Integer, ForeignKey("tasks.id", ondelete="CASCADE"), nullable=False, index=True)
     filename = Column(String, nullable=False)  # Original filename (sanitized)
     file_size = Column(Integer, nullable=False)  # Size in bytes
     
