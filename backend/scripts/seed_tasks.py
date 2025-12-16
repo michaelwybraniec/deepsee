@@ -5,6 +5,7 @@ import json
 import random
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 # Add parent directory to path
 sys.path.insert(0, '.')
@@ -221,7 +222,7 @@ def seed_tasks(count: int = 50, user_id: int = None):
         print(f"📊 Total tasks for user '{user.username}': {total_count}")
         
         # Print summary
-        status_counts = db.query(Task.status, db.func.count(Task.id)).filter(
+        status_counts = db.query(Task.status, func.count(Task.id)).filter(
             Task.owner_user_id == user.id
         ).group_by(Task.status).all()
         
@@ -229,7 +230,7 @@ def seed_tasks(count: int = 50, user_id: int = None):
         for status, count in status_counts:
             print(f"   {status or 'None'}: {count}")
         
-        priority_counts = db.query(Task.priority, db.func.count(Task.id)).filter(
+        priority_counts = db.query(Task.priority, func.count(Task.id)).filter(
             Task.owner_user_id == user.id
         ).group_by(Task.priority).all()
         
