@@ -128,6 +128,12 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - Change tag filtering from exact match to case-insensitive substring matching
   - Improve UX consistency with existing search behavior (title/description use partial matching)
   - Backend implementation recommended for pagination compatibility
+- [ ] [U-3: Implement UI smoke tests (E2E tests)](tasks/unplanned/U-3.md)
+  - Set up Playwright or Cypress for E2E testing
+  - Implement tests for critical user flows: authentication, task management, attachments, search/filtering
+  - Add test utilities, helpers, and page objects
+  - Configure CI/CD integration
+  - **Priority: High** - Required by assignment (docs/requirements.md section "11. Tests")
 
 ## Completed Tasks
 - [x] [Task 1: Project environment and documentation](tasks/planned/task-1.md)
