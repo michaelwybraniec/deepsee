@@ -1,6 +1,6 @@
 # Task ID: 10.5
 # Title: Implement attachments UI
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Frontend Dev
 # Estimated Effort: 4h
