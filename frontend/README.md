@@ -127,11 +127,20 @@ frontend/
 
 ### Creating a User
 
-Before logging in, create a user account:
+**Option 1: Register via UI**
+- Navigate to http://localhost:5173/register
+- Fill in the registration form
 
+**Option 2: Create via Script**
 ```bash
 cd ../backend
-.venv/bin/python3 scripts/create_user.py
+.venv/bin/python3 scripts/create_user.py username email@example.com password
+```
+
+**For E2E Tests:**
+```bash
+cd ../backend
+.venv/bin/python3 scripts/create_user.py testuser test@example.com testpassword
 ```
 
 ## Technology Stack
@@ -196,6 +205,7 @@ npm run test:e2e
 
 ## Related Documentation
 
+- **[Features Documentation](docs/features.md)** - Detailed feature documentation with implementation details ⭐
 - [Frontend Requirements](docs/frontend-requirements.md) - Detailed requirements
 - [Task 10 Review](docs/task-10-review.md) - Frontend implementation review
 - [E2E Tests README](tests/e2e/README.md) - Playwright E2E test documentation
