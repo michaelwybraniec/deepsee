@@ -40,9 +40,10 @@ from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
 from infrastructure.logging.config import configure_structured_logging, get_logger
-from api.routes import auth, tasks, attachments, worker
+from api.routes import auth, tasks, attachments, worker, metrics
 from api.middleware.rate_limiting import RateLimitingMiddleware
 from api.middleware.correlation_id import CorrelationIDMiddleware
+from api.middleware.metrics import MetricsMiddleware
 from worker.scheduler import start_scheduler, stop_scheduler
 import os
 
@@ -147,6 +148,7 @@ app.include_router(auth.router)
 app.include_router(tasks.router)
 app.include_router(attachments.router)
 app.include_router(worker.router)
+app.include_router(metrics.router)
 
 # Add middleware (order matters: correlation ID first, then rate limiting)
 app.add_middleware(CorrelationIDMiddleware)

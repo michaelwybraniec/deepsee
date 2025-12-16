@@ -10,6 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError, OperationalError
 
 from infrastructure.database import SessionLocal
 from infrastructure.logging.config import get_logger
+from infrastructure.metrics.registry import REMINDERS_PROCESSED_TOTAL
 from domain.models.task import Task
 from domain.audit.audit_event import AuditActionType
 from application.audit.audit_logger import AuditLogger
@@ -182,6 +183,9 @@ def process_reminders() -> None:
                         }
                     )
                     
+                    # Increment metrics
+                    REMINDERS_PROCESSED_TOTAL.labels(status="success").inc()
+                    
                     reminders_sent += 1
                 else:
                     # Already sent or failed after retries
@@ -201,6 +205,7 @@ def process_reminders() -> None:
                     exc_info=True
                 )
                 db.rollback()
+                REMINDERS_PROCESSED_TOTAL.labels(status="failure").inc()
                 errors += 1
                 continue
         
