@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { createTask } from '../services/taskApi';
+import { uploadAttachment } from '../services/attachmentApi';
 
 function CreateTaskPage() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
     title: 'Complete project documentation',
     description: 'Write comprehensive documentation for the Task Tracker project including API endpoints, frontend components, and deployment instructions.',
@@ -13,8 +15,10 @@ function CreateTaskPage() {
     due_date: '',
     tags: 'documentation, important, project',
   });
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [uploadingAttachments, setUploadingAttachments] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
