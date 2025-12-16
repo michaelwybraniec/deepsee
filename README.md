@@ -84,6 +84,25 @@ npm run start:frontend
 
 The backend will be available at **http://localhost:8000** and the frontend at **http://localhost:5173**.
 
+### Running Tests
+
+**E2E Tests (Playwright):**
+```bash
+# Run all E2E tests
+npm run test:e2e
+
+# Run with UI mode (interactive)
+npm run test:e2e:ui
+
+# Run in headed mode (see browser)
+npm run test:e2e:headed
+```
+
+**Prerequisites for E2E tests:**
+- Backend API running on `http://localhost:8000`
+- Test user created: `testuser` / `testpassword`
+- See `frontend/tests/e2e/README.md` for detailed test documentation
+
 ### Documentation Structure
 
 ```text
