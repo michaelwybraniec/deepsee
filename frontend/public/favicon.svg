@@ -6,7 +6,7 @@
     </linearGradient>
   </defs>
   <!-- Background circle -->
-  <circle cx="50" cy="50" r="48" fill="url(#grad)" stroke="#1E40AF" stroke-width="2"/>
+  <circle cx="50" cy="50" r="48" fill="url(#grad)"/>
   <!-- Checklist/Clipboard icon -->
   <rect x="30" y="25" width="40" height="50" rx="3" fill="white" opacity="0.95"/>
   <rect x="30" y="25" width="40" height="12" rx="3" fill="#3B82F6" opacity="0.8"/>
