@@ -75,8 +75,7 @@ frontend/
 │   ├── components/     # Reusable components (Layout, ProtectedRoute, etc.)
 │   ├── contexts/       # React contexts (AuthContext)
 │   ├── pages/          # Page components (Login, Register, Tasks, etc.)
-│   ├── services/       # API clients (api.js, taskApi.js, attachmentApi.js)
-│   └── utils/          # Helper functions
+│   └── services/       # API clients (api.js, taskApi.js, attachmentApi.js)
 ├── tests/
 │   └── e2e/            # Playwright E2E tests
 ├── docs/               # Frontend documentation
@@ -141,6 +140,56 @@ cd ../backend
 - **Tailwind CSS 3.4+**: Utility-first CSS framework
 - **Sonner 2.0+**: Toast notifications
 - **Playwright 1.57+**: E2E testing framework
+
+## Testing
+
+### E2E Tests (Playwright)
+
+**Prerequisites:**
+- Backend API running on `http://localhost:8000`
+- Test user created: `testuser` / `testpassword`
+- Frontend dev server running (or Playwright will start it automatically)
+
+**Run Tests:**
+```bash
+# Run all E2E tests
+npm run test:e2e
+
+# Run with interactive UI mode
+npm run test:e2e:ui
+
+# Run in headed mode (see browser)
+npm run test:e2e:headed
+```
+
+**Test Coverage:**
+- Authentication (login, invalid credentials, registration)
+- Task management (list, create, view detail, search, filter)
+- Attachments (upload, display)
+
+See [tests/e2e/README.md](tests/e2e/README.md) for detailed test documentation.
+
+## Quick Reference
+
+**Start Development Server:**
+```bash
+npm run dev
+```
+
+**Build for Production:**
+```bash
+npm run build
+```
+
+**Run E2E Tests:**
+```bash
+npm run test:e2e
+```
+
+**Access Application:**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
 
 ## Related Documentation
 

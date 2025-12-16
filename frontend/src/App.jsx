@@ -9,7 +9,6 @@ import TaskDetailPage from './pages/TaskDetailPage';
 import CreateTaskPage from './pages/CreateTaskPage';
 import EditTaskPage from './pages/EditTaskPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
-import './App.css';
 
 function App() {
   return (
