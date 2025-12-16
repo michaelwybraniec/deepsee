@@ -56,6 +56,38 @@ function TaskDetailPage() {
     return date.toLocaleString();
   };
 
+  const formatDateShort = (dateString) => {
+    if (!dateString) return 'No due date';
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'done':
+        return 'bg-green-100 text-green-800';
+      case 'in_progress':
+        return 'bg-blue-100 text-blue-800';
+      case 'todo':
+        return 'bg-gray-100 text-gray-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority?.toLowerCase()) {
+      case 'high':
+        return 'bg-red-100 text-red-800';
+      case 'medium':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'low':
+        return 'bg-green-100 text-green-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   const isOwner = task && user && task.owner_user_id === user.id;
 
   if (loading) {
@@ -145,20 +177,32 @@ function TaskDetailPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Status</dt>
-            <dd className="text-base font-medium text-gray-900">
-              {task.status || 'Not set'}
+            <dd>
+              {task.status ? (
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
+                  {task.status}
+                </span>
+              ) : (
+                <span className="text-base font-medium text-gray-900">Not set</span>
+              )}
             </dd>
           </div>
           <div>
             <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Priority</dt>
-            <dd className="text-base font-medium text-gray-900">
-              {task.priority || 'Not set'}
+            <dd>
+              {task.priority ? (
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
+                  {task.priority}
+                </span>
+              ) : (
+                <span className="text-base font-medium text-gray-900">Not set</span>
+              )}
             </dd>
           </div>
           <div>
             <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Due Date</dt>
             <dd className="text-base font-medium text-gray-900">
-              {formatDate(task.due_date)}
+              {formatDateShort(task.due_date)}
             </dd>
           </div>
           <div>
