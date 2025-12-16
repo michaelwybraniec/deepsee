@@ -2,7 +2,7 @@
 
 import logging
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_, update
@@ -106,7 +106,7 @@ def process_reminders() -> None:
     6. Logs audit events for reminder sent actions
     """
     db: Session = SessionLocal()
-    worker_run_id = datetime.utcnow().strftime("worker-run-%Y-%m-%d-%H-%M-%S")
+    worker_run_id = datetime.now(UTC).strftime("worker-run-%Y-%m-%d-%H-%M-%S")
     
     # Initialize audit logger
     audit_repository = SQLAlchemyAuditRepository(db)
@@ -116,7 +116,7 @@ def process_reminders() -> None:
         logger.info(f"Starting reminder job run: {worker_run_id}")
         
         # Calculate time window: now to now + 24 hours
-        now = datetime.utcnow()
+        now = datetime.now(UTC)
         next_24h = now + timedelta(hours=24)
         last_24h = now - timedelta(hours=24)
         

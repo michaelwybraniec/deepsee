@@ -1,6 +1,6 @@
 """Audit event domain entity."""
 
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Optional, Dict, Any
 from enum import Enum
 
@@ -50,7 +50,7 @@ class AuditEvent:
         self.resource_type = resource_type
         self.resource_id = resource_id
         self.metadata = metadata or {}
-        self.timestamp = timestamp or datetime.utcnow()
+        self.timestamp = timestamp or datetime.now(UTC)
     
     def __repr__(self):
         return (

@@ -25,7 +25,8 @@ def test_user_with_tasks(db_session: Session):
     db_session.refresh(user)
     
     # Create tasks with different due dates
-    now = datetime.utcnow()
+    from datetime import UTC
+    now = datetime.now(UTC)
     
     # Task due in 12 hours (should get reminder)
     task1 = Task(
@@ -172,7 +173,8 @@ def test_reminder_job_excludes_past_due_tasks(db_session: Session):
     db_session.commit()
     db_session.refresh(user)
     
-    now = datetime.utcnow()
+    from datetime import UTC
+    now = datetime.now(UTC)
     
     # Task that was due 1 hour ago (should NOT get reminder - already past due)
     past_task = Task(
@@ -208,7 +210,8 @@ def test_reminder_job_retry_on_transient_failure(db_session: Session, monkeypatc
     db_session.commit()
     db_session.refresh(user)
     
-    now = datetime.utcnow()
+    from datetime import UTC
+    now = datetime.now(UTC)
     
     # Task due in 12 hours
     task = Task(

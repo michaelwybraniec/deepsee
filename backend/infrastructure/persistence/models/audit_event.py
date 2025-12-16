@@ -1,6 +1,6 @@
 """Audit event ORM model."""
 
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Optional, Dict, Any
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Index, JSON
 from sqlalchemy.orm import relationship
@@ -23,7 +23,7 @@ class AuditEvent(Base):
     # Required fields
     action_type = Column(String, nullable=False, index=True)  # e.g., "task_created", "attachment_uploaded"
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)  # NULL for system actions
-    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    timestamp = Column(DateTime, default=lambda: datetime.now(UTC), nullable=False, index=True)
     
     # Resource identification
     resource_type = Column(String, nullable=False, index=True)  # e.g., "task", "attachment", "reminder"

@@ -1,6 +1,6 @@
 """Create task use case."""
 
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Optional
 import json
 
@@ -49,8 +49,8 @@ def create_task(
         due_date=request.due_date,
         tags=tags_json,
         owner_user_id=owner_user_id,  # Set from authenticated user, never from request
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        created_at=datetime.now(UTC),
+        updated_at=datetime.now(UTC)
     )
     
     # Persist via repository

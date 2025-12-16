@@ -1,6 +1,6 @@
 """Worker API routes - status, manual trigger, statistics."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -98,7 +98,7 @@ def trigger_worker_manually(
         return {
             "status": "success",
             "message": "Reminder worker job executed successfully",
-            "triggered_at": datetime.utcnow().isoformat()
+            "triggered_at": datetime.now(UTC).isoformat()
         }
     except Exception as e:
         raise HTTPException(
@@ -132,7 +132,7 @@ def get_worker_statistics(
     - Tasks due in next 24 hours that need reminders
     - Recent reminder activity
     """
-    now = datetime.utcnow()
+    now = datetime.now(UTC)
     next_24h = now + timedelta(hours=24)
     last_24h = now - timedelta(hours=24)
     

@@ -1,6 +1,6 @@
 """Login use case."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Optional
 from jose import jwt
 from sqlalchemy.orm import Session
@@ -21,11 +21,12 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def create_access_token(user_id: int) -> str:
     """Create JWT access token."""
-    expire = datetime.utcnow() + timedelta(hours=auth_config.get_token_expire_hours())
+    now = datetime.now(UTC)
+    expire = now + timedelta(hours=auth_config.get_token_expire_hours())
     payload = {
         "sub": str(user_id),
         "exp": expire,
-        "iat": datetime.utcnow()
+        "iat": now
     }
     token = jwt.encode(
         payload,

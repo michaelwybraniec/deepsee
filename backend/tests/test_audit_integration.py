@@ -212,12 +212,12 @@ def test_reminder_sent_creates_audit_event(db_session: Session, test_user):
     from worker.jobs.reminder_job import _process_single_reminder
     from infrastructure.audit.audit_logger import AuditLoggerImpl
     from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, UTC
     
     # Create task due in 12 hours
     task = Task(
         title="Task due soon",
-        due_date=datetime.utcnow() + timedelta(hours=12),
+        due_date=datetime.now(UTC) + timedelta(hours=12),
         owner_user_id=test_user.id,
         status="todo"
     )
@@ -230,7 +230,7 @@ def test_reminder_sent_creates_audit_event(db_session: Session, test_user):
     audit_logger = AuditLoggerImpl(audit_repository)
     
     # Manually process reminder (simulating worker behavior)
-    now = datetime.utcnow()
+    now = datetime.now(UTC)
     last_24h = now - timedelta(hours=24)
     success = _process_single_reminder(db_session, task, now, last_24h)
     

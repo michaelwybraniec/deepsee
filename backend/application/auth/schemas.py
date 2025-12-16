@@ -1,6 +1,6 @@
 """Authentication schemas (Pydantic models)."""
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 
 class LoginRequest(BaseModel):
@@ -13,11 +13,8 @@ class LoginRequest(BaseModel):
 class LoginResponse(BaseModel):
     """Login response schema."""
     
-    token: str = Field(..., description="JWT access token")
-    user: dict = Field(..., description="User information")
-    
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                 "user": {
@@ -27,6 +24,10 @@ class LoginResponse(BaseModel):
                 }
             }
         }
+    )
+    
+    token: str = Field(..., description="JWT access token")
+    user: dict = Field(..., description="User information")
 
 
 class ChangePasswordRequest(BaseModel):
@@ -39,23 +40,22 @@ class ChangePasswordRequest(BaseModel):
 class ChangePasswordResponse(BaseModel):
     """Change password response schema."""
     
-    message: str = Field(..., description="Success message")
-    
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "message": "Password changed successfully"
             }
         }
+    )
+    
+    message: str = Field(..., description="Success message")
 
 
 class ErrorResponse(BaseModel):
     """Error response schema."""
     
-    error: dict = Field(..., description="Error information")
-    
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "error": {
                     "code": "INVALID_CREDENTIALS",
@@ -63,3 +63,6 @@ class ErrorResponse(BaseModel):
                 }
             }
         }
+    )
+    
+    error: dict = Field(..., description="Error information")

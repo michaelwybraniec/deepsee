@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class TaskCreateRequest(BaseModel):
@@ -19,6 +19,8 @@ class TaskCreateRequest(BaseModel):
 class TaskResponse(BaseModel):
     """Task response schema."""
     
+    model_config = ConfigDict(from_attributes=True)  # For SQLAlchemy model conversion
+    
     id: int
     title: str
     description: Optional[str]
@@ -29,9 +31,6 @@ class TaskResponse(BaseModel):
     owner_user_id: int
     created_at: datetime
     updated_at: datetime
-    
-    class Config:
-        from_attributes = True  # For SQLAlchemy model conversion
 
 
 class TaskUpdateRequest(BaseModel):

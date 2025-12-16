@@ -35,6 +35,7 @@ authentication, file attachments, search capabilities, notifications, comprehens
 
 """
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
@@ -91,6 +92,33 @@ if RATE_LIMIT_ENABLED:
 else:
     api_description += "\n\n**Note:** Rate limiting is currently disabled."
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for startup and shutdown events."""
+    # Startup
+    if os.getenv("ENVIRONMENT") != "test":
+        try:
+            start_scheduler()
+        except Exception as e:
+            logging.error(f"Failed to start worker scheduler: {e}", exc_info=True)
+    
+    yield
+    
+    # Shutdown
+    try:
+        stop_scheduler()
+    except Exception as e:
+        logging.error(f"Error stopping worker scheduler: {e}", exc_info=True)
+    
+    # Close Redis connection
+    try:
+        from infrastructure.rate_limiting.redis_client import close_redis_client
+        close_redis_client()
+    except Exception as e:
+        logging.error(f"Error closing Redis client: {e}", exc_info=True)
+
+
 app = FastAPI(
     title=API_TITLE,
     description=api_description,  # Dynamic description with rate limiting info
@@ -101,6 +129,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
+    lifespan=lifespan,
     # Simple, standard Swagger UI styling
     swagger_ui_parameters={
         "defaultModelsExpandDepth": 1,
@@ -132,32 +161,3 @@ def root():
 def health():
     """Health check endpoint."""
     return {"status": "healthy"}
-
-
-# Initialize database on startup
-@app.on_event("startup")
-async def startup_event():
-    """Startup event handler."""
-    # Start worker scheduler (only if not in test mode)
-    if os.getenv("ENVIRONMENT") != "test":
-        try:
-            start_scheduler()
-        except Exception as e:
-            logging.error(f"Failed to start worker scheduler: {e}", exc_info=True)
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Shutdown event handler."""
-    # Stop worker scheduler
-    try:
-        stop_scheduler()
-    except Exception as e:
-        logging.error(f"Error stopping worker scheduler: {e}", exc_info=True)
-    
-    # Close Redis connection
-    try:
-        from infrastructure.rate_limiting.redis_client import close_redis_client
-        close_redis_client()
-    except Exception as e:
-        logging.error(f"Error closing Redis client: {e}", exc_info=True)

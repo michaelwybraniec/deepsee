@@ -17,7 +17,7 @@ Usage:
 
 import sys
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 
 # Add parent directory to path
 backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -100,7 +100,7 @@ def main():
             query = query.filter(AuditEvent.resource_id == str(args.resource_id))
         
         if args.days:
-            cutoff = datetime.utcnow() - timedelta(days=args.days)
+            cutoff = datetime.now(UTC) - timedelta(days=args.days)
             query = query.filter(AuditEvent.timestamp >= cutoff)
         
         # Order by timestamp (most recent first)

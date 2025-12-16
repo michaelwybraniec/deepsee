@@ -64,8 +64,8 @@ def update_task(
         task.tags = json.dumps(request.tags) if request.tags else None
     
     # Update timestamp
-    from datetime import datetime
-    task.updated_at = datetime.utcnow()
+    from datetime import datetime, UTC
+    task.updated_at = datetime.now(UTC)
     
     # Persist via repository
     updated_task = repository.update(task)
