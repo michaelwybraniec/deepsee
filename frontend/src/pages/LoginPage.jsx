@@ -51,9 +51,14 @@ function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="w-full max-w-sm space-y-6">
-        <h2 className="text-2xl font-semibold text-gray-900 text-center">
-          Sign in
-        </h2>
+        <div className="text-center">
+          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
+            Task Tracker
+          </h1>
+          <h2 className="text-xl text-gray-600">
+            Login
+          </h2>
+        </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-200 rounded p-3">
@@ -97,7 +102,7 @@ function LoginPage() {
             disabled={loading}
             className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>
