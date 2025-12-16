@@ -1,21 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
 import { uploadAttachment, listAttachments, deleteAttachment } from '../services/attachmentApi';
-import { useAuth } from '../contexts/AuthContext';
 
 function AttachmentsSection({ taskId, isOwner }) {
-  const { user } = useAuth();
   const [attachments, setAttachments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    fetchAttachments();
-  }, [taskId]);
-
-  const fetchAttachments = async () => {
+  const fetchAttachments = useCallback(async () => {
     setLoading(true);
     setError('');
     const result = await listAttachments(taskId);
@@ -26,7 +20,11 @@ function AttachmentsSection({ taskId, isOwner }) {
       setError(result.error || 'Failed to load attachments');
     }
     setLoading(false);
-  };
+  }, [taskId]);
+
+  useEffect(() => {
+    fetchAttachments();
+  }, [fetchAttachments]);
 
   const handleFileSelect = async (e) => {
     const file = e.target.files[0];
