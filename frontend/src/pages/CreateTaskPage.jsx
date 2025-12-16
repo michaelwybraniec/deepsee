@@ -28,6 +28,35 @@ function CreateTaskPage() {
     }));
   };
 
+  const handleFileSelect = (e) => {
+    const files = Array.from(e.target.files);
+    
+    // Client-side validation
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const validFiles = [];
+    const invalidFiles = [];
+
+    files.forEach((file) => {
+      if (file.size > maxSize) {
+        invalidFiles.push(file.name);
+      } else {
+        validFiles.push(file);
+      }
+    });
+
+    if (invalidFiles.length > 0) {
+      toast.error(`Some files exceed 10MB limit: ${invalidFiles.join(', ')}`);
+    }
+
+    if (validFiles.length > 0) {
+      setSelectedFiles((prev) => [...prev, ...validFiles]);
+    }
+  };
+
+  const handleRemoveFile = (index) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -56,9 +85,36 @@ function CreateTaskPage() {
       const result = await createTask(taskData);
 
       if (result.success) {
-        toast.success('Task created successfully!');
+        const taskId = result.data.id;
+        
+        // Upload attachments if any were selected
+        if (selectedFiles.length > 0) {
+          setUploadingAttachments(true);
+          let successCount = 0;
+          let failCount = 0;
+
+          for (const file of selectedFiles) {
+            const uploadResult = await uploadAttachment(taskId, file);
+            if (uploadResult.success) {
+              successCount++;
+            } else {
+              failCount++;
+            }
+          }
+
+          if (successCount > 0) {
+            toast.success(`Task created! ${successCount} attachment${successCount > 1 ? 's' : ''} uploaded.`);
+          }
+          if (failCount > 0) {
+            toast.warning(`Task created, but ${failCount} attachment${failCount > 1 ? 's' : ''} failed to upload.`);
+          }
+          setUploadingAttachments(false);
+        } else {
+          toast.success('Task created successfully!');
+        }
+
         // Redirect to task detail on success
-        navigate(`/tasks/${result.data.id}`);
+        navigate(`/tasks/${taskId}`);
       } else {
         const errorMsg = result.error || 'Failed to create task';
         setError(errorMsg);
@@ -68,6 +124,7 @@ function CreateTaskPage() {
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
+      setUploadingAttachments(false);
     }
   };
 
@@ -186,13 +243,49 @@ function CreateTaskPage() {
           <p className="mt-1 text-xs text-gray-500">Separate multiple tags with commas</p>
         </div>
 
+        <div>
+          <label htmlFor="attachments" className="block text-sm font-semibold text-gray-700 mb-2">
+            Attachments
+          </label>
+          <input
+            type="file"
+            id="attachments"
+            ref={fileInputRef}
+            onChange={handleFileSelect}
+            disabled={loading || uploadingAttachments}
+            multiple
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          />
+          <p className="mt-1 text-xs text-gray-500">Select one or more files (max 10MB each)</p>
+          
+          {selectedFiles.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {selectedFiles.map((file, index) => (
+                <div key={index} className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-md p-2">
+                  <span className="text-sm text-gray-700 truncate flex-1 mr-2">
+                    {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFile(index)}
+                    disabled={loading || uploadingAttachments}
+                    className="text-red-600 hover:text-red-700 text-sm font-medium disabled:opacity-50"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-2">
           <button
             type="submit"
-            disabled={loading}
-            className="flex-1 py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            disabled={loading || uploadingAttachments}
+            className="flex-1 py-2.5 px-5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Creating...' : 'Create Task'}
+            {uploadingAttachments ? 'Uploading attachments...' : loading ? 'Creating...' : 'Create Task'}
           </button>
           <button
             type="button"

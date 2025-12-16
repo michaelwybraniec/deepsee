@@ -61,6 +61,6 @@ Delivers the visible user-facing functionality required in the assignment.
 - [ ] [Task 10.6: Implement validation, error handling, and toasts/alerts](task-10-6.md)
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
