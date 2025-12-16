@@ -131,51 +131,66 @@ function TaskDetailPage() {
         </div>
       )}
 
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 mb-6">
-        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Status</dt>
-            <dd className="text-base font-medium text-gray-900">
-              {task.status || 'Not set'}
-            </dd>
+      <div className="space-y-6">
+        {/* Description Section */}
+        {task.description && (
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Description</h2>
+            <p className="text-base text-gray-900 whitespace-pre-wrap leading-relaxed">
+              {task.description}
+            </p>
           </div>
-          <div>
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Priority</dt>
-            <dd className="text-base font-medium text-gray-900">
-              {task.priority || 'Not set'}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Due Date</dt>
-            <dd className="text-base font-medium text-gray-900">
-              {formatDate(task.due_date)}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Tags</dt>
-            <dd className="text-base font-medium text-gray-900">
-              {task.tags && task.tags.length > 0 ? task.tags.join(', ') : 'No tags'}
-            </dd>
-          </div>
-          <div className="sm:col-span-2">
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Description</dt>
-            <dd className="text-base text-gray-900 whitespace-pre-wrap leading-relaxed">
-              {task.description || 'No description'}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Created</dt>
-            <dd className="text-sm text-gray-600">
-              {formatDate(task.created_at)}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Last Updated</dt>
-            <dd className="text-sm text-gray-600">
-              {formatDate(task.updated_at)}
-            </dd>
-          </div>
-        </dl>
+        )}
+
+        {/* Metadata Grid */}
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Details</h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Status</dt>
+              <dd className="text-base font-medium text-gray-900">
+                {task.status || 'Not set'}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</dt>
+              <dd className="text-base font-medium text-gray-900">
+                {task.priority || 'Not set'}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Due Date</dt>
+              <dd className="text-base font-medium text-gray-900">
+                {formatDate(task.due_date)}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Tags</dt>
+              <dd className="text-base font-medium text-gray-900">
+                {task.tags && task.tags.length > 0 ? task.tags.join(', ') : 'No tags'}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        {/* Timestamps */}
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Timeline</h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Created</dt>
+              <dd className="text-sm text-gray-600">
+                {formatDate(task.created_at)}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Last Updated</dt>
+              <dd className="text-sm text-gray-600">
+                {formatDate(task.updated_at)}
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
 
       <div>
