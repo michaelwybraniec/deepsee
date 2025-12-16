@@ -15,15 +15,30 @@ from domain.models.task import Task
 from domain.models.attachment import Attachment
 from infrastructure.persistence.models.audit_event import AuditEvent
 
-# Use in-memory SQLite for tests
-TEST_DATABASE_URL = "sqlite:///:memory:"
+# Use shared in-memory SQLite for tests (file-based ensures same connection)
+# Using a file path ensures all connections share the same database
+import tempfile
+import os
+_test_db_file = tempfile.NamedTemporaryFile(delete=False, suffix='.db')
+_test_db_file.close()
+TEST_DATABASE_URL = f"sqlite:///{_test_db_file.name}"
 test_engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
 TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
+
+# Cleanup function to remove test database file
+def _cleanup_test_db():
+    try:
+        if os.path.exists(_test_db_file.name):
+            os.unlink(_test_db_file.name)
+    except Exception:
+        pass
 
 
 @pytest.fixture(scope="function")
 def db_session():
     """Create a fresh database session for each test."""
+    # Drop all tables first to ensure clean state
+    Base.metadata.drop_all(bind=test_engine)
     # Create tables
     Base.metadata.create_all(bind=test_engine)
     
@@ -31,6 +46,7 @@ def db_session():
     try:
         yield db
     finally:
+        db.rollback()  # Rollback any uncommitted changes
         db.close()
         # Drop all tables after test
         Base.metadata.drop_all(bind=test_engine)
