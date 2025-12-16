@@ -24,4 +24,15 @@ export default {
     },
   },
   plugins: [],
+  safelist: [
+    'bg-primary-500',
+    'bg-primary-700',
+    'text-primary-500',
+    'text-primary-700',
+    'hover:bg-primary-700',
+    'hover:text-primary-500',
+    'hover:text-primary-700',
+    'focus:ring-primary-500',
+    'border-primary-500',
+  ],
 }
