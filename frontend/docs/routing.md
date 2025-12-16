@@ -42,5 +42,4 @@
 ## Related Documentation
 
 - [Frontend Requirements - Routing](frontend-requirements.md#61-routing)
-- [Task 10 Review - Routing](task-10-review.md#-task-102-set-up-react-project-and-routing)
-- [All Features](features.md)
+- [All Features](../README.md#features) - See README for complete feature list

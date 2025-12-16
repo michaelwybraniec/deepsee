@@ -98,7 +98,7 @@ frontend/
 - **[Toasts](docs/toasts.md)**: Success and error notifications
 - **[Routing](docs/routing.md)**: React Router with protected routes
 
-Each feature has detailed documentation - click the links above for implementation details, API integration, and related documentation.
+See [Features Documentation](docs/features.md) for complete feature overview and additional details.
 
 ## Development
 
@@ -207,9 +207,8 @@ npm run test:e2e
 
 ## Related Documentation
 
-- **[Features Documentation](docs/features.md)** - Detailed feature documentation with implementation details ⭐
+- **Feature Documentation** - Individual feature docs: [Authentication](docs/authentication.md), [Task Management](docs/task-management.md), [Search & Filtering](docs/search-filtering.md), [Sorting](docs/sorting.md), [Pagination](docs/pagination.md), [Attachments](docs/attachments.md), [Validation](docs/validation.md), [Toasts](docs/toasts.md), [Routing](docs/routing.md)
 - [Frontend Requirements](docs/frontend-requirements.md) - Detailed requirements
-- [Task 10 Review](docs/task-10-review.md) - Frontend implementation review
 - [E2E Tests README](tests/e2e/README.md) - Playwright E2E test documentation
 - [Backend API Documentation](../backend/docs/README.md) - Backend API docs
 - [Backend API Endpoints Summary](../backend/docs/api-endpoints-summary.md) - Complete API reference
