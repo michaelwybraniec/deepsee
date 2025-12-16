@@ -89,6 +89,9 @@ def test_metrics_include_error_count(client: TestClient):
 
 def test_worker_metrics_incremented(db_session, monkeypatch):
     """Test that worker metrics are incremented when reminders are processed."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     from tests.conftest import TestSessionLocal
     from worker.jobs.reminder_job import process_reminders
     from domain.models.user import User

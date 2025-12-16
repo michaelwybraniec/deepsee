@@ -94,6 +94,9 @@ def test_reminder_job_selects_tasks_due_in_next_24h(db_session: Session, test_us
     db_session.commit()
     
     # Patch SessionLocal to return a session bound to the same engine
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     from tests.conftest import TestSessionLocal
     monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
@@ -134,6 +137,9 @@ def test_reminder_job_idempotency(db_session: Session, test_user_with_tasks, mon
     db_session.commit()
     
     # Patch SessionLocal to return a session bound to the same engine
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     from tests.conftest import TestSessionLocal
     monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
@@ -164,6 +170,9 @@ def test_reminder_job_handles_errors_gracefully(db_session: Session, test_user_w
     db_session.commit()
     
     # Patch SessionLocal to return a session bound to the same engine
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     from tests.conftest import TestSessionLocal
     monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
@@ -208,6 +217,9 @@ def test_reminder_job_excludes_past_due_tasks(db_session: Session, monkeypatch):
     db_session.commit()
     
     # Patch SessionLocal to return a session bound to the same engine
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     from tests.conftest import TestSessionLocal
     monkeypatch.setattr("worker.jobs.reminder_job.SessionLocal", TestSessionLocal)
     
@@ -256,6 +268,9 @@ def test_reminder_job_retry_on_transient_failure(db_session: Session, monkeypatc
     call_count = [0]
     
     # Create a new session for the worker to use
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     from tests.conftest import TestSessionLocal
     worker_session = TestSessionLocal()
     
