@@ -82,7 +82,6 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 5.3: Implement search by title and description](tasks/planned/task-5-3.md)
   - [x] [Task 5.4: Implement filters, sorting, and pagination](tasks/planned/task-5-4.md)
 - [x] [Task 6: Notifications worker for due tasks](tasks/planned/task-6.md)
-- [x] [Task 7: Audit trail implementation](tasks/planned/task-7.md)
   - [x] [Task 6.1: Confirm notification requirements](tasks/planned/task-6-1.md)
   - [x] [Task 6.2: Design worker schedule and query](tasks/planned/task-6-2.md)
   - [x] [Task 6.3: Implement reminder worker job](tasks/planned/task-6-3.md)
@@ -124,5 +123,8 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 - [x] [Task 3: Task management API (CRUD)](tasks/planned/task-3.md)
 - [x] [Task 4: Attachments API](tasks/planned/task-4.md)
 - [x] [Task 5: Search, filtering, sorting, pagination](tasks/planned/task-5.md)
+- [x] [Task 6: Notifications worker for due tasks](tasks/planned/task-6.md)
+- [x] [Task 7: Audit trail implementation](tasks/planned/task-7.md)
+- [x] [Task 8: Rate limiting](tasks/planned/task-8.md)
 
 

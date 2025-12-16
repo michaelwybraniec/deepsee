@@ -6,6 +6,7 @@ This directory contains comprehensive documentation for the Task Tracker API bac
 
 ### Getting Started
 - **[Quick Start Guide](quick-start.md)** - Setup, installation, and running the API
+- **[Testing Guide](testing.md)** - Complete testing guide and best practices ⭐
 - **[Database Access](database-access.md)** - How to access and manage the SQLite database
 
 ### Authentication & Authorization
