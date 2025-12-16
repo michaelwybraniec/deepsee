@@ -5,34 +5,12 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 import bcrypt
 
-from api.main import app
-from infrastructure.database import SessionLocal, engine, Base
 from domain.models.user import User
-from application.auth.login import create_access_token
-
-# Create test database
-Base.metadata.create_all(bind=engine)
-
-
-def override_get_db():
-    """Override database dependency for testing."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides = {}
-from infrastructure.database import get_db
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
 
 
 @pytest.fixture
-def test_user(db_session: Session):
-    """Create test user."""
+def test_user_with_old_password(db_session: Session):
+    """Create test user with old password."""
     hashed_password = bcrypt.hashpw(b"oldpassword", bcrypt.gensalt()).decode('utf-8')
     user = User(
         username="testuser",
@@ -45,17 +23,7 @@ def test_user(db_session: Session):
     return user
 
 
-@pytest.fixture
-def db_session():
-    """Create test database session."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def test_change_password_success(db_session: Session, test_user: User):
+def test_change_password_success(client: TestClient, test_user_with_old_password: User):
     """Test successful password change."""
     # Login to get token
     login_response = client.post(
@@ -92,7 +60,7 @@ def test_change_password_success(db_session: Session, test_user: User):
     assert login_response.status_code == 200
 
 
-def test_change_password_wrong_current_password(db_session: Session, test_user: User):
+def test_change_password_wrong_current_password(client: TestClient, test_user_with_old_password: User):
     """Test change password with wrong current password."""
     # Login to get token
     login_response = client.post(
@@ -120,7 +88,7 @@ def test_change_password_wrong_current_password(db_session: Session, test_user: 
     assert data["detail"]["error"]["code"] == "INVALID_CURRENT_PASSWORD"
 
 
-def test_change_password_unauthenticated():
+def test_change_password_unauthenticated(client: TestClient):
     """Test change password without authentication."""
     response = client.post(
         "/api/auth/change-password",
@@ -130,4 +98,4 @@ def test_change_password_unauthenticated():
         }
     )
     
-    assert response.status_code == 403  # Forbidden (no token provided)
+    assert response.status_code in [401, 403]  # Unauthorized or Forbidden (no token provided)

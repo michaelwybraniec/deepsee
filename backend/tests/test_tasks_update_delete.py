@@ -3,71 +3,9 @@
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-import bcrypt
 
-from api.main import app
-from infrastructure.database import SessionLocal, engine, Base
 from domain.models.user import User
 from domain.models.task import Task
-
-# Create test database
-Base.metadata.create_all(bind=engine)
-
-
-def override_get_db():
-    """Override database dependency for testing."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides = {}
-from infrastructure.database import get_db
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
-
-
-@pytest.fixture
-def db_session():
-    """Create test database session."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@pytest.fixture
-def user1(db_session: Session):
-    """Create test user 1."""
-    hashed_password = bcrypt.hashpw(b"password1", bcrypt.gensalt()).decode('utf-8')
-    user = User(
-        username="user1",
-        email="user1@example.com",
-        hashed_password=hashed_password
-    )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
-    return user
-
-
-@pytest.fixture
-def user2(db_session: Session):
-    """Create test user 2."""
-    hashed_password = bcrypt.hashpw(b"password2", bcrypt.gensalt()).decode('utf-8')
-    user = User(
-        username="user2",
-        email="user2@example.com",
-        hashed_password=hashed_password
-    )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
-    return user
 
 
 @pytest.fixture
@@ -86,7 +24,7 @@ def task_user1(db_session: Session, user1: User):
     return task
 
 
-def test_update_task_owner_success(db_session: Session, user1: User, task_user1: Task):
+def test_update_task_owner_success(client: TestClient, user1: User, task_user1: Task):
     """Test owner can update their task."""
     # Login as user1
     login_response = client.post(
@@ -117,7 +55,7 @@ def test_update_task_owner_success(db_session: Session, user1: User, task_user1:
     assert data["id"] == task_user1.id
 
 
-def test_update_task_non_owner_forbidden(db_session: Session, user2: User, task_user1: Task):
+def test_update_task_non_owner_forbidden(client: TestClient, user2: User, task_user1: Task):
     """Test non-owner cannot update task."""
     # Login as user2
     login_response = client.post(
@@ -144,7 +82,7 @@ def test_update_task_non_owner_forbidden(db_session: Session, user2: User, task_
     assert data["detail"]["error"]["code"] == "FORBIDDEN"
 
 
-def test_delete_task_owner_success(db_session: Session, user1: User, task_user1: Task):
+def test_delete_task_owner_success(client: TestClient, user1: User, task_user1: Task):
     """Test owner can delete their task."""
     # Login as user1
     login_response = client.post(
@@ -172,7 +110,7 @@ def test_delete_task_owner_success(db_session: Session, user1: User, task_user1:
     assert get_response.status_code == 404
 
 
-def test_delete_task_non_owner_forbidden(db_session: Session, user1: User, user2: User):
+def test_delete_task_non_owner_forbidden(client: TestClient, db_session: Session, user1: User, user2: User):
     """Test non-owner cannot delete task."""
     # Create task for user1
     task = Task(
@@ -206,7 +144,7 @@ def test_delete_task_non_owner_forbidden(db_session: Session, user1: User, user2
     assert data["detail"]["error"]["code"] == "FORBIDDEN"
 
 
-def test_update_task_not_found(db_session: Session, user1: User):
+def test_update_task_not_found(client: TestClient, user1: User):
     """Test update non-existent task."""
     # Login
     login_response = client.post(
@@ -228,7 +166,7 @@ def test_update_task_not_found(db_session: Session, user1: User):
     assert response.status_code == 404
 
 
-def test_delete_task_not_found(db_session: Session, user1: User):
+def test_delete_task_not_found(client: TestClient, user1: User):
     """Test delete non-existent task."""
     # Login
     login_response = client.post(

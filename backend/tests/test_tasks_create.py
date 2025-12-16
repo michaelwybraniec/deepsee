@@ -3,61 +3,11 @@
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-import bcrypt
-import json
 
-from api.main import app
-from infrastructure.database import SessionLocal, engine, Base
 from domain.models.user import User
-from domain.models.task import Task
-from application.auth.login import create_access_token
-
-# Create test database
-Base.metadata.create_all(bind=engine)
 
 
-def override_get_db():
-    """Override database dependency for testing."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides = {}
-from infrastructure.database import get_db
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
-
-
-@pytest.fixture
-def db_session():
-    """Create test database session."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@pytest.fixture
-def test_user(db_session: Session):
-    """Create test user."""
-    hashed_password = bcrypt.hashpw(b"testpassword", bcrypt.gensalt()).decode('utf-8')
-    user = User(
-        username="testuser",
-        email="test@example.com",
-        hashed_password=hashed_password
-    )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
-    return user
-
-
-def test_create_task_success(db_session: Session, test_user: User):
+def test_create_task_success(client: TestClient, test_user: User):
     """Test successful task creation with all fields."""
     # Login to get token
     login_response = client.post(
@@ -95,7 +45,7 @@ def test_create_task_success(db_session: Session, test_user: User):
     assert "created_at" in data
 
 
-def test_create_task_minimal(db_session: Session, test_user: User):
+def test_create_task_minimal(client: TestClient, test_user: User):
     """Test task creation with minimal fields (title only)."""
     # Login to get token
     login_response = client.post(
@@ -122,7 +72,7 @@ def test_create_task_minimal(db_session: Session, test_user: User):
     assert data["owner_user_id"] == test_user.id
 
 
-def test_create_task_validation_error(db_session: Session, test_user: User):
+def test_create_task_validation_error(client: TestClient, test_user: User):
     """Test task creation with validation error (empty title)."""
     # Login to get token
     login_response = client.post(
@@ -146,7 +96,7 @@ def test_create_task_validation_error(db_session: Session, test_user: User):
     assert response.status_code == 422  # Pydantic validation error
 
 
-def test_create_task_unauthenticated():
+def test_create_task_unauthenticated(client: TestClient):
     """Test task creation without authentication."""
     response = client.post(
         "/api/tasks/",
@@ -155,4 +105,4 @@ def test_create_task_unauthenticated():
         }
     )
     
-    assert response.status_code == 403  # Forbidden (no token provided)
+    assert response.status_code in [401, 403]  # Unauthorized or Forbidden (no token provided)

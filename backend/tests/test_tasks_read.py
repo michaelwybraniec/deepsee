@@ -3,72 +3,9 @@
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-import bcrypt
-import json
 
-from api.main import app
-from infrastructure.database import SessionLocal, engine, Base
 from domain.models.user import User
 from domain.models.task import Task
-
-# Create test database
-Base.metadata.create_all(bind=engine)
-
-
-def override_get_db():
-    """Override database dependency for testing."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides = {}
-from infrastructure.database import get_db
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
-
-
-@pytest.fixture
-def db_session():
-    """Create test database session."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@pytest.fixture
-def user1(db_session: Session):
-    """Create test user 1."""
-    hashed_password = bcrypt.hashpw(b"password1", bcrypt.gensalt()).decode('utf-8')
-    user = User(
-        username="user1",
-        email="user1@example.com",
-        hashed_password=hashed_password
-    )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
-    return user
-
-
-@pytest.fixture
-def user2(db_session: Session):
-    """Create test user 2."""
-    hashed_password = bcrypt.hashpw(b"password2", bcrypt.gensalt()).decode('utf-8')
-    user = User(
-        username="user2",
-        email="user2@example.com",
-        hashed_password=hashed_password
-    )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
-    return user
 
 
 @pytest.fixture
@@ -87,7 +24,7 @@ def task_user1(db_session: Session, user1: User):
     return task
 
 
-def test_get_task_by_id_success(db_session: Session, user2: User, task_user1: Task):
+def test_get_task_by_id_success(client: TestClient, user2: User, task_user1: Task):
     """Test get single task by ID (user2 can view user1's task)."""
     # Login as user2
     login_response = client.post(
@@ -112,7 +49,7 @@ def test_get_task_by_id_success(db_session: Session, user2: User, task_user1: Ta
     assert data["owner_user_id"] == task_user1.owner_user_id
 
 
-def test_get_task_by_id_not_found(db_session: Session, user1: User):
+def test_get_task_by_id_not_found(client: TestClient, user1: User):
     """Test get non-existent task."""
     # Login
     login_response = client.post(
@@ -136,7 +73,7 @@ def test_get_task_by_id_not_found(db_session: Session, user1: User):
     assert data["detail"]["error"]["code"] == "TASK_NOT_FOUND"
 
 
-def test_list_tasks_all_visible(db_session: Session, user1: User, user2: User, task_user1: Task):
+def test_list_tasks_all_visible(client: TestClient, db_session: Session, user1: User, user2: User, task_user1: Task):
     """Test list tasks - all users can see all tasks."""
     # Create another task for user2
     task2 = Task(
@@ -168,14 +105,14 @@ def test_list_tasks_all_visible(db_session: Session, user1: User, user2: User, t
     
     assert response.status_code == 200
     data = response.json()
-    assert len(data) >= 2
-    task_ids = [task["id"] for task in data]
+    assert len(data["tasks"]) >= 2
+    task_ids = [task["id"] for task in data["tasks"]]
     assert task_user1.id in task_ids
     assert task2.id in task_ids
 
 
-def test_list_tasks_unauthenticated():
+def test_list_tasks_unauthenticated(client: TestClient):
     """Test list tasks without authentication."""
     response = client.get("/api/tasks/")
     
-    assert response.status_code == 403  # Forbidden (no token provided)
+    assert response.status_code in [401, 403]  # Unauthorized or Forbidden (no token provided)

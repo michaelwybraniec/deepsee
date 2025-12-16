@@ -8,9 +8,12 @@ import bcrypt
 
 from api.main import app
 from infrastructure.database import get_db
+# Import Base first, then all models to ensure they're registered
 from domain.models import Base
 from domain.models.user import User
 from domain.models.task import Task
+from domain.models.attachment import Attachment
+from infrastructure.persistence.models.audit_event import AuditEvent
 
 # Use in-memory SQLite for tests
 TEST_DATABASE_URL = "sqlite:///:memory:"
@@ -65,6 +68,36 @@ def test_user(db_session: Session):
 @pytest.fixture
 def test_user2(db_session: Session):
     """Create a second test user."""
+    hashed_password = bcrypt.hashpw(b"password2", bcrypt.gensalt()).decode('utf-8')
+    user = User(
+        username="user2",
+        email="user2@example.com",
+        hashed_password=hashed_password
+    )
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+    return user
+
+
+@pytest.fixture
+def user1(db_session: Session):
+    """Create test user 1 (alias for compatibility with some tests)."""
+    hashed_password = bcrypt.hashpw(b"password1", bcrypt.gensalt()).decode('utf-8')
+    user = User(
+        username="user1",
+        email="user1@example.com",
+        hashed_password=hashed_password
+    )
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+    return user
+
+
+@pytest.fixture
+def user2(db_session: Session):
+    """Create test user 2 (alias for compatibility with some tests)."""
     hashed_password = bcrypt.hashpw(b"password2", bcrypt.gensalt()).decode('utf-8')
     user = User(
         username="user2",
