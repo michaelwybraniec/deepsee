@@ -16,6 +16,8 @@ function TaskListPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [priorityFilter, setPriorityFilter] = useState('');
   const [tagsFilter, setTagsFilter] = useState('');
+  const [dueDateFrom, setDueDateFrom] = useState('');
+  const [dueDateTo, setDueDateTo] = useState('');
   const [myTasksFilter, setMyTasksFilter] = useState(false);
   const [sortBy, setSortBy] = useState('created_at:desc');
   const [page, setPage] = useState(1);
@@ -43,6 +45,12 @@ function TaskListPage() {
     }
     if (tagsFilter.trim()) {
       params.tags = tagsFilter.trim();
+    }
+    if (dueDateFrom) {
+      params.due_date_from = dueDateFrom;
+    }
+    if (dueDateTo) {
+      params.due_date_to = dueDateTo;
     }
     if (myTasksFilter && user?.id) {
       // Ensure owner_user_id is a number (backend expects int)
@@ -78,7 +86,7 @@ function TaskListPage() {
 
     return () => clearTimeout(timeoutId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, pageSize, sortBy, statusFilter, priorityFilter, tagsFilter, searchQuery, myTasksFilter, user?.id]);
+  }, [page, pageSize, sortBy, statusFilter, priorityFilter, tagsFilter, dueDateFrom, dueDateTo, searchQuery, myTasksFilter, user?.id]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -95,6 +103,8 @@ function TaskListPage() {
     setStatusFilter('');
     setPriorityFilter('');
     setTagsFilter('');
+    setDueDateFrom('');
+    setDueDateTo('');
     setMyTasksFilter(false);
     setSortBy('created_at:desc');
     setPage(1);

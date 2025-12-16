@@ -32,7 +32,7 @@ This repository contains the implementation of the Task Tracker application for 
 - **[Technical Specs](docs/technical-specs.md)** - Structured restatement of requirements
 - **[Architecture](docs/architecture.md)** - System architecture, design patterns, and rationale
 - **[Technology Stack](docs/technology.md)** - Technology decisions and rationale
-- **[Self-Assessment](docs/SELF_ASSESSMENT.md)** - Completion status, design choices, and trade-offs
+- **[Self-Assessment](docs/self-assessment.md)** - Completion status, design choices, and trade-offs
 - **[Suggestions](docs/suggestions.md)** - Optional best practices
 - **[Deliverables Checklist](docs/deliverables-checklist.md)** - All required deliverables status
 - **[Requirements Gap Analysis](docs/requirements-gap-analysis.md)** - Implementation vs requirements comparison
