@@ -1,6 +1,6 @@
 # Task ID: 10.4
 # Title: Implement task list, detail, and edit views
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Frontend Dev
 # Estimated Effort: 5h
