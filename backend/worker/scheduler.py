@@ -1,13 +1,14 @@
 """Worker scheduler setup using APScheduler."""
 
-import logging
+import uuid
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
+from infrastructure.logging.config import get_logger
 from worker.jobs.reminder_job import process_reminders
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Global scheduler instance
 scheduler = None
@@ -18,7 +19,7 @@ def start_scheduler() -> None:
     global scheduler
     
     if scheduler is not None and scheduler.running:
-        logger.warning("Scheduler is already running")
+        logger.warning("scheduler_already_running", message="Scheduler is already running")
         return
     
     scheduler = BackgroundScheduler()
@@ -34,7 +35,7 @@ def start_scheduler() -> None:
     )
     
     scheduler.start()
-    logger.info("Worker scheduler started - reminder job will run every hour")
+    logger.info("worker_scheduler_started", message="Worker scheduler started - reminder job will run every hour")
     
     # Register shutdown handler
     atexit.register(stop_scheduler)
@@ -48,7 +49,7 @@ def stop_scheduler() -> None:
         return
     
     scheduler.shutdown(wait=True)
-    logger.info("Worker scheduler stopped")
+    logger.info("worker_scheduler_stopped", message="Worker scheduler stopped")
     scheduler = None
 
 

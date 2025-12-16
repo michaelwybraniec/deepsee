@@ -1,6 +1,6 @@
 """Reminder worker job - checks for tasks due in next 24 hours and logs reminder sent events."""
 
-import logging
+import uuid
 import time
 from datetime import datetime, timedelta, UTC
 from typing import List, Optional
@@ -9,13 +9,14 @@ from sqlalchemy import and_, or_, update
 from sqlalchemy.exc import SQLAlchemyError, OperationalError
 
 from infrastructure.database import SessionLocal
+from infrastructure.logging.config import get_logger
 from domain.models.task import Task
 from domain.audit.audit_event import AuditActionType
 from application.audit.audit_logger import AuditLogger
 from infrastructure.audit.audit_logger import AuditLoggerImpl
 from infrastructure.persistence.repositories.audit_repository import SQLAlchemyAuditRepository
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Retry configuration
 MAX_RETRIES = 3
@@ -54,7 +55,7 @@ def _process_single_reminder(db: Session, task: Task, now: datetime, last_24h: d
             
             if result.rowcount == 0:
                 # Reminder already sent (race condition or already processed)
-                logger.debug(f"Task {task.id} already has reminder sent, skipping")
+                logger.debug("task_reminder_already_sent", task_id=task.id, message="Task already has reminder sent, skipping")
                 return False
             
             # Commit transaction for this task
@@ -66,9 +67,13 @@ def _process_single_reminder(db: Session, task: Task, now: datetime, last_24h: d
             if attempt < MAX_RETRIES - 1:
                 delay = RETRY_DELAYS[attempt]
                 logger.warning(
-                    f"Transient error processing reminder for task {task.id} "
-                    f"(attempt {attempt + 1}/{MAX_RETRIES}): {str(e)}. "
-                    f"Retrying in {delay}s..."
+                    "reminder_processing_transient_error",
+                    task_id=task.id,
+                    attempt=attempt + 1,
+                    max_retries=MAX_RETRIES,
+                    error=str(e),
+                    retry_delay=delay,
+                    message=f"Transient error processing reminder, retrying in {delay}s"
                 )
                 db.rollback()
                 time.sleep(delay)
@@ -76,7 +81,10 @@ def _process_single_reminder(db: Session, task: Task, now: datetime, last_24h: d
             else:
                 # All retries exhausted
                 logger.error(
-                    f"Failed to process reminder for task {task.id} after {MAX_RETRIES} attempts: {str(e)}",
+                    "reminder_processing_failed_after_retries",
+                    task_id=task.id,
+                    max_retries=MAX_RETRIES,
+                    error=str(e),
                     exc_info=True
                 )
                 db.rollback()
@@ -84,7 +92,9 @@ def _process_single_reminder(db: Session, task: Task, now: datetime, last_24h: d
         except Exception as e:
             # Non-transient error - don't retry
             logger.error(
-                f"Non-transient error processing reminder for task {task.id}: {str(e)}",
+                "reminder_processing_non_transient_error",
+                task_id=task.id,
+                error=str(e),
                 exc_info=True
             )
             db.rollback()
@@ -108,12 +118,20 @@ def process_reminders() -> None:
     db: Session = SessionLocal()
     worker_run_id = datetime.now(UTC).strftime("worker-run-%Y-%m-%d-%H-%M-%S")
     
+    # Generate correlation ID for this worker run
+    correlation_id = str(uuid.uuid4())
+    
+    # Bind correlation ID to logging context
+    import structlog
+    structlog.contextvars.clear_contextvars()
+    structlog.contextvars.bind_contextvars(correlation_id=correlation_id)
+    
     # Initialize audit logger
     audit_repository = SQLAlchemyAuditRepository(db)
     audit_logger = AuditLoggerImpl(audit_repository)
     
     try:
-        logger.info(f"Starting reminder job run: {worker_run_id}")
+        logger.info("reminder_job_started", worker_run_id=worker_run_id, correlation_id=correlation_id)
         
         # Calculate time window: now to now + 24 hours
         now = datetime.now(UTC)
@@ -133,7 +151,7 @@ def process_reminders() -> None:
         ).order_by(Task.due_date.asc())
         
         tasks = query.all()
-        logger.info(f"Found {len(tasks)} tasks due in next 24 hours")
+        logger.info("reminder_job_tasks_found", task_count=len(tasks), worker_run_id=worker_run_id)
         
         reminders_sent = 0
         errors = 0
@@ -146,8 +164,10 @@ def process_reminders() -> None:
                 if success:
                     # Log reminder sent event
                     logger.info(
-                        f"Reminder sent for task {task.id} (due: {task.due_date}), "
-                        f"worker_run_id: {worker_run_id}"
+                        "reminder_sent",
+                        task_id=task.id,
+                        due_date=task.due_date.isoformat() if task.due_date else None,
+                        worker_run_id=worker_run_id
                     )
                     
                     # Log audit event (system action - user_id is None)
@@ -175,7 +195,9 @@ def process_reminders() -> None:
             except Exception as e:
                 # Unexpected error - log and continue
                 logger.error(
-                    f"Unexpected error processing reminder for task {task.id}: {str(e)}",
+                    "reminder_processing_unexpected_error",
+                    task_id=task.id,
+                    error=str(e),
                     exc_info=True
                 )
                 db.rollback()
@@ -183,20 +205,30 @@ def process_reminders() -> None:
                 continue
         
         logger.info(
-            f"Reminder job completed: {worker_run_id}, "
-            f"reminders_sent: {reminders_sent}, errors: {errors}"
+            "reminder_job_completed",
+            worker_run_id=worker_run_id,
+            reminders_sent=reminders_sent,
+            errors=errors,
+            total_tasks=len(tasks)
         )
         
     except (OperationalError, SQLAlchemyError) as e:
         # Database connection error - retry on next scheduled run
         logger.error(
-            f"Database connection error in reminder job {worker_run_id}: {str(e)}. "
-            f"Will retry on next scheduled run.",
+            "reminder_job_database_connection_error",
+            worker_run_id=worker_run_id,
+            error=str(e),
+            message="Will retry on next scheduled run",
             exc_info=True
         )
         db.rollback()
     except Exception as e:
-        logger.error(f"Fatal error in reminder job {worker_run_id}: {str(e)}", exc_info=True)
+        logger.error(
+            "reminder_job_fatal_error",
+            worker_run_id=worker_run_id,
+            error=str(e),
+            exc_info=True
+        )
         db.rollback()
     finally:
         db.close()

@@ -1,16 +1,17 @@
 """Rate limiting middleware for FastAPI."""
 
 import os
-import logging
 from typing import Optional
 from fastapi import Request, HTTPException, status
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from infrastructure.rate_limiting.rate_limiter import check_rate_limit
+from infrastructure.logging.config import get_logger
+from api.middleware.correlation_id import get_correlation_id
 from domain.models.user import User
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def get_rate_limit_config():
@@ -104,9 +105,10 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
         
         # Get rate limit key
         key = get_rate_limit_key(request)
+        correlation_id = get_correlation_id(request)
         if key is None:
             # Cannot determine key, allow request (graceful degradation)
-            logger.warning("Cannot determine rate limit key, allowing request")
+            logger.warning("rate_limit_key_unknown", correlation_id=correlation_id, message="Cannot determine rate limit key, allowing request")
             return await call_next(request)
         
         # Get rate limit configuration (read dynamically)
@@ -139,7 +141,7 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
             response.headers["X-RateLimit-Limit"] = str(limit_requests)
             response.headers["X-RateLimit-Remaining"] = "0"
             
-            logger.info(f"Rate limit exceeded for key {key}, retry_after: {retry_after}")
+            logger.info("rate_limit_exceeded", correlation_id=correlation_id, key=key, retry_after=retry_after)
             return response
         
         # Within limit, continue to handler

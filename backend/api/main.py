@@ -39,11 +39,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
+from infrastructure.logging.config import configure_structured_logging, get_logger
 from api.routes import auth, tasks, attachments, worker
 from api.middleware.rate_limiting import RateLimitingMiddleware
+from api.middleware.correlation_id import CorrelationIDMiddleware
 from worker.scheduler import start_scheduler, stop_scheduler
 import os
-import logging
 
 # API Metadata - automatically used by FastAPI
 API_VERSION = os.getenv("API_VERSION", "1.0.0")
@@ -53,18 +54,15 @@ API_AUTHOR = "Michael Wybraniec"
 # Initialize database
 init_db()
 
+# Configure structured logging (must be done before creating loggers)
+configure_structured_logging()
+logger = get_logger(__name__)
+
 # Validate auth config on startup
 try:
     auth_config.validate()
 except ValueError as e:
-    print(f"Warning: Auth configuration validation failed: {e}")
-    print("Please set JWT_SECRET_KEY environment variable (min 32 characters)")
-
-# Initialize logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+    logger.warning("auth_config_validation_failed", error=str(e), message="Please set JWT_SECRET_KEY environment variable (min 32 characters)")
 
 # Build dynamic API description with rate limiting info
 RATE_LIMIT_ENABLED = os.getenv("RATE_LIMIT_ENABLED", "true").lower() == "true"
@@ -100,23 +98,26 @@ async def lifespan(app: FastAPI):
     if os.getenv("ENVIRONMENT") != "test":
         try:
             start_scheduler()
+            logger.info("worker_scheduler_started", message="Worker scheduler started successfully")
         except Exception as e:
-            logging.error(f"Failed to start worker scheduler: {e}", exc_info=True)
+            logger.error("worker_scheduler_start_failed", error=str(e), exc_info=True)
     
     yield
     
     # Shutdown
     try:
         stop_scheduler()
+        logger.info("worker_scheduler_stopped", message="Worker scheduler stopped successfully")
     except Exception as e:
-        logging.error(f"Error stopping worker scheduler: {e}", exc_info=True)
+        logger.error("worker_scheduler_stop_failed", error=str(e), exc_info=True)
     
     # Close Redis connection
     try:
         from infrastructure.rate_limiting.redis_client import close_redis_client
         close_redis_client()
+        logger.info("redis_client_closed", message="Redis client closed successfully")
     except Exception as e:
-        logging.error(f"Error closing Redis client: {e}", exc_info=True)
+        logger.error("redis_client_close_failed", error=str(e), exc_info=True)
 
 
 app = FastAPI(
@@ -147,7 +148,8 @@ app.include_router(tasks.router)
 app.include_router(attachments.router)
 app.include_router(worker.router)
 
-# Add rate limiting middleware
+# Add middleware (order matters: correlation ID first, then rate limiting)
+app.add_middleware(CorrelationIDMiddleware)
 app.add_middleware(RateLimitingMiddleware)
 
 
