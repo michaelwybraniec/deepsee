@@ -174,6 +174,7 @@ def search_tasks(
             # Always re-filter in Python to ensure correctness (safety measure)
             tasks = [t for t in tasks if t.owner_user_id == expected_owner]
     else:
+        # No tags filter or all tags were empty - can use SQL pagination
         # No tags filter - can use SQL pagination
         # Get total count (before pagination)
         total = query.count()
