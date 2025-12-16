@@ -21,7 +21,7 @@ npm run start:backend
 Or manually:
 ```bash
 cd backend
-source .venv/bin/activate
+source .venv/bin/activate  # On macOS/Linux
 uvicorn api.main:app --reload
 ```
 
@@ -35,12 +35,12 @@ cd frontend
 npm run dev
 ```
 
-**Start Both (in separate terminals):**
+**Start Both (requires two terminals):**
 ```bash
-# Terminal 1
+# Terminal 1 - Backend
 npm run start:backend
 
-# Terminal 2
+# Terminal 2 - Frontend  
 npm run start:frontend
 ```
 

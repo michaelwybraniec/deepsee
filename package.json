@@ -4,9 +4,8 @@
   "description": "Task Tracker - Full Stack Application",
   "private": true,
   "scripts": {
-    "start:backend": "cd backend && source .venv/bin/activate && uvicorn api.main:app --reload",
+    "start:backend": "cd backend && .venv/bin/python3 -m uvicorn api.main:app --reload",
     "start:frontend": "cd frontend && npm run dev",
-    "start": "npm run start:backend & npm run start:frontend",
     "install:frontend": "cd frontend && npm install",
     "build:frontend": "cd frontend && npm run build"
   },
