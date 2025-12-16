@@ -2,6 +2,8 @@
 
 This document provides detailed documentation for all frontend features implemented in the Task Tracker application.
 
+> **Quick Links**: See the [Frontend README](../README.md) for setup instructions, technology stack, testing guide, and quick reference.
+
 ## Table of Contents
 
 1. [Authentication](#authentication)
@@ -13,6 +15,7 @@ This document provides detailed documentation for all frontend features implemen
 7. [Validation](#validation)
 8. [Toasts & Notifications](#toasts--notifications)
 9. [Routing](#routing)
+10. [Important README Sections](#important-readme-sections)
 
 ---
 
