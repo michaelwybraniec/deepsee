@@ -118,7 +118,7 @@ function TaskDetailPage() {
         <p className="text-gray-600 mb-4">Task not found.</p>
         <Link
           to="/tasks"
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-blue-500 hover:text-blue-700 underline"
         >
           Back to tasks
         </Link>
@@ -135,7 +135,7 @@ function TaskDetailPage() {
             <>
               <Link
                 to={`/tasks/${task.id}/edit`}
-                className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="px-5 py-2.5 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Edit
               </Link>

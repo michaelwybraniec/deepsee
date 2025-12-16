@@ -125,7 +125,7 @@ function EditTaskPage() {
         </div>
         <button
           onClick={() => navigate('/tasks')}
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-blue-500 hover:text-blue-700 underline"
         >
           Back to tasks
         </button>
@@ -139,7 +139,7 @@ function EditTaskPage() {
         <p className="text-gray-600 mb-4">Task not found.</p>
         <button
           onClick={() => navigate('/tasks')}
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-blue-500 hover:text-blue-700 underline"
         >
           Back to tasks
         </button>
@@ -266,7 +266,7 @@ function EditTaskPage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-2.5 px-5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 py-2.5 px-5 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {saving ? 'Saving...' : 'Save Changes'}
           </button>

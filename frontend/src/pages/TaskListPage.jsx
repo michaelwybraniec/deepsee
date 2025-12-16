@@ -86,7 +86,7 @@ function TaskListPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Tasks</h1>
         <Link
           to="/tasks/new"
-          className="px-4 py-2 sm:px-5 sm:py-2.5 bg-blue-600 text-white text-sm sm:text-base font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors inline-flex items-center justify-center"
+          className="px-4 py-2 sm:px-5 sm:py-2.5 bg-blue-500 text-white text-sm sm:text-base font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors inline-flex items-center justify-center"
         >
           Create Task
         </Link>
@@ -97,7 +97,7 @@ function TaskListPage() {
           <p className="text-gray-600 mb-3 sm:mb-4 text-base sm:text-lg">No tasks found.</p>
           <Link
             to="/tasks/new"
-            className="text-blue-600 hover:text-blue-700 font-medium underline text-sm sm:text-base"
+            className="text-blue-500 hover:text-blue-700 font-medium underline text-sm sm:text-base"
           >
             Create your first task
           </Link>

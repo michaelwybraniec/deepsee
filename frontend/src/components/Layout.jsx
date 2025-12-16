@@ -14,7 +14,7 @@ function Layout() {
       <nav className="bg-white border-b border-gray-200 shadow-sm">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 gap-3">
-            <Link to="/tasks" className="flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+            <Link to="/tasks" className="flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-blue-500 transition-colors">
               <img src="/favicon.svg" alt="Task Tracker" className="h-8 w-8" />
               Task Tracker
             </Link>
@@ -32,7 +32,7 @@ function Layout() {
               </Link>
               <button
                 onClick={handleLogout}
-                className="px-3 py-1.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="px-3 py-1.5 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Logout
               </button>
