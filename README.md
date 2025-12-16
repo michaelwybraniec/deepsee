@@ -12,6 +12,40 @@ This repository contains the implementation of the Task Tracker application for 
 
 ## Getting Started
 
+### Quick Start
+
+**Start Backend:**
+```bash
+npm run start:backend
+```
+Or manually:
+```bash
+cd backend
+source .venv/bin/activate
+uvicorn api.main:app --reload
+```
+
+**Start Frontend:**
+```bash
+npm run start:frontend
+```
+Or manually:
+```bash
+cd frontend
+npm run dev
+```
+
+**Start Both (in separate terminals):**
+```bash
+# Terminal 1
+npm run start:backend
+
+# Terminal 2
+npm run start:frontend
+```
+
+The backend will be available at **http://localhost:8000** and the frontend at **http://localhost:5173**.
+
 ### Documentation Structure
 
 ```text

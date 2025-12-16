@@ -1,0 +1,19 @@
+{
+  "name": "task-tracker",
+  "version": "1.0.0",
+  "description": "Task Tracker - Full Stack Application",
+  "private": true,
+  "scripts": {
+    "start:backend": "cd backend && source .venv/bin/activate && uvicorn api.main:app --reload",
+    "start:frontend": "cd frontend && npm run dev",
+    "start": "npm run start:backend & npm run start:frontend",
+    "install:frontend": "cd frontend && npm install",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "task-tracker",
+    "full-stack"
+  ],
+  "author": "",
+  "license": "ISC"
+}
