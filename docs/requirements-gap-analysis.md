@@ -232,7 +232,7 @@ This document compares `docs/requirements.md` against the current implementation
 
 ### 7. Self-Assessment ✅ **COMPLETE**
 - **Requirement**: Self-assessment including completion status, design choices, trade-offs, AI usage
-- **Status**: ✅ `docs/SELF_ASSESSMENT.md` with all required sections
+- **Status**: ✅ `docs/self-assessment.md` with all required sections
 
 ---
 

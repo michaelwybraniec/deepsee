@@ -190,7 +190,7 @@ docs/
 ├── technical-specs.md           # Structured restatement of requirements
 ├── architecture.md              # System architecture & design
 ├── technology.md                # Technology decisions & rationale
-├── SELF_ASSESSMENT.md           # Completion status & design choices
+├── self-assessment.md           # Completion status & design choices
 ├── deliverables-checklist.md   # All deliverables status
 ├── requirements-gap-analysis.md # Implementation vs requirements
 ├── frontend-requirements-check.md # Frontend verification
@@ -337,4 +337,4 @@ cd backend
 - **API Documentation**: http://localhost:8000/docs (when API is running)
 - **Backend README**: [backend/README.md](backend/README.md)
 - **Frontend README**: [frontend/README.md](frontend/README.md)
-- **Self-Assessment**: [docs/SELF_ASSESSMENT.md](docs/SELF_ASSESSMENT.md) - Complete project review
+- **Self-Assessment**: [docs/self-assessment.md](docs/self-assessment.md) - Complete project review
