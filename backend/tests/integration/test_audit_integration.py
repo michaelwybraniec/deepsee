@@ -106,16 +106,26 @@ def test_task_deletion_creates_audit_event(db_session: Session, test_user, audit
     created_task = create_task(task_repository, request, test_user.id, audit_logger)
     db_session.commit()  # Commit task creation
     
-    # Delete task
-    delete_task(task_repository, created_task.id, test_user.id, audit_logger)
+    # Delete task (with attachment_repository=None, storage=None since we're not testing attachments)
+    delete_task(
+        task_repository, 
+        created_task.id, 
+        test_user.id, 
+        audit_logger,
+        attachment_repository=None,
+        storage=None
+    )
     db_session.commit()  # Commit deletion and audit event
+    
+    # Refresh session to see committed audit events
+    db_session.expire_all()
     
     # Verify audit event was created
     events = db_session.query(AuditEventModel).filter(
         AuditEventModel.action_type == AuditActionType.TASK_DELETED
     ).all()
     
-    assert len(events) == 1
+    assert len(events) == 1, f"Expected 1 audit event, found {len(events)}"
     event = events[0]
     assert event.user_id == test_user.id
     assert event.resource_type == "task"
