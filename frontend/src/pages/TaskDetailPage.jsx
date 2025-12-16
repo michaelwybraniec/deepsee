@@ -136,6 +136,7 @@ function TaskDetailPage() {
               <Link
                 to={`/tasks/${task.id}/edit`}
                 className="px-5 py-2.5 bg-primary-500 text-white font-medium rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+                style={{ backgroundColor: '#3b82f6' }}
               >
                 Edit
               </Link>

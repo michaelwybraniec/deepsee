@@ -87,6 +87,7 @@ function TaskListPage() {
         <Link
           to="/tasks/new"
           className="px-4 py-2 sm:px-5 sm:py-2.5 bg-primary-500 text-white text-sm sm:text-base font-medium rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors inline-flex items-center justify-center"
+          style={{ backgroundColor: '#3b82f6' }}
         >
           Create Task
         </Link>
