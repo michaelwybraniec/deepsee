@@ -105,7 +105,7 @@ function ChangePasswordPage() {
             name="currentPassword"
             type="password"
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             disabled={loading}
@@ -122,7 +122,7 @@ function ChangePasswordPage() {
             type="password"
             required
             minLength={8}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500"
             placeholder="Minimum 8 characters"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -141,7 +141,7 @@ function ChangePasswordPage() {
             type="password"
             required
             minLength={8}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             disabled={loading}

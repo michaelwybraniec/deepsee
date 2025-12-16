@@ -90,7 +90,7 @@ function CreateTaskPage() {
             value={formData.title}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500 disabled:opacity-50"
             placeholder="Enter task title"
           />
         </div>
@@ -106,7 +106,7 @@ function CreateTaskPage() {
             value={formData.description}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500 disabled:opacity-50"
             placeholder="Enter task description"
           />
         </div>
@@ -122,7 +122,7 @@ function CreateTaskPage() {
               value={formData.status}
               onChange={handleChange}
               disabled={loading}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:opacity-50"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500 disabled:opacity-50"
             >
               <option value="todo">Todo</option>
               <option value="in_progress">In Progress</option>
@@ -140,7 +140,7 @@ function CreateTaskPage() {
               value={formData.priority}
               onChange={handleChange}
               disabled={loading}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:opacity-50"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500 disabled:opacity-50"
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -160,7 +160,7 @@ function CreateTaskPage() {
             value={formData.due_date}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500 disabled:opacity-50"
           />
         </div>
 
@@ -175,7 +175,7 @@ function CreateTaskPage() {
             value={formData.tags}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-blue-500 disabled:opacity-50"
             placeholder="Comma-separated tags (e.g., urgent, important)"
           />
           <p className="mt-1 text-xs text-gray-500">Separate multiple tags with commas</p>
