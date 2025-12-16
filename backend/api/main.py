@@ -37,6 +37,7 @@ authentication, file attachments, search capabilities, notifications, comprehens
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
 from infrastructure.logging.config import configure_structured_logging, get_logger
