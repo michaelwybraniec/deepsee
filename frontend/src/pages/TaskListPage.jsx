@@ -117,6 +117,85 @@ function TaskListPage() {
     }
   };
 
+  // Pagination component
+  const PaginationControls = () => {
+    if (!pagination || pagination.total_pages <= 1) return null;
+
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-sm text-gray-600">
+            Showing {((page - 1) * pageSize) + 1} to {Math.min(page * pageSize, pagination.total)} of {pagination.total} tasks
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="px-3 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            
+            <div className="flex items-center gap-1">
+              {Array.from({ length: Math.min(5, pagination.total_pages) }, (_, i) => {
+                let pageNum;
+                if (pagination.total_pages <= 5) {
+                  pageNum = i + 1;
+                } else if (page <= 3) {
+                  pageNum = i + 1;
+                } else if (page >= pagination.total_pages - 2) {
+                  pageNum = pagination.total_pages - 4 + i;
+                } else {
+                  pageNum = page - 2 + i;
+                }
+                
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    className={`px-3 py-2 border rounded-md text-sm font-medium ${
+                      page === pageNum
+                        ? 'bg-primary-500 text-white border-primary-500'
+                        : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                    }`}
+                    style={page === pageNum ? { backgroundColor: '#3b82f6' } : {}}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === pagination.total_pages}
+              className="px-3 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600">Per page:</label>
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPage(1);
+              }}
+              className="px-2 py-1 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Show full loading only on initial load
   if (initialLoad && loading) {
     return (
@@ -251,7 +330,9 @@ function TaskListPage() {
       </div>
 
       {/* Pagination - Top */}
-      <PaginationControls />
+      <div className="my-4">
+        <PaginationControls />
+      </div>
 
       {/* Error Message */}
       {error && (
@@ -373,7 +454,7 @@ function TaskListPage() {
       </div>
 
       {/* Pagination - Bottom */}
-      <div className="mt-4">
+      <div className="my-4">
         <PaginationControls />
       </div>
     </div>
