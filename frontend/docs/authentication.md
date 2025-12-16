@@ -23,4 +23,4 @@
 - [Frontend Requirements - Authentication](frontend-requirements.md#21-login-page)
 - [Task 10 Review - Auth Implementation](task-10-review.md#-task-103-implement-auth-related-frontend-flows)
 - [Backend Auth Documentation](../backend/docs/auth-requirements.md)
-- [All Features](features.md)
+- [All Features](../README.md#features) - See README for complete feature list

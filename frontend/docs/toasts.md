@@ -35,4 +35,4 @@
 
 - [Frontend Requirements - Toasts](frontend-requirements.md#5-toastsalerts)
 - [Task 10 Review - Toasts](task-10-review.md#toasts-and-error-handling)
-- [All Features](features.md)
+- [All Features](../README.md#features) - See README for complete feature list

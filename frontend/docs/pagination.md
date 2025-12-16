@@ -34,4 +34,4 @@
 ## Related Documentation
 
 - [Backend Search & Filter API](../backend/docs/search-filter-api-design.md#pagination)
-- [All Features](features.md)
+- [All Features](../README.md#features) - See README for complete feature list

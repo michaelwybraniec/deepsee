@@ -98,7 +98,7 @@ frontend/
 - **[Toasts](docs/toasts.md)**: Success and error notifications
 - **[Routing](docs/routing.md)**: React Router with protected routes
 
-See [Features Documentation](docs/features.md) for complete feature overview and additional details.
+Each feature has detailed documentation - click the links above for implementation details, API integration, and related documentation.
 
 ## Development
 

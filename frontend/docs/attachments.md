@@ -30,4 +30,4 @@
 - [Frontend Requirements - Attachments](frontend-requirements.md#26-attachments-section)
 - [Task 10 Review - Attachments](task-10-review.md#-task-105-implement-attachments-ui)
 - [Backend Attachment API](../backend/docs/attachment-design.md)
-- [All Features](features.md)
+- [All Features](../README.md#features) - See README for complete feature list

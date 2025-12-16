@@ -31,4 +31,4 @@
 - [Frontend Requirements - Task Views](frontend-requirements.md#22-task-list-view)
 - [Task 10 Review - Task Management](task-10-review.md#-task-104-implement-task-list-detail-and-edit-views)
 - [Backend Task API](../backend/docs/task-model.md)
-- [All Features](features.md)
+- [All Features](../README.md#features) - See README for complete feature list
