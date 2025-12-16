@@ -88,15 +88,17 @@ frontend/
 
 ## Features
 
-- **Authentication**: Login, registration, and change password
-- **Task Management**: Create, view, edit, and delete tasks
-- **Search & Filtering**: Search by title/description, filter by status, priority, tags, due date range, and "my tasks"
-- **Sorting**: Sort tasks by due date, priority, created/updated date
-- **Pagination**: Navigate through large task lists with configurable page size
-- **Attachments**: Upload and manage file attachments
-- **Validation**: Client-side form validation
-- **Toasts**: Success and error notifications
-- **Routing**: React Router with protected routes
+- **[Authentication](docs/authentication.md)**: Login, registration, and change password
+- **[Task Management](docs/task-management.md)**: Create, view, edit, and delete tasks
+- **[Search & Filtering](docs/search-filtering.md)**: Search by title/description, filter by status, priority, tags, due date range, and "my tasks"
+- **[Sorting](docs/sorting.md)**: Sort tasks by due date, priority, created/updated date
+- **[Pagination](docs/pagination.md)**: Navigate through large task lists with configurable page size
+- **[Attachments](docs/attachments.md)**: Upload and manage file attachments
+- **[Validation](docs/validation.md)**: Client-side form validation
+- **[Toasts](docs/toasts.md)**: Success and error notifications
+- **[Routing](docs/routing.md)**: React Router with protected routes
+
+See [Features Documentation](docs/features.md) for complete feature overview and additional details.
 
 ## Development
 
