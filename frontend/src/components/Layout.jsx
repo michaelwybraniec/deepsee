@@ -1,9 +1,8 @@
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 function Layout() {
   const { logout, user } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
