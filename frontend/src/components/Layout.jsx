@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/useAuth';
 
 function Layout() {
   const { logout, user } = useAuth();
@@ -15,7 +15,7 @@ function Layout() {
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 gap-3">
             <Link to="/tasks" className="flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-primary-500 transition-colors">
               <img src="/favicon.svg" alt="Task Tracker" className="h-8 w-8" />
-              Task Tracker
+              TASK TRACKER
             </Link>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm">
               {user && (

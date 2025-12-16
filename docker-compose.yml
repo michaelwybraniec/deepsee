@@ -147,6 +147,20 @@ services:
     depends_on:
       - prometheus
 
+  # Adminer - Database web interface
+  adminer:
+    image: adminer:latest
+    container_name: task-tracker-adminer
+    ports:
+      - "8888:8080"
+    networks:
+      - backend-network
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      ADMINER_DEFAULT_SERVER: database
+
 volumes:
   postgres_data:
   redis_data:

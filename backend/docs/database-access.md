@@ -2,19 +2,48 @@
 
 ## Database Location
 
-The database is a SQLite file located at:
-```
-backend/task_tracker.db
-```
+**For Docker Compose (PostgreSQL):**
+- Database runs in Docker container: `task-tracker-db`
+- Host: `localhost` (or `database` from within Docker network)
+- Port: `5432`
+- Database name: `task_tracker` (default)
+- Username: `tasktracker` (default)
+- Password: `changeme` (default, set via `POSTGRES_PASSWORD` env var)
 
-Or relative to the backend directory:
-```
-./task_tracker.db
-```
+**For Manual Setup (SQLite):**
+- Database file located at: `backend/task_tracker.db`
+- Or relative to the backend directory: `./task_tracker.db`
 
 ## Accessing the Database
 
-### Option 1: Using SQLite Command Line
+### Option 1: Using Adminer Web Interface (PostgreSQL - Docker Compose)
+
+**When using Docker Compose**, you can access the database via Adminer web interface:
+
+1. Start services with Docker Compose:
+   ```bash
+   docker compose up
+   ```
+
+2. Open Adminer in your browser:
+   - **URL**: http://localhost:8888
+
+3. Login with PostgreSQL credentials:
+   - **System**: PostgreSQL
+   - **Server**: `database` (or `localhost` if connecting from host)
+   - **Username**: `tasktracker` (or value from `POSTGRES_USER` env var)
+   - **Password**: `changeme` (or value from `POSTGRES_PASSWORD` env var)
+   - **Database**: `task_tracker` (or value from `POSTGRES_DB` env var)
+
+4. Once logged in, you can:
+   - Browse tables and data
+   - Run SQL queries
+   - Export/import data
+   - View table structures
+
+**Note**: Adminer is only available when using Docker Compose. For SQLite or manual PostgreSQL setups, use other options below.
+
+### Option 2: Using SQLite Command Line
 
 ```bash
 cd backend
@@ -39,7 +68,34 @@ SELECT * FROM attachments;
 .quit
 ```
 
-### Option 2: Using Python Script
+### Option 3: Using PostgreSQL Command Line (Docker Compose)
+
+**When using Docker Compose with PostgreSQL:**
+
+```bash
+# Connect to PostgreSQL container
+docker exec -it task-tracker-db psql -U tasktracker -d task_tracker
+```
+
+Then you can run SQL queries:
+```sql
+-- List all tables
+\dt
+
+-- View users
+SELECT * FROM users;
+
+-- View tasks
+SELECT * FROM tasks;
+
+-- View attachments
+SELECT * FROM attachments;
+
+-- Exit
+\q
+```
+
+### Option 4: Using Python Script
 
 ```python
 from infrastructure.database import SessionLocal
@@ -61,14 +117,23 @@ for task in tasks:
 db.close()
 ```
 
-### Option 3: Using Database Browser Tools
+### Option 5: Using Database Browser Tools
 
 You can use GUI tools like:
-- **DB Browser for SQLite** (https://sqlitebrowser.org/)
-- **TablePlus** (https://tableplus.com/)
-- **DBeaver** (https://dbeaver.io/)
+- **DB Browser for SQLite** (https://sqlitebrowser.org/) - For SQLite files
+- **TablePlus** (https://tableplus.com/) - Supports both PostgreSQL and SQLite
+- **DBeaver** (https://dbeaver.io/) - Universal database tool
+- **pgAdmin** (https://www.pgadmin.org/) - PostgreSQL-specific tool
 
-Open the file: `backend/task_tracker.db`
+**For SQLite:**
+- Open the file: `backend/task_tracker.db`
+
+**For PostgreSQL (Docker Compose):**
+- Host: `localhost`
+- Port: `5432`
+- Database: `task_tracker`
+- Username: `tasktracker`
+- Password: `changeme` (or value from `POSTGRES_PASSWORD` env var)
 
 ## Common Queries
 

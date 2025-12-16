@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { getTask, deleteTask } from '../services/taskApi';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/useAuth';
 import AttachmentsSection from '../components/AttachmentsSection';
 
 function TaskDetailPage() {

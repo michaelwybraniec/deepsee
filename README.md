@@ -24,6 +24,7 @@ This repository contains the implementation of the Task Tracker application for 
 **Infrastructure Services:**
 - **PostgreSQL Database**: `localhost:5432`
 - **Redis**: `localhost:6379`
+- **Adminer (Database Web UI)**: http://localhost:8888
 
 ### 📚 Documentation
 
@@ -66,7 +67,6 @@ This repository contains the implementation of the Task Tracker application for 
 - **[Worker Usage](backend/docs/worker-usage.md)** - How to use and test the worker
 
 #### Frontend Documentation (`frontend/docs/`)
-- **[Frontend Requirements](frontend/docs/frontend-requirements.md)** - Detailed frontend requirements
 - **[Task 10 Review](frontend/docs/task-10-review.md)** - Frontend implementation review
 - **[E2E Tests README](frontend/tests/e2e/README.md)** - Playwright E2E test documentation
 
@@ -99,6 +99,7 @@ This repository contains the implementation of the Task Tracker application for 
    - **ReDoc**: http://localhost:8000/redoc
    - **Prometheus**: http://localhost:9090
    - **Grafana**: http://localhost:3000 (default: `admin` / `admin`)
+   - **Adminer (Database UI)**: http://localhost:8888
 
 **Services:**
 - `api` - Backend API (port 8000)
@@ -108,6 +109,7 @@ This repository contains the implementation of the Task Tracker application for 
 - `frontend` - React frontend (port 5173)
 - `prometheus` - Metrics collection (port 9090)
 - `grafana` - Metrics visualization (port 3000)
+- `adminer` - Database web interface (port 8888)
 
 **Stop services:**
 ```bash
