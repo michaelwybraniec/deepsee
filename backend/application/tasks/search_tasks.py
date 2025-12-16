@@ -118,34 +118,35 @@ def search_tasks(
     
     # For tags filter with SQLite JSON storage, we need to filter in Python
     # This requires fetching all matching tasks first, then filtering by tags, then paginating
+    # Filter out empty tags from the filter list first
+    valid_filter_tags = None
     if tags and len(tags) > 0:
-        # Filter out empty tags from the filter list
         valid_filter_tags = [tag.strip() for tag in tags if tag and tag.strip()]
+    
+    if valid_filter_tags and len(valid_filter_tags) > 0:
+        # Fetch all tasks matching other filters (before tags filter)
+        all_tasks = query.all()
         
-        if valid_filter_tags:
-            # Fetch all tasks matching other filters (before tags filter)
-            all_tasks = query.all()
-            
-            # Filter by tags in Python (case-insensitive partial matching)
-            def tag_matches(filter_tag: str, task_tags: list) -> bool:
-                """Check if filter_tag is a substring of any task tag (case-insensitive)."""
-                filter_lower = filter_tag.lower().strip()
-                # Skip empty filter tags (empty string matches everything)
-                if not filter_lower:
-                    return False
-                return any(filter_lower in task_tag.lower() for task_tag in task_tags)
-            
-            filtered_tasks = []
-            for task in all_tasks:
-                if task.tags:
-                    try:
-                        task_tags = json.loads(task.tags) if isinstance(task.tags, str) else task.tags
-                        if isinstance(task_tags, list):
-                            # Check if any filter tag matches any task tag (case-insensitive partial match)
-                            if any(tag_matches(filter_tag, task_tags) for filter_tag in valid_filter_tags):
-                                filtered_tasks.append(task)
-                    except (json.JSONDecodeError, TypeError):
-                        pass
+        # Filter by tags in Python (case-insensitive partial matching)
+        def tag_matches(filter_tag: str, task_tags: list) -> bool:
+            """Check if filter_tag is a substring of any task tag (case-insensitive)."""
+            filter_lower = filter_tag.lower().strip()
+            # Skip empty filter tags (empty string matches everything)
+            if not filter_lower:
+                return False
+            return any(filter_lower in task_tag.lower() for task_tag in task_tags)
+        
+        filtered_tasks = []
+        for task in all_tasks:
+            if task.tags:
+                try:
+                    task_tags = json.loads(task.tags) if isinstance(task.tags, str) else task.tags
+                    if isinstance(task_tags, list):
+                        # Check if any filter tag matches any task tag (case-insensitive partial match)
+                        if any(tag_matches(filter_tag, task_tags) for filter_tag in valid_filter_tags):
+                            filtered_tasks.append(task)
+                except (json.JSONDecodeError, TypeError):
+                    pass
         
         # Get total count after tags filter
         total = len(filtered_tasks)
