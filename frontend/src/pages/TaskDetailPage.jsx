@@ -60,7 +60,7 @@ function TaskDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center py-12">
         <div className="text-gray-600">Loading task...</div>
       </div>
     );
@@ -68,11 +68,11 @@ function TaskDetailPage() {
 
   if (error && !task) {
     return (
-      <div className="rounded-md bg-red-50 p-4">
-        <div className="text-sm text-red-800">{error}</div>
+      <div className="bg-red-50 border border-red-200 rounded p-4">
+        <div className="text-sm text-red-800 mb-2">{error}</div>
         <button
           onClick={() => navigate('/tasks')}
-          className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+          className="text-sm text-red-600 hover:text-red-800 underline"
         >
           Back to tasks
         </button>
@@ -83,10 +83,10 @@ function TaskDetailPage() {
   if (!task) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600">Task not found.</p>
+        <p className="text-gray-600 mb-4">Task not found.</p>
         <Link
           to="/tasks"
-          className="mt-4 text-indigo-600 hover:text-indigo-800 underline"
+          className="text-blue-600 hover:text-blue-800 underline"
         >
           Back to tasks
         </Link>
@@ -96,21 +96,21 @@ function TaskDetailPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">{task.title}</h1>
-        <div className="flex space-x-2">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
+        <h1 className="text-2xl font-semibold text-gray-900">{task.title}</h1>
+        <div className="flex flex-wrap gap-2">
           {isOwner && (
             <>
               <Link
                 to={`/tasks/${task.id}/edit`}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
               >
                 Edit
               </Link>
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
               >
                 {deleting ? 'Deleting...' : 'Delete'}
               </button>
@@ -118,7 +118,7 @@ function TaskDetailPage() {
           )}
           <Link
             to="/tasks"
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm font-medium"
           >
             Back
           </Link>
@@ -126,62 +126,59 @@ function TaskDetailPage() {
       </div>
 
       {error && (
-        <div className="rounded-md bg-red-50 p-4 mb-4">
+        <div className="bg-red-50 border border-red-200 rounded p-4 mb-4">
           <div className="text-sm text-red-800">{error}</div>
         </div>
       )}
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6">
-          <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Status</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {task.status || 'Not set'}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Priority</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {task.priority || 'Not set'}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Due Date</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {formatDate(task.due_date)}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Tags</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {task.tags && task.tags.length > 0 ? task.tags.join(', ') : 'No tags'}
-              </dd>
-            </div>
-            <div className="sm:col-span-2">
-              <dt className="text-sm font-medium text-gray-500">Description</dt>
-              <dd className="mt-1 text-sm text-gray-900 whitespace-pre-wrap">
-                {task.description || 'No description'}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Created</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {formatDate(task.created_at)}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Last Updated</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {formatDate(task.updated_at)}
-              </dd>
-            </div>
-          </dl>
-        </div>
+      <div className="border border-gray-200 rounded p-4 mb-4">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <dt className="text-sm font-medium text-gray-500 mb-1">Status</dt>
+            <dd className="text-sm text-gray-900">
+              {task.status || 'Not set'}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-gray-500 mb-1">Priority</dt>
+            <dd className="text-sm text-gray-900">
+              {task.priority || 'Not set'}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-gray-500 mb-1">Due Date</dt>
+            <dd className="text-sm text-gray-900">
+              {formatDate(task.due_date)}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-gray-500 mb-1">Tags</dt>
+            <dd className="text-sm text-gray-900">
+              {task.tags && task.tags.length > 0 ? task.tags.join(', ') : 'No tags'}
+            </dd>
+          </div>
+          <div className="sm:col-span-2">
+            <dt className="text-sm font-medium text-gray-500 mb-1">Description</dt>
+            <dd className="text-sm text-gray-900 whitespace-pre-wrap">
+              {task.description || 'No description'}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-gray-500 mb-1">Created</dt>
+            <dd className="text-sm text-gray-900">
+              {formatDate(task.created_at)}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-gray-500 mb-1">Last Updated</dt>
+            <dd className="text-sm text-gray-900">
+              {formatDate(task.updated_at)}
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      {/* Attachments section */}
-      <div className="mt-6">
+      <div className="mt-4">
         <AttachmentsSection taskId={task.id} isOwner={isOwner} />
       </div>
     </div>

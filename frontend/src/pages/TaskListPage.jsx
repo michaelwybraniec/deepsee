@@ -59,7 +59,7 @@ function TaskListPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center py-12">
         <div className="text-gray-600">Loading tasks...</div>
       </div>
     );
@@ -67,11 +67,11 @@ function TaskListPage() {
 
   if (error) {
     return (
-      <div className="rounded-md bg-red-50 p-4">
-        <div className="text-sm text-red-800">{error}</div>
+      <div className="bg-red-50 border border-red-200 rounded p-4">
+        <div className="text-sm text-red-800 mb-2">{error}</div>
         <button
           onClick={fetchTasks}
-          className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+          className="text-sm text-red-600 hover:text-red-800 underline"
         >
           Try again
         </button>
@@ -81,11 +81,11 @@ function TaskListPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Tasks</h1>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
+        <h1 className="text-2xl font-semibold text-gray-900">Tasks</h1>
         <Link
           to="/tasks/new"
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
         >
           Create Task
         </Link>
@@ -96,75 +96,68 @@ function TaskListPage() {
           <p className="text-gray-600 mb-4">No tasks found.</p>
           <Link
             to="/tasks/new"
-            className="text-indigo-600 hover:text-indigo-800 underline"
+            className="text-blue-600 hover:text-blue-800 underline"
           >
             Create your first task
           </Link>
         </div>
       ) : (
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          <ul className="divide-y divide-gray-200">
-            {tasks.map((task) => (
-              <li key={task.id}>
-                <div
-                  onClick={() => navigate(`/tasks/${task.id}`)}
-                  className="block hover:bg-gray-50 cursor-pointer px-4 py-4 sm:px-6"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center">
-                        <p className="text-sm font-medium text-indigo-600 truncate">
-                          {task.title}
-                        </p>
-                        {task.status && (
-                          <span
-                            className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
-                          >
-                            {task.status}
-                          </span>
-                        )}
-                        {task.priority && (
-                          <span
-                            className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}
-                          >
-                            {task.priority}
-                          </span>
-                        )}
-                      </div>
-                      {task.description && (
-                        <p className="mt-1 text-sm text-gray-500 truncate">
-                          {task.description}
-                        </p>
-                      )}
-                      <div className="mt-2 flex items-center text-sm text-gray-500">
-                        <span>Due: {formatDate(task.due_date)}</span>
-                        {task.tags && task.tags.length > 0 && (
-                          <span className="ml-4">
-                            Tags: {task.tags.join(', ')}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="ml-5 flex-shrink-0">
-                      <svg
-                        className="h-5 w-5 text-gray-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+        <div className="border border-gray-200 rounded divide-y divide-gray-200">
+          {tasks.map((task) => (
+            <div
+              key={task.id}
+              onClick={() => navigate(`/tasks/${task.id}`)}
+              className="block hover:bg-gray-50 cursor-pointer p-4"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <p className="text-base font-medium text-gray-900">
+                      {task.title}
+                    </p>
+                    {task.status && (
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(task.status)}`}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </div>
+                        {task.status}
+                      </span>
+                    )}
+                    {task.priority && (
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getPriorityColor(task.priority)}`}
+                      >
+                        {task.priority}
+                      </span>
+                    )}
+                  </div>
+                  {task.description && (
+                    <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+                      {task.description}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                    <span>Due: {formatDate(task.due_date)}</span>
+                    {task.tags && task.tags.length > 0 && (
+                      <span>• Tags: {task.tags.join(', ')}</span>
+                    )}
                   </div>
                 </div>
-              </li>
-            ))}
-          </ul>
+                <svg
+                  className="h-5 w-5 text-gray-400 flex-shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

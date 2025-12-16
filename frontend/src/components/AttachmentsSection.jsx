@@ -93,65 +93,63 @@ function AttachmentsSection({ taskId, isOwner }) {
   };
 
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">Attachments</h2>
-          {isOwner && (
-            <div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileSelect}
-                disabled={uploading}
-                className="hidden"
-                id="file-upload"
-              />
-              <label
-                htmlFor="file-upload"
-                className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {uploading ? 'Uploading...' : 'Upload File'}
-              </label>
-            </div>
-          )}
-        </div>
-
-        {error && (
-          <div className="mt-4 rounded-md bg-red-50 p-4">
-            <div className="text-sm text-red-800">{error}</div>
+    <div className="border border-gray-200 rounded p-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+        <h2 className="text-lg font-semibold text-gray-900">Attachments</h2>
+        {isOwner && (
+          <div>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              disabled={uploading}
+              className="hidden"
+              id="file-upload"
+            />
+            <label
+              htmlFor="file-upload"
+              className={`inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {uploading ? 'Uploading...' : 'Upload File'}
+            </label>
           </div>
         )}
-
-        {loading ? (
-          <div className="mt-4 text-sm text-gray-600">Loading attachments...</div>
-        ) : attachments.length === 0 ? (
-          <div className="mt-4 text-sm text-gray-500">No attachments</div>
-        ) : (
-          <ul className="mt-4 divide-y divide-gray-200">
-            {attachments.map((attachment) => (
-              <li key={attachment.id} className="py-3 flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {attachment.file_name}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {formatFileSize(attachment.file_size)} • Uploaded {formatDate(attachment.uploaded_at)}
-                  </p>
-                </div>
-                {isOwner && (
-                  <button
-                    onClick={() => handleDelete(attachment.id)}
-                    className="ml-4 px-3 py-1 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  >
-                    Delete
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded p-3 mb-4">
+          <div className="text-sm text-red-800">{error}</div>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="text-sm text-gray-600">Loading attachments...</div>
+      ) : attachments.length === 0 ? (
+        <div className="text-sm text-gray-500">No attachments</div>
+      ) : (
+        <ul className="divide-y divide-gray-200">
+          {attachments.map((attachment) => (
+            <li key={attachment.id} className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {attachment.file_name}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {formatFileSize(attachment.file_size)} • Uploaded {formatDate(attachment.uploaded_at)}
+                </p>
+              </div>
+              {isOwner && (
+                <button
+                  onClick={() => handleDelete(attachment.id)}
+                  className="px-3 py-1 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                >
+                  Delete
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
