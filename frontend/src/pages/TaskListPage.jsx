@@ -103,48 +103,19 @@ function TaskListPage() {
           </Link>
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm divide-y divide-gray-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {tasks.map((task) => (
             <div
               key={task.id}
               onClick={() => navigate(`/tasks/${task.id}`)}
-              className="block hover:bg-gray-50 cursor-pointer p-5 transition-colors"
+              className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow p-5"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <p className="text-lg font-semibold text-gray-900">
-                      {task.title}
-                    </p>
-                    {task.status && (
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
-                      >
-                        {task.status}
-                      </span>
-                    )}
-                    {task.priority && (
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}
-                      >
-                        {task.priority}
-                      </span>
-                    )}
-                  </div>
-                  {task.description && (
-                    <p className="text-sm text-gray-600 line-clamp-2 mb-3">
-                      {task.description}
-                    </p>
-                  )}
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                    <span className="font-medium">Due: {formatDate(task.due_date)}</span>
-                    {task.tags && task.tags.length > 0 && (
-                      <span>• Tags: {task.tags.join(', ')}</span>
-                    )}
-                  </div>
-                </div>
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <h3 className="text-lg font-semibold text-gray-900 flex-1">
+                  {task.title}
+                </h3>
                 <svg
-                  className="h-5 w-5 text-gray-400 flex-shrink-0 mt-1"
+                  className="h-5 w-5 text-gray-400 flex-shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -156,6 +127,39 @@ function TaskListPage() {
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
+              </div>
+              
+              {task.description && (
+                <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+                  {task.description}
+                </p>
+              )}
+              
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                {task.status && (
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
+                  >
+                    {task.status}
+                  </span>
+                )}
+                {task.priority && (
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}
+                  >
+                    {task.priority}
+                  </span>
+                )}
+              </div>
+              
+              <div className="space-y-2 text-xs text-gray-500 border-t border-gray-100 pt-3">
+                <div className="font-medium">Due: {formatDate(task.due_date)}</div>
+                {task.tags && task.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    <span className="font-medium">Tags:</span>
+                    <span>{task.tags.join(', ')}</span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
