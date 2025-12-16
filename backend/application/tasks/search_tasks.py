@@ -2,7 +2,7 @@
 
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import or_, and_, func
 import json
 import math
@@ -21,6 +21,7 @@ def search_tasks(
     due_date: Optional[datetime] = None,
     due_date_from: Optional[datetime] = None,
     due_date_to: Optional[datetime] = None,
+    owner_user_id: Optional[int] = None,
     sort: Optional[str] = None,
     page: int = 1,
     page_size: int = 20
@@ -39,6 +40,7 @@ def search_tasks(
         due_date: Filter by exact due date
         due_date_from: Filter by due date range (start)
         due_date_to: Filter by due date range (end)
+        owner_user_id: Filter by task owner user ID
         sort: Sort field and direction (e.g., "due_date:asc", "priority:desc")
         page: Page number (1-indexed)
         page_size: Number of items per page (max 100)
@@ -50,8 +52,8 @@ def search_tasks(
     page_size = min(page_size, 100)  # Max 100 to prevent DoS
     page = max(page, 1)  # Min 1
     
-    # Start with base query
-    query = db.query(Task)
+    # Start with base query - eager load owner relationship for username
+    query = db.query(Task).options(joinedload(Task.owner))
     
     # Apply search (q parameter)
     if q:
@@ -69,6 +71,13 @@ def search_tasks(
     
     if priority:
         query = query.filter(Task.priority == priority)
+    
+    if owner_user_id is not None:
+        # Ensure owner_user_id is an integer for comparison
+        # Note: owner_user_id could be 0, so we check for None explicitly
+        owner_id = int(owner_user_id)
+        # Apply filter directly
+        query = query.filter(Task.owner_user_id == owner_id)
     
     # Tags filter will be applied in Python after fetching (for SQLite JSON string storage)
     # Note: This is less efficient but works for SQLite. For PostgreSQL, could use JSONB operators.
@@ -145,6 +154,12 @@ def search_tasks(
         # Apply pagination
         offset = (page - 1) * page_size
         tasks = filtered_tasks[offset:offset + page_size]
+        
+        # Verify and enforce owner filter if it was applied
+        if owner_user_id is not None:
+            expected_owner = int(owner_user_id)
+            # Always re-filter in Python to ensure correctness (safety measure)
+            tasks = [t for t in tasks if t.owner_user_id == expected_owner]
     else:
         # No tags filter - can use SQL pagination
         # Get total count (before pagination)
@@ -153,6 +168,12 @@ def search_tasks(
         # Apply pagination
         offset = (page - 1) * page_size
         tasks = query.offset(offset).limit(page_size).all()
+        
+        # Verify and enforce owner filter if it was applied
+        if owner_user_id is not None:
+            expected_owner = int(owner_user_id)
+            # Always re-filter in Python to ensure correctness (safety measure)
+            tasks = [t for t in tasks if t.owner_user_id == expected_owner]
     
     # Convert to response models
     result = []
@@ -174,6 +195,7 @@ def search_tasks(
             due_date=task.due_date,
             tags=tags_list,
             owner_user_id=task.owner_user_id,
+            owner_username=task.owner.username if task.owner else None,
             created_at=task.created_at,
             updated_at=task.updated_at
         ))

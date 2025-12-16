@@ -109,6 +109,7 @@ def update_task(
         due_date=updated_task.due_date,
         tags=tags_list,
         owner_user_id=updated_task.owner_user_id,
+        owner_username=updated_task.owner.username if updated_task.owner else None,
         created_at=updated_task.created_at,
         updated_at=updated_task.updated_at
     )

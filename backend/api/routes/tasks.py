@@ -99,6 +99,7 @@ def list_tasks_endpoint(
     due_date: Optional[datetime] = Query(None, description="Filter by exact due date (ISO format)"),
     due_date_from: Optional[datetime] = Query(None, description="Filter by due date range (start, ISO format)"),
     due_date_to: Optional[datetime] = Query(None, description="Filter by due date range (end, ISO format)"),
+    owner_user_id: Optional[int] = Query(None, description="Filter by task owner user ID (use current user's ID for 'My Tasks')"),
     sort: Optional[str] = Query(None, description="Sort field and direction (e.g., 'due_date:asc', 'priority:desc')"),
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
     page_size: int = Query(20, ge=1, le=100, description="Number of items per page (max 100)"),
@@ -127,6 +128,7 @@ def list_tasks_endpoint(
     if tags:
         tags_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
     
+    
     # Validate due_date range
     if due_date_from and due_date_to and due_date_from > due_date_to:
         raise HTTPException(
@@ -139,6 +141,7 @@ def list_tasks_endpoint(
             }
         )
     
+    
     # Call search use case
     result = search_tasks(
         db=db,
@@ -149,6 +152,7 @@ def list_tasks_endpoint(
         due_date=due_date,
         due_date_from=due_date_from,
         due_date_to=due_date_to,
+        owner_user_id=owner_user_id,
         sort=sort,
         page=page,
         page_size=page_size

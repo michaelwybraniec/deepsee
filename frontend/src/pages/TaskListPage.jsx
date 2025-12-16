@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getTasks } from '../services/taskApi';
+import { useAuth } from '../contexts/AuthContext';
 
 function TaskListPage() {
   const [tasks, setTasks] = useState([]);
@@ -8,12 +9,14 @@ function TaskListPage() {
   const [initialLoad, setInitialLoad] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [priorityFilter, setPriorityFilter] = useState('');
   const [tagsFilter, setTagsFilter] = useState('');
+  const [myTasksFilter, setMyTasksFilter] = useState(false);
   const [sortBy, setSortBy] = useState('created_at:desc');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
@@ -41,13 +44,24 @@ function TaskListPage() {
     if (tagsFilter.trim()) {
       params.tags = tagsFilter.trim();
     }
+    if (myTasksFilter && user?.id) {
+      // Ensure owner_user_id is a number (backend expects int)
+      params.owner_user_id = Number(user.id);
+    }
     
     const result = await getTasks(params);
     
     if (result.success) {
       // API returns { tasks: [], pagination: {} }
-      setTasks(result.data.tasks || result.data.items || []);
-      setPagination(result.data.pagination || null);
+      let tasksList = result.data.tasks || result.data.items || [];
+      
+      setTasks(tasksList);
+      
+      if (result.data.pagination) {
+        setPagination(result.data.pagination);
+      } else {
+        setPagination(null);
+      }
     } else {
       setError(result.error || 'Failed to load tasks');
     }
@@ -64,7 +78,7 @@ function TaskListPage() {
 
     return () => clearTimeout(timeoutId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, pageSize, sortBy, statusFilter, priorityFilter, tagsFilter, searchQuery]);
+  }, [page, pageSize, sortBy, statusFilter, priorityFilter, tagsFilter, searchQuery, myTasksFilter, user?.id]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -81,6 +95,7 @@ function TaskListPage() {
     setStatusFilter('');
     setPriorityFilter('');
     setTagsFilter('');
+    setMyTasksFilter(false);
     setSortBy('created_at:desc');
     setPage(1);
   };
@@ -315,21 +330,33 @@ function TaskListPage() {
           </div>
         </div>
 
-        {/* Clear Filters Button */}
-        {(statusFilter || priorityFilter || tagsFilter || searchQuery) && (
-          <div className="mt-3 pt-3 border-t border-gray-200">
+        {/* Filter Actions */}
+        <div className="mt-3 pt-3 border-t border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={myTasksFilter}
+              onChange={(e) => {
+                setMyTasksFilter(e.target.checked);
+                handleFilterChange();
+              }}
+              className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+            <span className="text-sm text-gray-900">Show only my tasks</span>
+          </label>
+          {(statusFilter || priorityFilter || tagsFilter || searchQuery || myTasksFilter) && (
             <button
               onClick={clearFilters}
               className="text-sm text-gray-600 hover:text-gray-900"
             >
               Clear all filters
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Pagination - Top */}
-      <div className="my-4">
+      <div className="mt-6 mb-4">
         <PaginationControls />
       </div>
 
@@ -362,13 +389,30 @@ function TaskListPage() {
 
         {!loading && tasks.length === 0 ? (
           <div className="text-center py-12 sm:py-16 bg-white rounded-lg border border-gray-200 px-4">
-            <p className="text-gray-600 mb-3 sm:mb-4 text-base sm:text-lg">No tasks found.</p>
-            <Link
-              to="/tasks/new"
-              className="text-primary-500 hover:text-primary-700 font-medium underline text-sm sm:text-base"
-            >
-              Create your first task
-            </Link>
+            <p className="text-gray-600 mb-3 sm:mb-4 text-base sm:text-lg">
+              {myTasksFilter 
+                ? "No tasks found. You don't have any tasks yet." 
+                : "No tasks found."}
+            </p>
+            {!myTasksFilter && (
+              <Link
+                to="/tasks/new"
+                className="text-primary-500 hover:text-primary-700 font-medium underline text-sm sm:text-base"
+              >
+                Create your first task
+              </Link>
+            )}
+            {myTasksFilter && (
+              <div className="space-y-2">
+                <p className="text-sm text-gray-500">Try unchecking "Show only my tasks" to see all tasks.</p>
+                <Link
+                  to="/tasks/new"
+                  className="text-primary-500 hover:text-primary-700 font-medium underline text-sm sm:text-base"
+                >
+                  Create a task
+                </Link>
+              </div>
+            )}
           </div>
         ) : (
           <div className={`space-y-2 sm:space-y-3 ${loading && !initialLoad ? 'opacity-50' : ''}`}>
@@ -383,9 +427,12 @@ function TaskListPage() {
                 <div className="flex-1 min-w-0 space-y-1 sm:space-y-1.5">
                   {/* Title Row */}
                   <div className="flex flex-col sm:flex-row sm:items-start gap-1.5 sm:gap-2">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex-1 leading-tight">
-                      {task.title}
-                    </h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 leading-tight">
+                        {task.title}
+                        <span className="text-xs text-gray-400 font-normal ml-2">#{task.id}</span>
+                      </h3>
+                    </div>
                     {/* Status and Priority - Wrap on mobile */}
                     <div className="flex items-center gap-1.5 flex-shrink-0 flex-wrap">
                       {task.status && (
@@ -414,6 +461,14 @@ function TaskListPage() {
 
                   {/* Metadata Row */}
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-gray-500">
+                    <div className="flex items-center gap-1">
+                      <svg className="h-3 w-3 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span className="font-medium text-gray-700">
+                        {task.owner_username || `User ${task.owner_user_id}`}
+                      </span>
+                    </div>
                     <div className="flex items-center gap-1">
                       <svg className="h-3 w-3 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

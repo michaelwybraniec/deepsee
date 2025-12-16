@@ -1,7 +1,7 @@
 """Task repository implementation (SQLAlchemy)."""
 
 from typing import Optional, List
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from domain.models.task import Task
 from application.tasks.repository import TaskRepository
@@ -29,12 +29,12 @@ class SQLAlchemyTaskRepository(TaskRepository):
     
     def get_by_id(self, task_id: int) -> Optional[Task]:
         """Get task by ID."""
-        task = self.db.query(Task).filter(Task.id == task_id).first()
+        task = self.db.query(Task).options(joinedload(Task.owner)).filter(Task.id == task_id).first()
         return task
     
     def get_all(self) -> List[Task]:
         """Get all tasks (no ownership filter for reads)."""
-        tasks = self.db.query(Task).all()
+        tasks = self.db.query(Task).options(joinedload(Task.owner)).all()
         return tasks
     
     def update(self, task: Task) -> Task:

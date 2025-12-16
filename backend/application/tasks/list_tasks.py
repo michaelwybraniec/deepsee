@@ -45,6 +45,7 @@ def list_tasks(
             due_date=task.due_date,
             tags=tags_list,
             owner_user_id=task.owner_user_id,
+            owner_username=task.owner.username if task.owner else None,
             created_at=task.created_at,
             updated_at=task.updated_at
         ))

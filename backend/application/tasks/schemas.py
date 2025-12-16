@@ -29,6 +29,7 @@ class TaskResponse(BaseModel):
     due_date: Optional[datetime]
     tags: Optional[List[str]]
     owner_user_id: int
+    owner_username: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 

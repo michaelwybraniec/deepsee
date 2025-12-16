@@ -6,7 +6,11 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Load user from localStorage on mount
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const navigate = useNavigate();
 
@@ -24,8 +28,9 @@ export function AuthProvider({ children }) {
       
       const { token: newToken, user: userData } = response.data;
       
-      // Store token
+      // Store token and user
       localStorage.setItem('token', newToken);
+      localStorage.setItem('user', JSON.stringify(userData));
       setToken(newToken);
       setUser(userData);
       setIsAuthenticated(true);
@@ -39,6 +44,7 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);

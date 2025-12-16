@@ -88,6 +88,7 @@ def create_task(
         due_date=created_task.due_date,
         tags=tags_list,
         owner_user_id=created_task.owner_user_id,
+        owner_username=created_task.owner.username if created_task.owner else None,
         created_at=created_task.created_at,
         updated_at=created_task.updated_at
     )
