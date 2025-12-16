@@ -187,7 +187,7 @@ This document compares `docs/requirements.md` against the current implementation
 - **Requirement**: Change password functionality
 - **Status**: ✅ Change password page and functionality implemented
 
-### 11. Tests ⚠️ **PARTIALLY COMPLETE**
+### 11. Tests ✅ **COMPLETE**
 - **Requirement**: Unit tests
 - **Status**: ✅ Implemented (`backend/tests/unit/`)
 - **Requirement**: Integration tests (API + DB)
