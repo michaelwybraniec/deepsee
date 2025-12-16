@@ -108,6 +108,6 @@ Enables end users to authenticate and manage their credentials. Provides secure 
 - [ ] Test manually by logging in and changing password in browser.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

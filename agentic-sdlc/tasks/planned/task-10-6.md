@@ -109,6 +109,6 @@ Provides a modern, user-friendly UX aligned with the assignment brief. Improves 
 - [ ] Test manually by testing validation and toasts in browser.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

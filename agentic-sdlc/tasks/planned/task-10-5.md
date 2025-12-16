@@ -108,6 +108,6 @@ Gives users clear feedback on files associated with their tasks. Provides comple
 - [ ] Test manually by uploading and deleting attachments in browser.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

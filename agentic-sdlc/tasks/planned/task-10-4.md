@@ -119,6 +119,6 @@ Delivers the core task management UI required by the assignment. Provides comple
 - [ ] Test manually by viewing, creating, editing, and deleting tasks in browser.
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 

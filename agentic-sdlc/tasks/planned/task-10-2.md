@@ -116,6 +116,6 @@ Provides a skeleton for the entire frontend, making it easy to add component con
 - [ ] Test routing manually (navigate to each route, verify it renders, check route parameters).
 
 ## Completed
-[ ] Pending / [ ] Completed
+[x] Completed
 
 
