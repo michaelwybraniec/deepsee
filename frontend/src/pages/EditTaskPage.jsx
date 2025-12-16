@@ -170,7 +170,7 @@ function EditTaskPage() {
             value={formData.title}
             onChange={handleChange}
             disabled={saving}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             placeholder="Enter task title"
           />
         </div>
@@ -186,7 +186,7 @@ function EditTaskPage() {
             value={formData.description}
             onChange={handleChange}
             disabled={saving}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             placeholder="Enter task description"
           />
         </div>
@@ -202,7 +202,7 @@ function EditTaskPage() {
               value={formData.status}
               onChange={handleChange}
               disabled={saving}
-              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             >
               <option value="todo">Todo</option>
               <option value="in_progress">In Progress</option>
@@ -220,7 +220,7 @@ function EditTaskPage() {
               value={formData.priority}
               onChange={handleChange}
               disabled={saving}
-              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -240,7 +240,7 @@ function EditTaskPage() {
             value={formData.due_date}
             onChange={handleChange}
             disabled={saving}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             style={{ colorScheme: 'light' }}
           />
         </div>
@@ -256,7 +256,7 @@ function EditTaskPage() {
             value={formData.tags}
             onChange={handleChange}
             disabled={saving}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             placeholder="Comma-separated tags (e.g., urgent, important)"
           />
           <p className="mt-1 text-xs text-gray-500">Separate multiple tags with commas</p>
@@ -266,7 +266,7 @@ function EditTaskPage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-2.5 px-5 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 py-2.5 px-5 bg-primary-500 text-white font-medium rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {saving ? 'Saving...' : 'Save Changes'}
           </button>

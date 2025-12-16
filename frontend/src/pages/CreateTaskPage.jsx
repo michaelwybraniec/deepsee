@@ -151,7 +151,7 @@ function CreateTaskPage() {
             value={formData.title}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             placeholder="Enter task title"
           />
         </div>
@@ -167,7 +167,7 @@ function CreateTaskPage() {
             value={formData.description}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             placeholder="Enter task description"
           />
         </div>
@@ -183,7 +183,7 @@ function CreateTaskPage() {
               value={formData.status}
               onChange={handleChange}
               disabled={loading}
-              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             >
               <option value="todo">Todo</option>
               <option value="in_progress">In Progress</option>
@@ -201,7 +201,7 @@ function CreateTaskPage() {
               value={formData.priority}
               onChange={handleChange}
               disabled={loading}
-              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+              className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -221,7 +221,7 @@ function CreateTaskPage() {
             value={formData.due_date}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             style={{ colorScheme: 'light' }}
           />
         </div>
@@ -237,7 +237,7 @@ function CreateTaskPage() {
             value={formData.tags}
             onChange={handleChange}
             disabled={loading}
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
             placeholder="Comma-separated tags (e.g., urgent, important)"
           />
           <p className="mt-1 text-xs text-gray-500">Separate multiple tags with commas</p>
@@ -254,7 +254,7 @@ function CreateTaskPage() {
             onChange={handleFileSelect}
             disabled={loading || uploadingAttachments}
             multiple
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow disabled:opacity-50 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
           />
           <p className="mt-1 text-xs text-gray-500">Select one or more files (max 10MB each)</p>
           
@@ -283,7 +283,7 @@ function CreateTaskPage() {
           <button
             type="submit"
             disabled={loading || uploadingAttachments}
-            className="flex-1 py-2.5 px-5 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 py-2.5 px-5 bg-primary-500 text-white font-medium rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {uploadingAttachments ? 'Uploading attachments...' : loading ? 'Creating...' : 'Create Task'}
           </button>
