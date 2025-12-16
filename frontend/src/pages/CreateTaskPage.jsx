@@ -222,7 +222,6 @@ function CreateTaskPage() {
             onChange={handleChange}
             disabled={loading}
             className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow disabled:opacity-50"
-            style={{ colorScheme: 'light' }}
           />
         </div>
 

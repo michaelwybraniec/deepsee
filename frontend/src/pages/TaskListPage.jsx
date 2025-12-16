@@ -379,7 +379,6 @@ function TaskListPage() {
                 setMyTasksFilter(e.target.checked);
                 handleFilterChange();
               }}
-              className="w-4 h-4 text-gray-400 bg-white border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 accent-gray-400"
             />
             <span className="text-sm text-gray-900">Show only my tasks</span>
           </label>
