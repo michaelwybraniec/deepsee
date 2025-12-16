@@ -79,7 +79,24 @@ function RegisterPage() {
         }
       }
     } catch (err) {
-      const errorMsg = err.response?.data?.detail || err.response?.data?.error?.message || err.message || 'Registration failed. Please try again.';
+      // Handle error response structure: {error: {code, message}} or {detail: string}
+      let errorMsg = 'Registration failed. Please try again.';
+      
+      if (err.response?.data) {
+        const data = err.response.data;
+        // Check for nested error object
+        if (data.error && typeof data.error === 'object' && data.error.message) {
+          errorMsg = data.error.message;
+        } else if (data.detail) {
+          // Handle both string and object detail
+          errorMsg = typeof data.detail === 'string' ? data.detail : data.detail.message || errorMsg;
+        } else if (typeof data === 'string') {
+          errorMsg = data;
+        }
+      } else if (err.message) {
+        errorMsg = err.message;
+      }
+      
       setError(errorMsg);
       toast.error(errorMsg);
     } finally {
