@@ -1,6 +1,6 @@
 # Task ID: 10
 # Title: React frontend
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Frontend Dev
 # Estimated Effort: 12h
