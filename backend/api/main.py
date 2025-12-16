@@ -40,7 +40,7 @@ from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
 from infrastructure.logging.config import configure_structured_logging, get_logger
-from api.routes import auth, tasks, attachments, worker, metrics
+from api.routes import auth, tasks, attachments, worker, metrics, health
 from api.middleware.rate_limiting import RateLimitingMiddleware
 from api.middleware.correlation_id import CorrelationIDMiddleware
 from api.middleware.metrics import MetricsMiddleware
@@ -149,8 +149,9 @@ app.include_router(tasks.router)
 app.include_router(attachments.router)
 app.include_router(worker.router)
 app.include_router(metrics.router)
+app.include_router(health.router)
 
-# Add middleware (order matters: correlation ID first, then rate limiting)
+# Add middleware (order matters: correlation ID first, then metrics, then rate limiting)
 app.add_middleware(CorrelationIDMiddleware)
 app.add_middleware(RateLimitingMiddleware)
 
@@ -161,7 +162,4 @@ def root():
     return {"message": "Task Tracker API"}
 
 
-@app.get("/health")
-def health():
-    """Health check endpoint."""
-    return {"status": "healthy"}
+# Health check endpoint moved to api/routes/health.py

@@ -82,8 +82,12 @@ def should_skip_rate_limiting(request: Request) -> bool:
     Returns:
         True if rate limiting should be skipped, False otherwise
     """
-    # Skip health check endpoint
-    if request.url.path == "/health":
+    # Skip health check endpoints
+    if request.url.path in ["/health", "/api/health", "/api/health/api", "/api/health/database", "/api/health/worker"]:
+        return True
+    
+    # Skip metrics endpoint
+    if request.url.path == "/api/metrics":
         return True
     
     # Skip rate limiting if disabled
