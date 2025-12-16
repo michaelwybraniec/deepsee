@@ -108,9 +108,9 @@ def test_task_deletion_creates_audit_event(db_session: Session, test_user, audit
     
     # Delete task
     delete_task(
-        task_repository, 
-        created_task.id, 
-        test_user.id,
+        repository=task_repository, 
+        task_id=created_task.id, 
+        authenticated_user_id=test_user.id,
         attachment_repository=None,
         storage=None,
         audit_logger=audit_logger
