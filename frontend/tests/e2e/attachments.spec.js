@@ -38,18 +38,24 @@ test.describe('Attachments', () => {
   });
 
   test('should display attachments section on task detail', async ({ page }) => {
-    // Navigate to any task
-    const firstTask = page.locator('[class*="cursor-pointer"]').first();
-    const taskCount = await firstTask.count();
+    // Create a task first to ensure we have one to view
+    await page.click('text=/Create Task/i');
+    await expect(page).toHaveURL(/\/tasks\/new/);
     
-    if (taskCount > 0) {
-      await firstTask.click();
-      await expect(page).toHaveURL(/\/tasks\/\d+/);
-      
-      // Should see attachments section (use heading to avoid ambiguity)
-      await expect(page.locator('h2:has-text("Attachments")')).toBeVisible();
-    } else {
-      test.skip();
-    }
+    await page.fill('input[name="title"]', 'Task with Attachments Section');
+    await page.fill('textarea[name="description"]', 'Task to test attachments section display');
+    await page.selectOption('select[name="status"]', 'todo');
+    
+    // Submit and wait for navigation to task detail page
+    await Promise.all([
+      page.waitForURL(/\/tasks\/\d+/, { timeout: 10000 }),
+      page.click('button[type="submit"]')
+    ]);
+    
+    // Should be on task detail page
+    await expect(page).toHaveURL(/\/tasks\/\d+/);
+    
+    // Should see attachments section (use heading to avoid ambiguity)
+    await expect(page.locator('h2:has-text("Attachments")')).toBeVisible();
   });
 });

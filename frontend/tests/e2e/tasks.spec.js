@@ -44,22 +44,26 @@ test.describe('Task Management', () => {
   });
 
   test('should view task detail', async ({ page }) => {
-    // Click on first task (if any exist)
-    const firstTask = page.locator('[class*="cursor-pointer"]').first();
-    const taskCount = await firstTask.count();
+    // Create a task first to ensure we have one to view
+    await page.click('text=/Create Task/i');
+    await expect(page).toHaveURL(/\/tasks\/new/);
     
-    if (taskCount > 0) {
-      await firstTask.click();
-      
-      // Should be on task detail page
-      await expect(page).toHaveURL(/\/tasks\/\d+/);
-      
-      // Should see task details
-      await expect(page.locator('h1')).toBeVisible();
-    } else {
-      // Skip if no tasks exist
-      test.skip();
-    }
+    await page.fill('input[name="title"]', 'Test Task Detail View');
+    await page.fill('textarea[name="description"]', 'Task for detail view test');
+    await page.selectOption('select[name="status"]', 'todo');
+    
+    // Submit and wait for navigation to task detail page
+    await Promise.all([
+      page.waitForURL(/\/tasks\/\d+/, { timeout: 10000 }),
+      page.click('button[type="submit"]')
+    ]);
+    
+    // Should be on task detail page
+    await expect(page).toHaveURL(/\/tasks\/\d+/);
+    
+    // Should see task details
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('text=Test Task Detail View')).toBeVisible();
   });
 
   test('should search tasks', async ({ page }) => {

@@ -8,5 +8,5 @@ scrape_configs:
   - job_name: 'task-tracker-api'
     metrics_path: '/api/metrics'
     static_configs:
-      - targets: ['api:8000']
+      - targets: ['host.docker.internal:8000']  # Use host.docker.internal to reach localhost from container
     scrape_interval: 15s

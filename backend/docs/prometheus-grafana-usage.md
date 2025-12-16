@@ -15,9 +15,11 @@ This guide explains how to use Prometheus and Grafana for monitoring the Task Tr
 # Start all services including Prometheus and Grafana
 docker compose up
 
-# Or start only observability stack
-docker compose up prometheus grafana api
+# Or start only observability stack (if API runs locally, not in Docker)
+docker compose up -d prometheus grafana --no-deps
 ```
+
+**Note**: If your API runs locally (not in Docker), Prometheus is configured to scrape `host.docker.internal:8000`. The `--no-deps` flag prevents Docker Compose from starting dependent services.
 
 ### Option 2: Standalone
 
@@ -38,9 +40,10 @@ docker run -d \
   -e GF_SECURITY_ADMIN_USER=admin \
   -e GF_SECURITY_ADMIN_PASSWORD=admin \
   -v $(pwd)/grafana/provisioning:/etc/grafana/provisioning \
-  -v $(pwd)/grafana/dashboards:/etc/grafana/provisioning/dashboards \
   grafana/grafana:latest
 ```
+
+**Note**: Dashboards are automatically provisioned from `grafana/provisioning/dashboards/` directory.
 
 ## Access Points
 
@@ -59,9 +62,10 @@ The Task Tracker dashboard is automatically provisioned and includes:
 
 ### Accessing the Dashboard
 
-1. Log in to Grafana (http://localhost:3000)
-2. Navigate to **Dashboards** → **Task Tracker - System Metrics**
-3. The dashboard will show real-time metrics from the API
+1. Log in to Grafana (http://localhost:3000) with credentials `admin` / `admin`
+2. Navigate to **Dashboards** → **Browse**
+3. Look for **Task Tracker Dashboard** (automatically provisioned)
+4. The dashboard will show real-time metrics from the API
 
 ## Prometheus Queries
 
@@ -99,13 +103,15 @@ reminders_processed_total
 Edit `prometheus.yml` to adjust:
 - Scrape interval (default: 15s)
 - Metrics path (default: `/api/metrics`)
-- Target host (default: `api:8000`)
+- Target host:
+  - `host.docker.internal:8000` - when API runs locally (default)
+  - `api:8000` - when API runs in Docker Compose
 
 ### Grafana Configuration
 
-- **Data Source**: Automatically configured to use Prometheus
-- **Dashboards**: Located in `grafana/dashboards/`
-- **Provisioning**: Configured in `grafana/provisioning/`
+- **Data Source**: Automatically configured to use Prometheus at `http://prometheus:9090`
+- **Dashboards**: Automatically provisioned from `grafana/provisioning/dashboards/`
+- **Provisioning Config**: Located in `grafana/provisioning/dashboards/default.yml`
 
 ## Troubleshooting
 
