@@ -136,5 +136,6 @@ Technology choices, library versions, and rationale are documented in `docs/tech
 - [x] [Task 8: Rate limiting](tasks/planned/task-8.md)
 - [x] [Task 9: Monitoring, logging, health checks](tasks/planned/task-9.md)
 - [x] [Task 10: React frontend](tasks/planned/task-10.md)
+- [x] [Task 11: Testing and self-assessment](tasks/planned/task-11.md)
 
 
