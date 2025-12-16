@@ -5,6 +5,7 @@ import { getTasks } from '../services/taskApi';
 function TaskListPage() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -51,13 +52,15 @@ function TaskListPage() {
       setError(result.error || 'Failed to load tasks');
     }
     setLoading(false);
+    setInitialLoad(false);
   };
 
-  // Fetch tasks when filters/page change (debounce search)
+  // Fetch tasks when filters/page change (debounce search and tags filter)
   useEffect(() => {
+    const needsDebounce = searchQuery.trim() || tagsFilter.trim();
     const timeoutId = setTimeout(() => {
       fetchTasks();
-    }, searchQuery ? 500 : 0); // Wait 500ms after user stops typing for search
+    }, needsDebounce ? 500 : 0); // Wait 500ms after user stops typing for search/tags
 
     return () => clearTimeout(timeoutId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,24 +117,11 @@ function TaskListPage() {
     }
   };
 
-  if (loading) {
+  // Show full loading only on initial load
+  if (initialLoad && loading) {
     return (
       <div className="flex justify-center items-center py-12">
         <div className="text-gray-600">Loading tasks...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded p-4">
-        <div className="text-sm text-red-800 mb-2">{error}</div>
-        <button
-          onClick={fetchTasks}
-          className="text-sm text-red-600 hover:text-red-800 underline"
-        >
-          Try again
-        </button>
       </div>
     );
   }
@@ -260,19 +250,46 @@ function TaskListPage() {
         )}
       </div>
 
-      {tasks.length === 0 ? (
-        <div className="text-center py-12 sm:py-16 bg-white rounded-lg border border-gray-200 px-4">
-          <p className="text-gray-600 mb-3 sm:mb-4 text-base sm:text-lg">No tasks found.</p>
-          <Link
-            to="/tasks/new"
-            className="text-primary-500 hover:text-primary-700 font-medium underline text-sm sm:text-base"
+      {/* Error Message */}
+      {error && (
+        <div className="mb-4 bg-red-50 border border-red-200 rounded p-4">
+          <div className="text-sm text-red-800 mb-2">{error}</div>
+          <button
+            onClick={fetchTasks}
+            className="text-sm text-red-600 hover:text-red-800 underline"
           >
-            Create your first task
-          </Link>
+            Try again
+          </button>
         </div>
-      ) : (
-        <div className="space-y-2 sm:space-y-3">
-          {tasks.map((task) => (
+      )}
+
+      {/* Task List with Loading Indicator */}
+      <div className="relative">
+        {loading && !initialLoad && (
+          <div className="absolute top-0 left-0 right-0 z-10 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200 flex items-center justify-center py-8">
+            <div className="flex items-center gap-2 text-gray-600">
+              <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span className="text-sm">Loading tasks...</span>
+            </div>
+          </div>
+        )}
+
+        {!loading && tasks.length === 0 ? (
+          <div className="text-center py-12 sm:py-16 bg-white rounded-lg border border-gray-200 px-4">
+            <p className="text-gray-600 mb-3 sm:mb-4 text-base sm:text-lg">No tasks found.</p>
+            <Link
+              to="/tasks/new"
+              className="text-primary-500 hover:text-primary-700 font-medium underline text-sm sm:text-base"
+            >
+              Create your first task
+            </Link>
+          </div>
+        ) : (
+          <div className={`space-y-2 sm:space-y-3 ${loading && !initialLoad ? 'opacity-50' : ''}`}>
+            {tasks.map((task) => (
             <div
               key={task.id}
               onClick={() => navigate(`/tasks/${task.id}`)}
@@ -348,8 +365,9 @@ function TaskListPage() {
               </div>
             </div>
           ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
 
       {/* Pagination */}
       {pagination && pagination.total_pages > 1 && (

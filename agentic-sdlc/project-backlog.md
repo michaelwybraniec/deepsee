@@ -124,6 +124,10 @@ Technology choices, library versions, and rationale are documented in `docs/tech
     - Reminders processed (success/failure) from `reminders_processed_total`
   - Add docker-compose configuration for Prometheus + Grafana
   - Document dashboard usage and configuration
+- [ ] [U-2: Implement partial/substring tag matching in search](tasks/unplanned/U-2.md)
+  - Change tag filtering from exact match to case-insensitive substring matching
+  - Improve UX consistency with existing search behavior (title/description use partial matching)
+  - Backend implementation recommended for pagination compatibility
 
 ## Completed Tasks
 - [x] [Task 1: Project environment and documentation](tasks/planned/task-1.md)
