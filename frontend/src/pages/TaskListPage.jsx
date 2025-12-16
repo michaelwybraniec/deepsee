@@ -18,7 +18,8 @@ function TaskListPage() {
     const result = await getTasks();
     
     if (result.success) {
-      setTasks(result.data.items || []);
+      // API returns { tasks: [], pagination: {} }
+      setTasks(result.data.tasks || result.data.items || []);
     } else {
       setError(result.error || 'Failed to load tasks');
     }
