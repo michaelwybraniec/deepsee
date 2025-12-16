@@ -8,22 +8,79 @@ function TaskListPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState('');
+  const [tagsFilter, setTagsFilter] = useState('');
+  const [sortBy, setSortBy] = useState('created_at:desc');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [pagination, setPagination] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const fetchTasks = async () => {
     setLoading(true);
     setError('');
-    const result = await getTasks();
+    
+    const params = {
+      page,
+      page_size: pageSize,
+      sort: sortBy,
+    };
+    
+    if (searchQuery.trim()) {
+      params.q = searchQuery.trim();
+    }
+    if (statusFilter) {
+      params.status = statusFilter;
+    }
+    if (priorityFilter) {
+      params.priority = priorityFilter;
+    }
+    if (tagsFilter.trim()) {
+      params.tags = tagsFilter.trim();
+    }
+    
+    const result = await getTasks(params);
     
     if (result.success) {
       // API returns { tasks: [], pagination: {} }
       setTasks(result.data.tasks || result.data.items || []);
+      setPagination(result.data.pagination || null);
     } else {
       setError(result.error || 'Failed to load tasks');
     }
     setLoading(false);
+  };
+
+  // Fetch tasks when filters/page change (debounce search)
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchTasks();
+    }, searchQuery ? 500 : 0); // Wait 500ms after user stops typing for search
+
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, pageSize, sortBy, statusFilter, priorityFilter, tagsFilter, searchQuery]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(1); // Reset to first page on new search
+    fetchTasks(); // Immediate search on button click
+  };
+
+  const handleFilterChange = () => {
+    setPage(1); // Reset to first page on filter change
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('');
+    setPriorityFilter('');
+    setTagsFilter('');
+    setSortBy('created_at:desc');
+    setPage(1);
   };
 
   const formatDate = (dateString) => {
@@ -91,6 +148,128 @@ function TaskListPage() {
         >
           Create Task
         </Link>
+      </div>
+
+      {/* Search and Filter Section */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+        {/* Search Bar */}
+        <form onSubmit={handleSearch} className="mb-3">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search tasks by title or description..."
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 text-sm font-medium"
+              style={{ backgroundColor: '#3b82f6' }}
+            >
+              Search
+            </button>
+          </div>
+        </form>
+
+        {/* Filter Toggle */}
+        <div className="flex items-center justify-between mb-3">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            {showFilters ? 'Hide Filters' : 'Show Filters'}
+          </button>
+          {(statusFilter || priorityFilter || tagsFilter || searchQuery) && (
+            <button
+              onClick={clearFilters}
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
+
+        {/* Filters */}
+        {showFilters && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3 border-t border-gray-200">
+            {/* Status Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  handleFilterChange();
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              >
+                <option value="">All</option>
+                <option value="todo">Todo</option>
+                <option value="in_progress">In Progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+
+            {/* Priority Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
+              <select
+                value={priorityFilter}
+                onChange={(e) => {
+                  setPriorityFilter(e.target.value);
+                  handleFilterChange();
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              >
+                <option value="">All</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+
+            {/* Tags Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
+              <input
+                type="text"
+                value={tagsFilter}
+                onChange={(e) => {
+                  setTagsFilter(e.target.value);
+                  handleFilterChange();
+                }}
+                placeholder="tag1, tag2"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            {/* Sort */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  handleFilterChange();
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              >
+                <option value="created_at:desc">Newest First</option>
+                <option value="created_at:asc">Oldest First</option>
+                <option value="due_date:asc">Due Date (Ascending)</option>
+                <option value="due_date:desc">Due Date (Descending)</option>
+                <option value="priority:desc">Priority (High to Low)</option>
+                <option value="priority:asc">Priority (Low to High)</option>
+                <option value="title:asc">Title (A-Z)</option>
+                <option value="title:desc">Title (Z-A)</option>
+              </select>
+            </div>
+          </div>
+        )}
       </div>
 
       {tasks.length === 0 ? (
@@ -181,6 +360,80 @@ function TaskListPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {pagination && pagination.total_pages > 1 && (
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-sm text-gray-600">
+            Showing {((page - 1) * pageSize) + 1} to {Math.min(page * pageSize, pagination.total_items)} of {pagination.total_items} tasks
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            
+            <div className="flex items-center gap-1">
+              {Array.from({ length: Math.min(5, pagination.total_pages) }, (_, i) => {
+                let pageNum;
+                if (pagination.total_pages <= 5) {
+                  pageNum = i + 1;
+                } else if (page <= 3) {
+                  pageNum = i + 1;
+                } else if (page >= pagination.total_pages - 2) {
+                  pageNum = pagination.total_pages - 4 + i;
+                } else {
+                  pageNum = page - 2 + i;
+                }
+                
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    className={`px-3 py-2 border rounded-md text-sm font-medium ${
+                      page === pageNum
+                        ? 'bg-primary-500 text-white border-primary-500'
+                        : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                    }`}
+                    style={page === pageNum ? { backgroundColor: '#3b82f6' } : {}}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === pagination.total_pages}
+              className="px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600">Per page:</label>
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPage(1);
+              }}
+              className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
         </div>
       )}
     </div>

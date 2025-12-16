@@ -106,6 +106,12 @@ function LoginPage() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+        <div className="text-center text-sm">
+          <span className="text-gray-600">Don't have an account? </span>
+          <Link to="/register" className="text-primary-500 hover:text-primary-700 font-medium">
+            Register
+          </Link>
+        </div>
       </div>
     </div>
   );
