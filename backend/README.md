@@ -26,6 +26,14 @@ cd backend
 .venv/bin/python3 scripts/query_audit_events.py
 ```
 
+**Seed Sample Tasks:**
+```bash
+cd backend
+.venv/bin/python3 scripts/seed_tasks.py
+# Or specify count and user ID:
+.venv/bin/python3 scripts/seed_tasks.py --count 50 --user-id 1
+```
+
 **View API Documentation:**
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
