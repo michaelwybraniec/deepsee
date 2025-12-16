@@ -103,33 +103,33 @@ function TaskListPage() {
           </Link>
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+        <div className="space-y-3">
           {tasks.map((task) => (
             <div
               key={task.id}
               onClick={() => navigate(`/tasks/${task.id}`)}
-              className="block hover:bg-gray-50 cursor-pointer p-5 transition-colors"
+              className="block hover:bg-gray-50 cursor-pointer bg-white rounded-lg border border-gray-200 p-3 transition-colors"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start justify-between gap-3">
                 {/* Main Content */}
-                <div className="flex-1 min-w-0 space-y-2">
+                <div className="flex-1 min-w-0 space-y-1.5">
                   {/* Title Row */}
-                  <div className="flex items-start gap-3">
-                    <h3 className="text-lg font-semibold text-gray-900 flex-1">
+                  <div className="flex items-start gap-2">
+                    <h3 className="text-base font-semibold text-gray-900 flex-1">
                       {task.title}
                     </h3>
                     {/* Status and Priority - Right aligned */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
                       {task.status && (
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
                         >
                           {task.status}
                         </span>
                       )}
                       {task.priority && (
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}
                         >
                           {task.priority}
                         </span>
@@ -145,16 +145,16 @@ function TaskListPage() {
                   )}
 
                   {/* Metadata Row */}
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 pt-1">
-                    <div className="flex items-center gap-1.5">
-                      <svg className="h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                    <div className="flex items-center gap-1">
+                      <svg className="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       <span className="font-medium text-gray-700">{formatDate(task.due_date)}</span>
                     </div>
                     {task.tags && task.tags.length > 0 && (
-                      <div className="flex items-center gap-1.5">
-                        <svg className="h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="flex items-center gap-1">
+                        <svg className="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                         </svg>
                         <span>{task.tags.join(', ')}</span>
@@ -165,7 +165,7 @@ function TaskListPage() {
 
                 {/* Arrow Icon */}
                 <svg
-                  className="h-5 w-5 text-gray-400 flex-shrink-0 mt-1"
+                  className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
