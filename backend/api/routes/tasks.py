@@ -115,7 +115,7 @@ def list_tasks_endpoint(
     - `q`: Search term (searches in title and description, case-insensitive partial match)
     - `status`: Filter by status (exact match)
     - `priority`: Filter by priority (exact match)
-    - `tags`: Filter by tags (comma-separated, tasks containing any tag)
+    - `tags`: Filter by tags (comma-separated, tasks containing any tag - case-insensitive partial matching)
     - `due_date`: Filter by exact due date
     - `due_date_from`: Filter by due date range (start)
     - `due_date_to`: Filter by due date range (end)
