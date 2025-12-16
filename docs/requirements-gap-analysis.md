@@ -199,7 +199,7 @@ This document compares `docs/requirements.md` against the current implementation
 - **Requirement**: Observability/health checks tests
 - **Status**: ✅ Implemented (`backend/tests/observability/`)
 - **Requirement**: UI smoke tests
-- **Status**: ⚠️ **INCOMPLETE** - Directory structure exists (`frontend/tests/e2e/`) but no actual E2E tests implemented (Playwright/Cypress setup needed)
+- **Status**: ✅ **COMPLETE** - Playwright E2E tests implemented (10 tests passing)
 
 ---
 
