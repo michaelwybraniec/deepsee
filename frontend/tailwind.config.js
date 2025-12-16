@@ -13,9 +13,9 @@ export default {
           200: '#bfdbfe',
           300: '#93c5fd',
           400: '#60a5fa',
-          500: '#3b82f6', // Matches favicon primary blue
+          500: '#3b82f6',
           600: '#2563eb',
-          700: '#1d4ed8', // Matches favicon gradient end
+          700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
           950: '#172554',
@@ -24,15 +24,4 @@ export default {
     },
   },
   plugins: [],
-  safelist: [
-    'bg-primary-500',
-    'bg-primary-700',
-    'text-primary-500',
-    'text-primary-700',
-    'hover:bg-primary-700',
-    'hover:text-primary-500',
-    'hover:text-primary-700',
-    'focus:ring-primary-500',
-    'border-primary-500',
-  ],
 }
