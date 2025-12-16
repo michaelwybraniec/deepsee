@@ -91,6 +91,9 @@ app.include_router(tasks.router)
 app.include_router(attachments.router)
 app.include_router(worker.router)
 
+# Add rate limiting middleware
+app.add_middleware(RateLimitingMiddleware)
+
 
 @app.get("/")
 def root():
@@ -124,6 +127,13 @@ async def shutdown_event():
         stop_scheduler()
     except Exception as e:
         logging.error(f"Error stopping worker scheduler: {e}", exc_info=True)
+    
+    # Close Redis connection
+    try:
+        from infrastructure.rate_limiting.redis_client import close_redis_client
+        close_redis_client()
+    except Exception as e:
+        logging.error(f"Error closing Redis client: {e}", exc_info=True)
     
     # Close Redis connection
     try:

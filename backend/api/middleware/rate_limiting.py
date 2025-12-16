@@ -38,7 +38,7 @@ def get_rate_limit_key(request: Request) -> Optional[str]:
             from infrastructure.auth.config import auth_config
             from jose import jwt
             token = auth_header.split(" ")[1]
-            payload = jwt.decode(token, auth_config.secret_key, algorithms=[auth_config.algorithm])
+            payload = jwt.decode(token, auth_config.get_secret_key(), algorithms=[auth_config.get_algorithm()])
             user_id = payload.get("sub")
             if user_id:
                 return f"user:{user_id}"
