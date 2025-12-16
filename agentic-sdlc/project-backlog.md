@@ -115,25 +115,25 @@ Technology choices, library versions, and rationale are documented in `docs/tech
   - [x] [Task 11.5: Write architecture rationale and self-assessment](tasks/planned/task-11-5.md)
 
 ## Unplanned Tasks
-- [ ] [U-1: Prometheus + Grafana observability dashboards](tasks/unplanned/U-1.md)
-  - Set up Prometheus server with scrape config for `/api/metrics`
-  - Create Grafana dashboard with must-have panels:
+- [x] [U-1: Prometheus + Grafana observability dashboards](tasks/unplanned/U-1.md)
+  - ✅ Set up Prometheus server with scrape config for `/api/metrics`
+  - ✅ Create Grafana dashboard with must-have panels:
     - Request volume (requests/sec) from `http_requests_total`
     - Error rate (%) from `http_errors_total` / `http_requests_total`
     - Latency (p50/p95) from `http_request_duration_seconds`
     - Reminders processed (success/failure) from `reminders_processed_total`
-  - Add docker-compose configuration for Prometheus + Grafana
-  - Document dashboard usage and configuration
-- [ ] [U-2: Implement partial/substring tag matching in search](tasks/unplanned/U-2.md)
-  - Change tag filtering from exact match to case-insensitive substring matching
-  - Improve UX consistency with existing search behavior (title/description use partial matching)
-  - Backend implementation recommended for pagination compatibility
-- [ ] [U-3: Implement UI smoke tests (E2E tests)](tasks/unplanned/U-3.md)
-  - Set up Playwright or Cypress for E2E testing
-  - Implement tests for critical user flows: authentication, task management, attachments, search/filtering
-  - Add test utilities, helpers, and page objects
-  - Configure CI/CD integration
-  - **Priority: High** - Required by assignment (docs/requirements.md section "11. Tests")
+  - ✅ Add docker-compose configuration for Prometheus + Grafana
+  - ✅ Document dashboard usage and configuration
+- [x] [U-2: Implement partial/substring tag matching in search](tasks/unplanned/U-2.md)
+  - ✅ Change tag filtering from exact match to case-insensitive substring matching
+  - ✅ Improve UX consistency with existing search behavior (title/description use partial matching)
+  - ✅ Backend implementation for pagination compatibility
+- [x] [U-3: Implement UI smoke tests (E2E tests)](tasks/unplanned/U-3.md)
+  - ✅ Set up Playwright for E2E testing
+  - ✅ Implement tests for critical user flows: authentication, task management, attachments, search/filtering
+  - ✅ Add test configuration and npm scripts
+  - ✅ Update documentation with test instructions
+  - ✅ **Priority: High** - Required by assignment (docs/requirements.md section "11. Tests")
 
 ## Completed Tasks
 - [x] [Task 1: Project environment and documentation](tasks/planned/task-1.md)
