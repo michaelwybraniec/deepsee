@@ -153,6 +153,7 @@ app.include_router(health.router)
 
 # Add middleware (order matters: correlation ID first, then metrics, then rate limiting)
 app.add_middleware(CorrelationIDMiddleware)
+app.add_middleware(MetricsMiddleware)
 app.add_middleware(RateLimitingMiddleware)
 
 

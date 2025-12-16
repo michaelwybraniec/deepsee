@@ -223,9 +223,9 @@ def test_rate_limiting_middleware_unauthenticated(client, monkeypatch):
     
     # Make requests within limit (to health endpoint to avoid auth requirement)
     for i in range(5):
-        response = client.get("/health")
-        # Should get 200, not 429
-        assert response.status_code == 200
+        response = client.get("/api/health")
+        # Should get 200 or 503 (503 if worker/db unhealthy), not 429
+        assert response.status_code in [200, 503]
     
     # Health endpoint is excluded from rate limiting, so use a different endpoint
     # Actually, let's test with a request that would hit rate limiting
@@ -269,7 +269,8 @@ def test_rate_limiting_skips_health_endpoint(client):
     """Test that health endpoint is excluded from rate limiting."""
     # Make many requests to health endpoint
     for i in range(20):
-        response = client.get("/health")
-        assert response.status_code == 200
+        response = client.get("/api/health")
+        # Should get 200 or 503 (503 if worker/db unhealthy), not 429
+        assert response.status_code in [200, 503]
         # Should not be rate limited
         assert response.status_code != 429

@@ -66,7 +66,7 @@ def check_worker_health() -> tuple[bool, str]:
     return True, "Worker scheduler is running"
 
 
-@router.get("/health")
+@router.get("/health", summary="Comprehensive health check")
 def health_check(db: Session = Depends(get_db)):
     """
     Comprehensive health check endpoint.
