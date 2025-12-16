@@ -373,7 +373,7 @@ function TaskListPage() {
       {pagination && pagination.total_pages > 1 && (
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-sm text-gray-600">
-            Showing {((page - 1) * pageSize) + 1} to {Math.min(page * pageSize, pagination.total_items)} of {pagination.total_items} tasks
+            Showing {((page - 1) * pageSize) + 1} to {Math.min(page * pageSize, pagination.total)} of {pagination.total} tasks
           </div>
           
           <div className="flex items-center gap-2">
