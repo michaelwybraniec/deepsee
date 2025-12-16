@@ -144,7 +144,21 @@ app = FastAPI(
     }
 )
 
-# Configure CORS
+# Include routers
+app.include_router(auth.router)
+app.include_router(tasks.router)
+app.include_router(attachments.router)
+app.include_router(worker.router)
+app.include_router(metrics.router)
+app.include_router(health.router)
+
+# Add middleware (order matters: FastAPI executes middleware in reverse order - LIFO)
+# So add in reverse: rate limiting first, then metrics, then correlation ID, then CORS last (executes first)
+app.add_middleware(RateLimitingMiddleware)
+app.add_middleware(MetricsMiddleware)
+app.add_middleware(CorrelationIDMiddleware)
+
+# Configure CORS - add last so it executes first (handles preflight OPTIONS requests)
 # Allow frontend origin (Vite dev server runs on port 5173)
 CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
@@ -154,19 +168,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Include routers
-app.include_router(auth.router)
-app.include_router(tasks.router)
-app.include_router(attachments.router)
-app.include_router(worker.router)
-app.include_router(metrics.router)
-app.include_router(health.router)
-
-# Add middleware (order matters: CORS first, then correlation ID, then metrics, then rate limiting)
-app.add_middleware(CorrelationIDMiddleware)
-app.add_middleware(MetricsMiddleware)
-app.add_middleware(RateLimitingMiddleware)
 
 
 @app.get("/")
