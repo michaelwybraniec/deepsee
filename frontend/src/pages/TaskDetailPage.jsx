@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import { getTask, deleteTask } from '../services/taskApi';
 import { useAuth } from '../contexts/AuthContext';
+import AttachmentsSection from '../components/AttachmentsSection';
 
 function TaskDetailPage() {
   const { id } = useParams();
@@ -175,14 +177,9 @@ function TaskDetailPage() {
         </div>
       </div>
 
-      {/* Attachments section will be implemented in task 10.5 */}
-      <div className="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6">
-          <h2 className="text-lg font-medium text-gray-900">Attachments</h2>
-          <p className="mt-2 text-sm text-gray-500">
-            Attachments section will be implemented in task 10.5
-          </p>
-        </div>
+      {/* Attachments section */}
+      <div className="mt-6">
+        <AttachmentsSection taskId={task.id} isOwner={isOwner} />
       </div>
     </div>
   );

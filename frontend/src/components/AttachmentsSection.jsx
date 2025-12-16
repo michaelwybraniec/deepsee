@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 import { uploadAttachment, listAttachments, deleteAttachment } from '../services/attachmentApi';
 import { useAuth } from '../contexts/AuthContext';
 

@@ -1,6 +1,6 @@
 # Task ID: 10.6
 # Title: Implement validation, error handling, and toasts/alerts
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Frontend Dev
 # Estimated Effort: 4h
