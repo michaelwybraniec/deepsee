@@ -12,9 +12,16 @@ from domain.models.user import User
 
 logger = logging.getLogger(__name__)
 
-# Configuration
-RATE_LIMIT_REQUESTS = int(os.getenv("RATE_LIMIT_REQUESTS", "100"))
-RATE_LIMIT_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", "60"))
+
+def get_rate_limit_config():
+    """Get rate limit configuration from environment variables.
+    
+    Returns:
+        Tuple of (requests: int, window_seconds: int)
+    """
+    requests = int(os.getenv("RATE_LIMIT_REQUESTS", "100"))
+    window_seconds = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", "60"))
+    return requests, window_seconds
 
 
 def get_rate_limit_key(request: Request) -> Optional[str]:
@@ -102,11 +109,14 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
             logger.warning("Cannot determine rate limit key, allowing request")
             return await call_next(request)
         
+        # Get rate limit configuration (read dynamically)
+        limit_requests, limit_window = get_rate_limit_config()
+        
         # Check rate limit
         allowed, retry_after, remaining = check_rate_limit(
             key=key,
-            limit=RATE_LIMIT_REQUESTS,
-            window_seconds=RATE_LIMIT_WINDOW_SECONDS
+            limit=limit_requests,
+            window_seconds=limit_window
         )
         
         if not allowed:
@@ -126,7 +136,7 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
             
             # Add rate limit headers
             response.headers["Retry-After"] = str(retry_after)
-            response.headers["X-RateLimit-Limit"] = str(RATE_LIMIT_REQUESTS)
+            response.headers["X-RateLimit-Limit"] = str(limit_requests)
             response.headers["X-RateLimit-Remaining"] = "0"
             
             logger.info(f"Rate limit exceeded for key {key}, retry_after: {retry_after}")
@@ -136,7 +146,7 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         
         # Add rate limit headers to successful responses
-        response.headers["X-RateLimit-Limit"] = str(RATE_LIMIT_REQUESTS)
+        response.headers["X-RateLimit-Limit"] = str(limit_requests)
         response.headers["X-RateLimit-Remaining"] = str(remaining)
         
         return response

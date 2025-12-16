@@ -177,7 +177,15 @@ def test_rate_limiting_middleware_authenticated_user(client, test_user, monkeypa
     
     headers = {"Authorization": f"Bearer {token}"}
     
-    # Make requests within limit
+    # Clean up any existing keys for this user
+    redis_client = get_redis_client()
+    if redis_client:
+        user_id = test_user.id
+        keys = redis_client.keys(f"rate_limit:user:{user_id}:*")
+        if keys:
+            redis_client.delete(*keys)
+    
+    # Make requests up to limit (5 requests with limit of 5)
     for i in range(5):
         response = client.get("/api/tasks/", headers=headers)
         assert response.status_code in [200, 404]  # 404 if no tasks, but not 429
@@ -186,7 +194,8 @@ def test_rate_limiting_middleware_authenticated_user(client, test_user, monkeypa
     response = client.get("/api/tasks/", headers=headers)
     redis_client = get_redis_client()
     if redis_client:
-        assert response.status_code == 429
+        # The 6th request should exceed the limit of 5
+        assert response.status_code == 429, f"Expected 429, got {response.status_code}. Response: {response.text}"
         assert "RATE_LIMIT_EXCEEDED" in response.json()["error"]["code"]
         assert "retry_after" in response.json()["error"]
         assert "Retry-After" in response.headers
@@ -251,7 +260,9 @@ def test_rate_limiting_headers(client, test_user, monkeypatch):
     # Check headers are present (even if Redis is unavailable, headers should be set)
     assert "X-RateLimit-Limit" in response.headers
     assert "X-RateLimit-Remaining" in response.headers
-    assert response.headers["X-RateLimit-Limit"] == "10"
+    # The middleware should read the env var dynamically, so it should be 10
+    limit_value = response.headers["X-RateLimit-Limit"]
+    assert limit_value == "10", f"Expected 10 (from env var), got {limit_value}. Middleware should read config dynamically."
 
 
 def test_rate_limiting_skips_health_endpoint(client):
