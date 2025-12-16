@@ -5,6 +5,7 @@
 Comprehensive documentation is available in the [`docs/`](docs/) directory:
 
 - **[Quick Start Guide](docs/quick-start.md)** - Setup and running the API
+- **[Testing Guide](docs/testing.md)** - Complete testing guide and best practices ⭐
 - **[Audit Trail Usage](docs/audit-trail-usage.md)** - How to query and use audit events ⭐
 - **[Worker Usage](docs/worker-usage.md)** - Background worker documentation
 - **[Database Access](docs/database-access.md)** - Database management
