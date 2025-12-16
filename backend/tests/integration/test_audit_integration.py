@@ -104,9 +104,11 @@ def test_task_deletion_creates_audit_event(db_session: Session, test_user, audit
     # Create task first
     request = TaskCreateRequest(title="Test Task")
     created_task = create_task(task_repository, request, test_user.id, audit_logger)
+    db_session.commit()  # Commit task creation
     
     # Delete task
     delete_task(task_repository, created_task.id, test_user.id, audit_logger)
+    db_session.commit()  # Commit deletion and audit event
     
     # Verify audit event was created
     events = db_session.query(AuditEventModel).filter(
