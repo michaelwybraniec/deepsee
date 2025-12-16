@@ -1,6 +1,6 @@
 # Task ID: 10.3
 # Title: Implement auth-related frontend flows
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Frontend Dev
 # Estimated Effort: 4h

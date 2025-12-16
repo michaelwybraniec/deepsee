@@ -1,7 +1,13 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 function Layout() {
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -24,6 +30,11 @@ function Layout() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              {user && (
+                <span className="text-gray-500 text-sm">
+                  {user.username || user.email}
+                </span>
+              )}
               <Link
                 to="/change-password"
                 className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
@@ -31,10 +42,7 @@ function Layout() {
                 Change Password
               </Link>
               <button
-                onClick={() => {
-                  // TODO: Implement logout in task 10.3
-                  navigate('/login');
-                }}
+                onClick={handleLogout}
                 className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Logout
