@@ -85,7 +85,7 @@ This document lists all required test categories and deliverables from `docs/req
 ### 4. Tests
 **Source**: `req.md` "Deliverables", `tech-specs.md` §4
 - All 6 test categories implemented and passing
-- **Status**: ✅ Complete (all 6 test categories organized in `backend/tests/` and `frontend/tests/e2e/`, 70+ tests passing)
+- **Status**: ✅ Complete (all 6 test categories organized in `backend/tests/` and `frontend/tests/e2e/`, 78 tests passing: 68 backend + 10 E2E)
 
 ### 5. Architecture and Rationale Document
 **Source**: `req.md` "Deliverables", `tech-specs.md` §4
