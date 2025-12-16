@@ -14,24 +14,25 @@ function Layout() {
       <nav className="bg-white border-b border-gray-200 shadow-sm">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 gap-3">
-            <Link to="/tasks" className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+            <Link to="/tasks" className="flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+              <img src="/favicon.svg" alt="Task Tracker" className="h-8 w-8" />
               Task Tracker
             </Link>
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm">
               {user && (
-                <span className="text-gray-700 font-medium">
-                  {user.username || user.email}
+                <span className="text-gray-700 font-medium px-2">
+                  Hello {user.username || user.email} !
                 </span>
               )}
               <Link
                 to="/change-password"
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className="px-3 py-1.5 bg-gray-100 text-gray-700 font-medium rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Change Password
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className="px-3 py-1.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Logout
               </button>
