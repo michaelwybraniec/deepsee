@@ -39,6 +39,7 @@ from fastapi import FastAPI
 from infrastructure.database import init_db
 from infrastructure.auth.config import auth_config
 from api.routes import auth, tasks, attachments, worker
+from api.middleware.rate_limiting import RateLimitingMiddleware
 from worker.scheduler import start_scheduler, stop_scheduler
 import os
 import logging
