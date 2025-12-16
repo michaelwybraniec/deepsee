@@ -22,7 +22,7 @@ This repository contains the implementation of the Task Tracker application for 
 - **Health Check (Worker)**: http://localhost:8000/api/health/worker
 
 **Infrastructure Services:**
-- **PostgreSQL Database**: `localhost:5432`
+- **PostgreSQL Database**: `localhost:5433` (host port, container uses 5432)
 - **Redis**: `localhost:6379`
 - **Adminer (Database Web UI)**: http://localhost:8888
 

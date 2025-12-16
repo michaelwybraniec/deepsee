@@ -130,10 +130,12 @@ You can use GUI tools like:
 
 **For PostgreSQL (Docker Compose):**
 - Host: `localhost`
-- Port: `5432`
+- Port: `5433` (host port; container uses 5432 internally)
 - Database: `task_tracker`
 - Username: `tasktracker`
 - Password: `changeme` (or value from `POSTGRES_PASSWORD` env var)
+
+**Note**: The container uses port 5432 internally, but it's mapped to port 5433 on the host to avoid conflicts with other PostgreSQL instances.
 
 ## Common Queries
 
