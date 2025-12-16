@@ -6,12 +6,12 @@ import { createTask } from '../services/taskApi';
 function CreateTaskPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    status: 'todo',
-    priority: 'medium',
+    title: 'Complete project documentation',
+    description: 'Write comprehensive documentation for the Task Tracker project including API endpoints, frontend components, and deployment instructions.',
+    status: 'in_progress',
+    priority: 'high',
     due_date: '',
-    tags: '',
+    tags: 'documentation, important, project',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
