@@ -88,8 +88,11 @@ frontend/
 
 ## Features
 
-- **Authentication**: Login and change password
+- **Authentication**: Login, registration, and change password
 - **Task Management**: Create, view, edit, and delete tasks
+- **Search & Filtering**: Search by title/description, filter by status, priority, tags, due date range, and "my tasks"
+- **Sorting**: Sort tasks by due date, priority, created/updated date
+- **Pagination**: Navigate through large task lists with configurable page size
 - **Attachments**: Upload and manage file attachments
 - **Validation**: Client-side form validation
 - **Toasts**: Success and error notifications
