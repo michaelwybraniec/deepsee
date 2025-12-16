@@ -15,6 +15,7 @@ email-validator>=2.1.0  # Required for EmailStr validation
 
 # Database (SQLAlchemy recommended per docs/technology.md)
 sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9  # PostgreSQL adapter for Docker Compose
 
 # Environment variables
 python-dotenv>=1.0.0

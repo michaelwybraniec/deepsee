@@ -12,7 +12,45 @@ This repository contains the implementation of the Task Tracker application for 
 
 ## Getting Started
 
-### Quick Start
+### Option 1: Docker Compose (Recommended)
+
+**Prerequisites:**
+- Docker and Docker Compose installed
+
+**Steps:**
+1. Copy environment file:
+   ```bash
+   cp .env.example .env
+   ```
+2. Edit `.env` and set your values (especially `JWT_SECRET_KEY` with at least 32 characters)
+3. Start all services:
+   ```bash
+   docker compose up
+   ```
+4. Access the application:
+   - **Frontend**: http://localhost:5173
+   - **Backend API**: http://localhost:8000
+   - **API Documentation**: http://localhost:8000/docs (Swagger UI)
+   - **ReDoc**: http://localhost:8000/redoc
+
+**Services:**
+- `api` - Backend API (port 8000)
+- `worker` - Background worker for reminders
+- `database` - PostgreSQL database (port 5432)
+- `redis` - Redis for rate limiting (port 6379)
+- `frontend` - React frontend (port 5173)
+
+**Stop services:**
+```bash
+docker compose down
+```
+
+**Stop and remove volumes (clean slate):**
+```bash
+docker compose down -v
+```
+
+### Option 2: Manual Setup
 
 **Start Backend:**
 ```bash
