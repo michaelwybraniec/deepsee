@@ -94,10 +94,13 @@ function EditTaskPage() {
       const result = await updateTask(id, taskData);
 
       if (result.success) {
+        toast.success('Task updated successfully!');
         // Redirect to task detail on success
         navigate(`/tasks/${id}`);
       } else {
-        setError(result.error || 'Failed to update task');
+        const errorMsg = result.error || 'Failed to update task';
+        setError(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');

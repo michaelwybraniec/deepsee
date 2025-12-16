@@ -33,10 +33,13 @@ function LoginPage() {
       const result = await login(username.trim(), password);
 
       if (result.success) {
+        toast.success('Login successful!');
         // Redirect to task list on success
         navigate('/tasks');
       } else {
-        setError(result.error || 'Login failed. Please check your credentials.');
+        const errorMsg = result.error || 'Login failed. Please check your credentials.';
+        setError(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');

@@ -45,6 +45,7 @@ function AttachmentsSection({ taskId, isOwner }) {
     const result = await uploadAttachment(taskId, file);
 
     if (result.success) {
+      toast.success('Attachment uploaded successfully!');
       // Refresh attachment list
       await fetchAttachments();
       // Clear file input
@@ -52,7 +53,9 @@ function AttachmentsSection({ taskId, isOwner }) {
         fileInputRef.current.value = '';
       }
     } else {
-      setError(result.error || 'Failed to upload attachment');
+      const errorMsg = result.error || 'Failed to upload attachment';
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
 
     setUploading(false);
@@ -66,10 +69,13 @@ function AttachmentsSection({ taskId, isOwner }) {
     const result = await deleteAttachment(attachmentId);
 
     if (result.success) {
+      toast.success('Attachment deleted successfully!');
       // Remove attachment from list (optimistic update)
       setAttachments((prev) => prev.filter((att) => att.id !== attachmentId));
     } else {
-      setError(result.error || 'Failed to delete attachment');
+      const errorMsg = result.error || 'Failed to delete attachment';
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
   };
 

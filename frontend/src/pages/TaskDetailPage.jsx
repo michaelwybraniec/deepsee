@@ -40,9 +40,12 @@ function TaskDetailPage() {
     const result = await deleteTask(id);
     
     if (result.success) {
+      toast.success('Task deleted successfully!');
       navigate('/tasks');
     } else {
-      setError(result.error || 'Failed to delete task');
+      const errorMsg = result.error || 'Failed to delete task';
+      setError(errorMsg);
+      toast.error(errorMsg);
       setDeleting(false);
     }
   };

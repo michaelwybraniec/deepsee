@@ -55,17 +55,20 @@ function ChangePasswordPage() {
 
       if (result.success) {
         setSuccess(true);
+        toast.success('Password changed successfully!');
         // Clear form
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
-        // Show success message for a few seconds, then optionally redirect
+        // Show success message for a few seconds, then redirect
         setTimeout(() => {
           setSuccess(false);
           navigate('/tasks');
         }, 2000);
       } else {
-        setError(result.error || 'Password change failed. Please check your current password.');
+        const errorMsg = result.error || 'Password change failed. Please check your current password.';
+        setError(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');

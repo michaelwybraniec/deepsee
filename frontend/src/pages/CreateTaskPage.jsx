@@ -52,10 +52,13 @@ function CreateTaskPage() {
       const result = await createTask(taskData);
 
       if (result.success) {
+        toast.success('Task created successfully!');
         // Redirect to task detail on success
         navigate(`/tasks/${result.data.id}`);
       } else {
-        setError(result.error || 'Failed to create task');
+        const errorMsg = result.error || 'Failed to create task';
+        setError(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
