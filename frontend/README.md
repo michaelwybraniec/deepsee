@@ -72,13 +72,19 @@ npm run preview
 ```
 frontend/
 ├── src/
-│   ├── components/     # Reusable components
+│   ├── components/     # Reusable components (Layout, ProtectedRoute, etc.)
 │   ├── contexts/       # React contexts (AuthContext)
-│   ├── pages/          # Page components
-│   ├── services/       # API clients
+│   ├── pages/          # Page components (Login, Register, Tasks, etc.)
+│   ├── services/       # API clients (api.js, taskApi.js, attachmentApi.js)
 │   └── utils/          # Helper functions
-├── public/             # Static assets
-└── dist/               # Production build output
+├── tests/
+│   └── e2e/            # Playwright E2E tests
+├── docs/               # Frontend documentation
+├── public/             # Static assets (favicon, etc.)
+├── dist/               # Production build output
+├── tailwind.config.js  # Tailwind CSS configuration
+├── vite.config.js      # Vite configuration
+└── playwright.config.js # Playwright E2E test configuration
 ```
 
 ## Features
