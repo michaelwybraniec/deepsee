@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/api';
 
@@ -11,13 +11,10 @@ export function AuthProvider({ children }) {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Update isAuthenticated when token changes
-    setIsAuthenticated(!!token);
-  }, [token]);
+  // Derive isAuthenticated from token instead of storing as separate state
+  const isAuthenticated = useMemo(() => !!token, [token]);
 
   const login = async (username, password) => {
     try {
@@ -33,7 +30,6 @@ export function AuthProvider({ children }) {
       localStorage.setItem('user', JSON.stringify(userData));
       setToken(newToken);
       setUser(userData);
-      setIsAuthenticated(true);
       
       return { success: true, user: userData };
     } catch (error) {
@@ -47,7 +43,6 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('user');
     setToken(null);
     setUser(null);
-    setIsAuthenticated(false);
     navigate('/login');
   };
 
