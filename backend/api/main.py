@@ -2,7 +2,7 @@ r"""
 Task Tracker API - Enterprise-grade task management system.
 
 A comprehensive RESTful API for secure task management with advanced features including 
-authentication, file attachments, search capabilities, notifications, and comprehensive audit trails.
+authentication, file attachments, search capabilities, notifications, comprehensive audit trails, and rate limiting.
 ```text
 
 
@@ -65,9 +65,35 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
+# Build dynamic API description with rate limiting info
+RATE_LIMIT_ENABLED = os.getenv("RATE_LIMIT_ENABLED", "true").lower() == "true"
+RATE_LIMIT_REQUESTS = int(os.getenv("RATE_LIMIT_REQUESTS", "100"))
+RATE_LIMIT_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", "60"))
+RATE_LIMIT_WINDOW_MINUTES = RATE_LIMIT_WINDOW_SECONDS // 60
+
+api_description = __doc__.strip()
+
+if RATE_LIMIT_ENABLED:
+    api_description += f"""
+
+**Rate Limiting:**
+- Rate limiting is applied to all API endpoints ({RATE_LIMIT_REQUESTS} requests per {RATE_LIMIT_WINDOW_MINUTES} minute{'s' if RATE_LIMIT_WINDOW_MINUTES != 1 else ''} per user/IP)
+- Authenticated requests are rate-limited per user (based on user ID)
+- Unauthenticated requests are rate-limited per IP address
+- When rate limit is exceeded, the API returns HTTP 429 (Too Many Requests) with:
+  - Error message: "Rate limit exceeded. Please try again in X seconds."
+  - `Retry-After` header: Seconds until limit resets
+  - `X-RateLimit-Limit` header: Maximum requests per window
+  - `X-RateLimit-Remaining` header: Remaining requests in current window
+- Health check endpoint (`/health`) is excluded from rate limiting
+- Configure via environment variables: `RATE_LIMIT_REQUESTS`, `RATE_LIMIT_WINDOW_SECONDS`
+"""
+else:
+    api_description += "\n\n**Note:** Rate limiting is currently disabled."
+
 app = FastAPI(
     title=API_TITLE,
-    description=__doc__,  # Automatically uses module docstring above
+    description=api_description,  # Dynamic description with rate limiting info
     version=API_VERSION,
     contact={
         "name": API_AUTHOR,
