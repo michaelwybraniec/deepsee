@@ -1,6 +1,6 @@
 # Task ID: 10.2
 # Title: Set up React project and routing
-# Status: [ ] Pending
+# Status: [x] In Progress
 # Priority: high
 # Owner: Frontend Dev
 # Estimated Effort: 3h
