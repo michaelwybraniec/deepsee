@@ -119,7 +119,9 @@ Edit `prometheus.yml` to adjust:
 
 1. Check API is running: `curl http://localhost:8000/api/metrics`
 2. Check Prometheus targets: http://localhost:9090/targets
-3. Verify network connectivity (if using Docker Compose)
+3. Verify target health status (should be "up")
+4. If API runs locally, ensure `prometheus.yml` uses `host.docker.internal:8000`
+5. If API runs in Docker, ensure both are on the same network and use `api:8000`
 
 ### Grafana not showing data
 
