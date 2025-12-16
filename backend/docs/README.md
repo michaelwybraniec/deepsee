@@ -21,6 +21,7 @@ This directory contains comprehensive documentation for the Task Tracker API bac
 - **[Task Model](task-model.md)** - Task data model design
 - **[Search & Filter Requirements](search-filter-requirements.md)** - Search, filter, sort, and pagination requirements
 - **[Search & Filter API Design](search-filter-api-design.md)** - API design for search and filtering
+- **[Tag Filtering (Partial Match)](tag-filtering-partial-match.md)** - Tag matching implementation details
 - **[Attachment Requirements](attachment-requirements.md)** - Attachment feature requirements
 - **[Attachment Design](attachment-design.md)** - Attachment storage and model design
 
@@ -75,6 +76,7 @@ sqlite3 task_tracker.db
 ### Task Management
 - Task fields and model: `task-fields.md`, `task-model.md`
 - Search and filtering: `search-filter-requirements.md`, `search-filter-api-design.md`
+- Tag filtering: `tag-filtering-partial-match.md`
 
 ### Attachments
 - Requirements: `attachment-requirements.md`
@@ -94,6 +96,15 @@ sqlite3 task_tracker.db
 - Requirements: `audit-trail-requirements.md`
 - Schema: `audit-schema-design.md`
 - **Usage: `audit-trail-usage.md`** ⭐
+
+### Rate Limiting
+- Requirements: `rate-limiting-requirements.md`
+- Design: `rate-limiting-design.md`
+
+### Monitoring & Observability
+- Requirements: `monitoring-logging-requirements.md`
+- Usage: `monitoring-usage.md`
+- Dashboards: `prometheus-grafana-usage.md`
 
 ## Contributing
 

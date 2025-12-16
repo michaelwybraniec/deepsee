@@ -4,12 +4,20 @@
 
 Comprehensive documentation is available in the [`docs/`](docs/) directory:
 
+**Getting Started:**
 - **[Quick Start Guide](docs/quick-start.md)** - Setup and running the API
+- **[API Endpoints Summary](docs/api-endpoints-summary.md)** - Complete API reference ⭐
+- **[Swagger Auth Guide](docs/swagger-auth-guide.md)** - How to authenticate in Swagger UI
 - **[Testing Guide](docs/testing.md)** - Complete testing guide and best practices ⭐
+
+**Key Features:**
 - **[Audit Trail Usage](docs/audit-trail-usage.md)** - How to query and use audit events ⭐
 - **[Worker Usage](docs/worker-usage.md)** - Background worker documentation
-- **[Database Access](docs/database-access.md)** - Database management
-- **[Full Documentation Index](docs/README.md)** - Complete list of all documentation
+- **[Monitoring Usage](docs/monitoring-usage.md)** - How to access logs and metrics
+- **[Prometheus & Grafana Usage](docs/prometheus-grafana-usage.md)** - Observability dashboards
+
+**Full Documentation Index:**
+- **[Complete Documentation Index](docs/README.md)** - All backend documentation organized by category
 
 ### Quick Reference
 

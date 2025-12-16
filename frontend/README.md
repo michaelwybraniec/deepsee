@@ -132,9 +132,14 @@ cd ../backend
 - **Vite 7+**: Build tool and dev server
 - **React Router 6.20+**: Routing
 - **Axios 1.6+**: HTTP client
+- **Tailwind CSS 3.4+**: Utility-first CSS framework
 - **Sonner 2.0+**: Toast notifications
+- **Playwright 1.57+**: E2E testing framework
 
 ## Related Documentation
 
 - [Frontend Requirements](docs/frontend-requirements.md) - Detailed requirements
+- [Task 10 Review](docs/task-10-review.md) - Frontend implementation review
+- [E2E Tests README](tests/e2e/README.md) - Playwright E2E test documentation
 - [Backend API Documentation](../backend/docs/README.md) - Backend API docs
+- [Backend API Endpoints Summary](../backend/docs/api-endpoints-summary.md) - Complete API reference

@@ -65,7 +65,9 @@ This repository contains the implementation of the Task Tracker application for 
 - **[Worker Design](backend/docs/worker-design.md)** - Background worker architecture
 - **[Worker Usage](backend/docs/worker-usage.md)** - How to use and test the worker
 
-#### Frontend Documentation
+#### Frontend Documentation (`frontend/docs/`)
+- **[Frontend Requirements](frontend/docs/frontend-requirements.md)** - Detailed frontend requirements
+- **[Task 10 Review](frontend/docs/task-10-review.md)** - Frontend implementation review
 - **[E2E Tests README](frontend/tests/e2e/README.md)** - Playwright E2E test documentation
 
 #### Project Management (`agentic-sdlc/`)
@@ -187,7 +189,6 @@ docs/
 ├── architecture.md              # System architecture & design
 ├── technology.md                # Technology decisions & rationale
 ├── self-assessment.md           # Completion status & design choices
-├── unplanned-tasks-analysis.md  # Unplanned enhancements analysis
 └── suggestions.md               # Optional best practices
 ```
 
