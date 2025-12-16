@@ -314,7 +314,7 @@ This project uses an **Agentic SDLC** approach with a structured backlog and wor
 - **Workflow**: See [agentic-sdlc/AWP.md](agentic-sdlc/AWP.md) for the Agentic Workflow Protocol (AWP)
 - **Task details**: Individual task files in `agentic-sdlc/tasks/planned/` contain step-by-step implementation instructions
 
-Tasks are organized hierarchically and follow the AWP workflow (`awp check`, `awp update`, `awp commit`, `awp next`, `awp handoff`) for consistent progress tracking and collaboration between humans and AI agents.
+Tasks are organized hierarchically and follow the AWP workflow (`awp check`, `awp update`, `awp commit`, `awp next`, `awp handoff`) for consistent progress tracking and structured task management.
 
 ## 🔐 Default Credentials
 
