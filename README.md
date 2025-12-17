@@ -1,4 +1,4 @@
-# Task Tracker – Full Stack Application
+# Task Tracker
 
 Full stack task management application with authentication, file attachments, search/filtering, background workers, and observability.
 
