@@ -202,15 +202,15 @@ npm run test:e2e       # E2E tests
 
 ## Key Features
 
-- ✅ Authentication & Authorization (JWT)
-- ✅ Task Management (CRUD with ownership)
-- ✅ File Attachments
-- ✅ Search & Filtering (title, status, priority, tags, due date)
-- ✅ Background Worker (reminder notifications)
-- ✅ Audit Trail
-- ✅ Rate Limiting
-- ✅ Monitoring & Observability (Prometheus + Grafana)
-- ✅ Comprehensive Testing (68 backend + 10 E2E tests)
+- ✅ [Authentication & Authorization (JWT)](backend/docs/auth-design.md) - [Backend](backend/docs/auth-design.md) | [Authorization](backend/docs/authorization.md) | [Frontend](frontend/docs/authentication.md)
+- ✅ [Task Management (CRUD with ownership)](backend/docs/task-model.md) - [Backend](backend/docs/task-model.md) | [Frontend](frontend/docs/task-management.md)
+- ✅ [File Attachments](backend/docs/attachments.md) - [Backend](backend/docs/attachments.md) | [Frontend](frontend/docs/attachments.md)
+- ✅ [Search & Filtering](backend/docs/search-filter-api-design.md) (title, status, priority, tags, due date) - [Backend](backend/docs/search-filter-api-design.md) | [Frontend](frontend/docs/search-filtering.md)
+- ✅ [Background Worker (reminder notifications)](backend/docs/worker.md) - [Backend](backend/docs/worker.md)
+- ✅ [Audit Trail](backend/docs/audit.md) - [Backend](backend/docs/audit.md)
+- ✅ [Rate Limiting](backend/docs/rate-limiting-design.md) - [Backend](backend/docs/rate-limiting-design.md)
+- ✅ [Monitoring & Observability](backend/docs/monitoring-usage.md) (Prometheus + Grafana) - [Monitoring](backend/docs/monitoring-usage.md) | [Grafana](backend/docs/grafana.md)
+- ✅ [Comprehensive Testing](backend/docs/testing.md) (68 backend + 10 E2E tests) - [Backend](backend/docs/testing.md) | [Frontend E2E](frontend/tests/e2e/README.md)
 
 ## Technology Stack
 
