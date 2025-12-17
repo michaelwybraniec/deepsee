@@ -1,6 +1,7 @@
-## Architecture – Task Tracker
+# Architecture – Task Tracker
 
 This document describes the planned architecture for the Task Tracker application, based on:
+
 - The assignment in `docs/requirements.md`
 - The structured view in `docs/technical-specs.md`
 - Technology choices documented in `docs/technology.md`
@@ -181,18 +182,21 @@ The architecture must support the following test types:
 ### 6.1 Clean Architecture Approach
 
 **Why Clean Architecture?**
+
 - **Separation of Concerns**: Business logic is independent of frameworks, databases, and external services
 - **Testability**: Domain and application layers can be tested without infrastructure dependencies
 - **Maintainability**: Changes to infrastructure (e.g., switching databases) don't affect business logic
 - **Flexibility**: Easy to swap implementations (e.g., different storage backends, different ORMs)
 
 **How Layers Are Organized:**
+
 - **Domain Layer** (`domain/`): Pure business logic, no dependencies on external libraries
 - **Application Layer** (`application/`): Use cases that orchestrate domain logic, depends on domain interfaces
 - **Infrastructure Layer** (`infrastructure/`): Concrete implementations (database, storage, logging)
 - **Interface Layer** (`api/`, `worker/`): HTTP routes, worker entry points, depends on application layer
 
 **Trade-offs:**
+
 - **Pros**: High maintainability, testability, flexibility
 - **Cons**: More initial setup, more files/abstractions, can feel like overkill for simple features
 - **Decision**: Worth it for maintainable, testable codebase that can evolve
@@ -200,21 +204,25 @@ The architecture must support the following test types:
 ### 6.2 Technology Choices
 
 **FastAPI for Backend:**
+
 - **Rationale**: Built-in OpenAPI support, automatic validation, async support, excellent performance
 - **Trade-off**: Smaller ecosystem than Django, but sufficient for API-first application
 - **Reference**: See `docs/technology.md` for detailed rationale
 
 **React for Frontend:**
+
 - **Rationale**: Required by assignment, modern component-based architecture, large ecosystem
 - **Trade-off**: Learning curve for beginners, but widely adopted and well-documented
 - **Reference**: See `docs/technology.md` for detailed rationale
 
 **SQLite (Development) / PostgreSQL (Production):**
+
 - **Rationale**: SQLite for simplicity in development, PostgreSQL for production scalability
 - **Trade-off**: SQLite limitations (concurrency, JSON support) vs. simplicity
 - **Decision**: Support both via `DATABASE_URL` environment variable
 
 **Redis for Rate Limiting:**
+
 - **Rationale**: Fast, distributed, supports per-user and per-IP rate limiting
 - **Trade-off**: Additional infrastructure dependency vs. in-memory solution
 - **Decision**: Graceful degradation if Redis unavailable (rate limiting disabled)
@@ -222,38 +230,46 @@ The architecture must support the following test types:
 ### 6.3 Design Patterns Used
 
 **Repository Pattern:**
+
 - **Why**: Abstracts data access, enables testing with in-memory implementations
 - **Implementation**: `application/tasks/repository.py` defines interface, `infrastructure/persistence/repositories/` implements
 
 **Dependency Injection:**
+
 - **Why**: Loose coupling, easier testing, follows Dependency Inversion Principle
 - **Implementation**: FastAPI's `Depends()` for route dependencies, constructor injection for use cases
 
 **Use Case Pattern:**
+
 - **Why**: Encapsulates business logic, single responsibility per use case
 - **Implementation**: Each operation (create_task, update_task, etc.) is a separate use case function
 
 **Middleware Pattern:**
+
 - **Why**: Cross-cutting concerns (auth, logging, rate limiting) applied consistently
 - **Implementation**: FastAPI middleware for correlation IDs, metrics, rate limiting, CORS
 
 ### 6.4 Trade-offs Made
 
 **Simplicity vs. Scalability:**
+
 - **Choice**: Started with SQLite, designed to support PostgreSQL
 - **Rationale**: Faster development, easier local setup, can scale when needed
 
 **Development Speed vs. Architecture Purity:**
+
 - **Choice**: Clean Architecture with some pragmatic shortcuts (e.g., SQLAlchemy models in domain layer)
 - **Rationale**: Balance between maintainability and development velocity
 
 **Feature Completeness vs. Time:**
+
 - **Choice**: Implemented core features fully, some enhancements deferred (e.g., Prometheus/Grafana dashboards)
 - **Rationale**: Focus on working, well-tested core functionality first
 
 ## 7. Summary
 
 This architecture description:
+
 - Stays within the scope defined by `docs/requirements.md` and `docs/technical-specs.md`.
 - Highlights where concrete implementation decisions are required but not mandated.
 - Provides enough structure to implement the backend, worker, and frontend while preserving flexibility for technology and detailed design choices.
@@ -316,6 +332,3 @@ sequenceDiagram
     W->>DB: Log "reminder sent" event (audit)
   end
 ```
-
-
-

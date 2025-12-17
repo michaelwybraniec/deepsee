@@ -1,4 +1,4 @@
-## Technical Specification – Task Tracker (Strict Restatement)
+# Technical Specification – Task Tracker (Strict Restatement)
 
 This document **restructures** but does not extend or interpret the original assignment in `docs/requirements.md`.  
 It is intended as a faithful, sectioned view of the same content.
@@ -33,12 +33,14 @@ It is intended as a faithful, sectioned view of the same content.
 ## 3. Functional Requirements
 
 ### 3.1 Secure Login
+
 - Implement modern authentication (**OIDC/OAuth2** or **JWT‑based**).
 - Each user is allowed to **modify only their own data**, although they can **view all records**.
 
 > _Good practice (optional)_: Keep authentication logic centralized (e.g. middleware/guards) so that permission checks are not duplicated across handlers.
 
 ### 3.2 Task Management
+
 - Users can:
   - Create tasks.
   - View tasks.
@@ -58,6 +60,7 @@ It is intended as a faithful, sectioned view of the same content.
 > _Good practice (optional)_: Keep controllers/route handlers thin and move task business rules into dedicated use‑case/services for easier testing and maintenance.
 
 ### 3.3 Attachments
+
 - Allow users to upload files (e.g., screenshots, documents) for each task.
 - Display:
   - File name.
@@ -65,6 +68,7 @@ It is intended as a faithful, sectioned view of the same content.
 - Allow deletion of attachments.
 
 ### 3.4 Search & Filtering
+
 - Search tasks by:
   - Title.
   - Description.
@@ -77,6 +81,7 @@ It is intended as a faithful, sectioned view of the same content.
 - Paginate results.
 
 ### 3.5 Notifications
+
 - A background worker/service:
   - Checks for tasks due in the next 24 hours.
   - Logs “reminder sent” events.
@@ -85,6 +90,7 @@ It is intended as a faithful, sectioned view of the same content.
   - Fault‑tolerant (no duplicate reminders).
 
 ### 3.6 Audit Trail
+
 - Record key actions:
   - Task creation.
   - Task update.
@@ -96,11 +102,13 @@ It is intended as a faithful, sectioned view of the same content.
   - User ID.
 
 ### 3.7 Rate Limiting
+
 - Apply basic per‑user or per‑IP rate limiting on API requests.
 - When limits are exceeded:
   - Return meaningful error responses.
 
 ### 3.8 Monitoring & Logging
+
 - Use **structured logging** with **correlation IDs** for each request.
 - Add basic metrics, for example:
   - Request count.
@@ -115,6 +123,7 @@ It is intended as a faithful, sectioned view of the same content.
 > _Good practice (optional)_: Use a single correlation ID per request and propagate it through logs and metrics to simplify troubleshooting.
 
 ### 3.9 Error Handling & Resilience
+
 - Implement centralized exception handling.
 - Ensure consistent error responses.
 - Workers should:
@@ -124,6 +133,7 @@ It is intended as a faithful, sectioned view of the same content.
 > _Good practice (optional)_: Define and reuse a single JSON error response shape across all endpoints to keep the API predictable.
 
 ### 3.10 Front‑End
+
 - Implement a React UI for:
   - Login.
   - Task management.
@@ -138,6 +148,7 @@ It is intended as a faithful, sectioned view of the same content.
 - Include **change password** functionality.
 
 ### 3.11 Tests
+
 - Implement tests of the following kinds:
   - Unit tests.
   - Integration tests (API + DB).
@@ -218,5 +229,3 @@ They can be changed if needed without violating the original assignment.
   - Any additional pages or UI flows that help usability but are not explicitly listed.
 
 Whenever a new design decision is made that goes beyond the strict wording of `docs/requirements.md`, it should be documented here (or in a separate architecture/rationale document) and clearly marked as an assumption or choice.
-
-
