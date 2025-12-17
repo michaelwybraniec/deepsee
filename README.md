@@ -94,7 +94,7 @@ graph TB
         Worker -->|SQL Queries| PostgreSQL
     end
     
-    subgraph Monitoring["Observability Stack"]
+    subgraph Monitoring["Observability"]
         Prometheus["Prometheus<br/>:9090<br/>Metrics Collection"]
         Grafana["Grafana<br/>:3000<br/>Dashboards"]
         
@@ -102,19 +102,10 @@ graph TB
         Prometheus -->|Query API| Grafana
     end
     
-    subgraph DevTools["Development Tools"]
-        pgAdmin["pgAdmin 4<br/>:8888<br/>DB Admin UI"]
-        
-        pgAdmin -->|PostgreSQL Protocol| PostgreSQL
-    end
-    
     subgraph Engineering["Engineering Context"]
-        AWP["AWP Protocol<br/>Agentic Workflow<br/>Task Management"]
-        MCP["MCP Server<br/>Model Context Protocol<br/>Codebase Context"]
+        AWP["AWP - Agentic Workflow Protocol<br/>Backlog, Context Engineering & MCP"]
         
         AWP -.->|Workflow Context| FastAPI
-        MCP -.->|Code Context| FastAPI
-        MCP -.->|Documentation| React
     end
 ```
 
@@ -124,7 +115,6 @@ graph TB
 - **API**: <http://localhost:8000> | **Docs**: <http://localhost:8000/docs>
 - **Prometheus**: <http://localhost:9090>
 - **Grafana**: <http://localhost:3000> (admin/admin)
-- **pgAdmin**: <http://localhost:8888> (login: `admin`@`example.com` / password: `admin`)
 
 See [Architecture Documentation](docs/architecture.md) for details.
 
