@@ -35,67 +35,54 @@ graph TB
         Browser[Browser]
     end
     
-    subgraph "Frontend - React"
+    subgraph "Frontend"
         React["React UI :5173"]
-        Pages["Pages<br/>Login, Tasks, etc."]
-        Components["Components<br/>Layout, ProtectedRoute"]
+        Pages["Pages<br/>Login, Tasks"]
+        Components["Components<br/>Layout, Routes"]
         Services["Services<br/>API Clients"]
-        Context["Context<br/>AuthContext"]
+        Context["Context<br/>Auth"]
         
         React --> Pages
         Pages --> Components
         Pages --> Services
         Components --> Context
-        Services --> API
     end
     
-    subgraph "Backend - Clean Architecture"
+    subgraph "Backend"
         API["FastAPI :8000"]
-        
-        subgraph "Interface Layer"
-            Routes["API Routes<br/>HTTP Endpoints"]
-        end
-        
-        subgraph "Application Layer"
-            UseCases["Use Cases<br/>Business Logic"]
-        end
-        
-        subgraph "Domain Layer"
-            Domain["Domain Models<br/>Tasks, Users, etc."]
-        end
-        
-        subgraph "Infrastructure Layer"
-            Repos["Repositories<br/>Data Access"]
-            StorageInfra["Storage<br/>File System"]
-        end
+        Routes["API Routes"]
+        UseCases["Use Cases"]
+        Domain["Domain Models"]
+        Repos["Repositories"]
         
         Routes --> UseCases
         UseCases --> Domain
         UseCases --> Repos
-        Repos --> DB
-        UseCases --> StorageInfra
     end
     
-    subgraph "Background Services"
-        Worker["Background Worker<br/>Reminder Service"]
+    subgraph "Background"
+        Worker["Worker<br/>Reminders"]
     end
     
-    subgraph "Data Layer"
-        DB["PostgreSQL<br/>:5432 (internal)"]
-        Redis["Redis :6379<br/>Rate Limiting<br/>100 req/60s"]
-        Storage["File Storage<br/>uploads_data volume"]
+    subgraph "Data"
+        DB["PostgreSQL<br/>:5432"]
+        Redis["Redis :6379<br/>Rate Limiting"]
+        Storage["File Storage"]
     end
     
     subgraph "Observability"
-        Prometheus["Prometheus<br/>:9090"]
-        Grafana["Grafana<br/>:3000"]
+        Prometheus["Prometheus :9090"]
+        Grafana["Grafana :3000"]
     end
     
-    subgraph "Database Tools"
-        pgAdmin["pgAdmin<br/>:8888"]
+    subgraph "Tools"
+        pgAdmin["pgAdmin :8888"]
     end
     
     Browser --> React
+    Services --> API
+    API --> Routes
+    Repos --> DB
     API --> Redis
     API --> Storage
     Worker --> DB
@@ -103,10 +90,6 @@ graph TB
     Prometheus --> Grafana
     pgAdmin --> DB
 ```
-
-**Backend Clean Architecture:** Domain → Application → Infrastructure → Interface
-
-**Frontend Architecture:** Pages → Components → Services → API
 
 **Service Access:**
 
