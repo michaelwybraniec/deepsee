@@ -35,18 +35,54 @@ graph TB
         Browser[Browser]
     end
     
-    subgraph "Frontend"
-        React["React UI<br/>:5173"]
+    subgraph "Frontend - React"
+        React["React UI :5173"]
+        Pages["Pages<br/>Login, Tasks, etc."]
+        Components["Components<br/>Layout, ProtectedRoute"]
+        Services["Services<br/>API Clients"]
+        Context["Context<br/>AuthContext"]
+        
+        React --> Pages
+        Pages --> Components
+        Pages --> Services
+        Components --> Context
+        Services --> API
     end
     
-    subgraph "Backend"
-        API["FastAPI<br/>:8000"]
+    subgraph "Backend - Clean Architecture"
+        API["FastAPI :8000"]
+        
+        subgraph "Interface Layer"
+            Routes["API Routes<br/>HTTP Endpoints"]
+        end
+        
+        subgraph "Application Layer"
+            UseCases["Use Cases<br/>Business Logic"]
+        end
+        
+        subgraph "Domain Layer"
+            Domain["Domain Models<br/>Tasks, Users, etc."]
+        end
+        
+        subgraph "Infrastructure Layer"
+            Repos["Repositories<br/>Data Access"]
+            StorageInfra["Storage<br/>File System"]
+        end
+        
+        Routes --> UseCases
+        UseCases --> Domain
+        UseCases --> Repos
+        Repos --> DB
+        UseCases --> StorageInfra
+    end
+    
+    subgraph "Background Services"
         Worker["Background Worker<br/>Reminder Service"]
     end
     
     subgraph "Data Layer"
         DB["PostgreSQL<br/>:5432 (internal)"]
-        Redis["Redis<br/>:6379"]
+        Redis["Redis :6379<br/>Rate Limiting<br/>100 req/60s"]
         Storage["File Storage<br/>uploads_data volume"]
     end
     
@@ -60,8 +96,6 @@ graph TB
     end
     
     Browser --> React
-    React --> API
-    API --> DB
     API --> Redis
     API --> Storage
     Worker --> DB
@@ -70,7 +104,9 @@ graph TB
     pgAdmin --> DB
 ```
 
-**Clean Architecture:** Domain → Application → Infrastructure → Interface
+**Backend Clean Architecture:** Domain → Application → Infrastructure → Interface
+
+**Frontend Architecture:** Pages → Components → Services → API
 
 **Service Access:**
 
