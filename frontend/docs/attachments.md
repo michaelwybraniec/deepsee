@@ -15,6 +15,7 @@
 ## Usage
 
 Attachments can be uploaded:
+
 - During task creation (`CreateTaskPage`)
 - When editing tasks (`EditTaskPage`)
 - From task detail page (`AttachmentsSection` component)

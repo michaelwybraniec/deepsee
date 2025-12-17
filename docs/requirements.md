@@ -1,3 +1,5 @@
+# Requirements email
+
 Hi Michael, it was a pleasure to meet you, this is the assignment.
 
 Full Stack Developer - Technical Assessment
@@ -5,7 +7,7 @@ AI-assisted development required
 Overview
 This assignment is designed to evaluate your ability to design and implement a modern full-stack web application using Python, and React (or similar) using agentic AI development tools (e.g., Cursor, GitHub Copilot, Claude, etc).
 Your goal is to deliver a well-structured, functional system based on Clean Architecture, with maintainable code and clearly reasoned design decisions.
- 
+
 Assignment: Task Tracker
 
 Description
@@ -67,7 +69,7 @@ Worker/queue tests
 Contract/API documentation tests
 Observability/health checks tests
 UI smoke tests
- 
+
 Deliverables
 Source code organized into logical projects (API, Worker, UI).
 Docker compose for local run (API, worker, database, frontend).
@@ -80,14 +82,14 @@ Self-assessment including:
 What was completed and what’s missing.
 Design choices and trade-offs.
 Where AI assisted you (include example prompts).
- 
+
 Evaluation Criteria
 Architecture clarity and modularity.
 Code organization and readability.
 Use of Python/React and modern web best practices.
 Thoughtfulness of the self-assessment and documentation.
 Proper and effective use of agentic AI tools.
- 
+
 Let me know when you have finished it.
-Regards 
-Loris
+Regards
+Lori

@@ -18,7 +18,8 @@
 ## API Parameters
 
 All filters are passed as query parameters to `GET /api/tasks`:
-```
+
+```text
 ?q=search&status=in_progress&priority=high&tags=urgent&due_date_from=2024-01-01&owner_user_id=1
 ```
 

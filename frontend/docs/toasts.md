@@ -9,6 +9,7 @@
 ## Usage
 
 Toasts are automatically triggered from API service functions:
+
 - Success toasts for successful operations
 - Error toasts for failures (with user-friendly error messages)
 

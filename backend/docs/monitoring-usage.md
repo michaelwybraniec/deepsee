@@ -10,7 +10,8 @@
 
 **Format**: JSON with `correlation_id` for request tracing
 
-**Correlation ID**: 
+**Correlation ID**:
+
 - Auto-generated (UUID v4) or provided via `X-Correlation-ID` header
 - Returned in `X-Correlation-ID` response header
 - Included in all log entries for request tracing

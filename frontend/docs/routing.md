@@ -5,10 +5,12 @@
 ## Route Structure
 
 ### Public Routes
+
 - `/login` - Login page
 - `/register` - Registration page
 
 ### Protected Routes (require authentication)
+
 - `/` → redirects to `/tasks`
 - `/tasks` - Task list
 - `/tasks/:id` - Task detail
@@ -19,6 +21,7 @@
 ## Security
 
 **ProtectedRoute Component**: Checks authentication via `AuthContext`
+
 - If authenticated: renders protected component
 - If not authenticated: redirects to `/login`
 

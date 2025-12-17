@@ -2,15 +2,15 @@
 
 ## Access Points
 
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **OpenAPI JSON Spec**: http://localhost:8000/openapi.json
+- **Swagger UI**: <http://localhost:8000/docs>
+- **ReDoc**: <http://localhost:8000/redoc>
+- **OpenAPI JSON Spec**: <http://localhost:8000/openapi.json>
 
 ## Authentication in Swagger UI
 
 ### Get JWT Token
 
-1. Open Swagger UI: `http://localhost:8000/docs`
+1. Open Swagger UI: <http://localhost:8000/docs>
 2. Use **POST /api/auth/login** with username/password
 3. Copy the `token` from the response
 

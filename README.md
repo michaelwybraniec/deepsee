@@ -36,23 +36,27 @@ graph TB
     end
     
     subgraph "Frontend"
-        React[React UI<br/>Port 5173]
+        React["React UI<br/>:5173"]
     end
     
     subgraph "Backend"
-        API[FastAPI<br/>Port 8000]
-        Worker[Background Worker]
+        API["FastAPI<br/>:8000"]
+        Worker["Background Worker<br/>Reminder Service"]
     end
     
     subgraph "Data Layer"
-        DB[(PostgreSQL)]
-        Redis[(Redis)]
-        Storage[File Storage]
+        DB["PostgreSQL<br/>:5432 (internal)"]
+        Redis["Redis<br/>:6379"]
+        Storage["File Storage<br/>uploads_data volume"]
     end
     
     subgraph "Observability"
-        Prometheus[Prometheus<br/>Port 9090]
-        Grafana[Grafana<br/>Port 3000]
+        Prometheus["Prometheus<br/>:9090"]
+        Grafana["Grafana<br/>:3000"]
+    end
+    
+    subgraph "Database Tools"
+        pgAdmin["pgAdmin<br/>:8888"]
     end
     
     Browser --> React
@@ -63,9 +67,18 @@ graph TB
     Worker --> DB
     API --> Prometheus
     Prometheus --> Grafana
+    pgAdmin --> DB
 ```
 
 **Clean Architecture:** Domain → Application → Infrastructure → Interface
+
+**Service Access:**
+
+- **Frontend**: <http://localhost:5173>
+- **API**: <http://localhost:8000> | **Docs**: <http://localhost:8000/docs>
+- **Prometheus**: <http://localhost:9090>
+- **Grafana**: <http://localhost:3000> (admin/admin)
+- **pgAdmin**: <http://localhost:8888> (login: `admin`@`example.com` / password: `admin`)
 
 See [Architecture Documentation](docs/architecture.md) for details.
 

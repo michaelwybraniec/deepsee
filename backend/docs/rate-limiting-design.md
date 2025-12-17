@@ -5,6 +5,7 @@
 **Location**: Set in `backend/.env` file (copy from `.env.example`)
 
 **Environment Variables**:
+
 - `RATE_LIMIT_ENABLED` (default: `true`) - Enable/disable rate limiting
 - `RATE_LIMIT_REQUESTS` (default: `100`) - Requests per window
 - `RATE_LIMIT_WINDOW_SECONDS` (default: `60`) - Window duration in seconds

@@ -10,6 +10,28 @@ Where this document goes beyond those files, items are clearly marked as **Desig
 
 ---
 
+## Table of Contents
+
+- [Architecture – Task Tracker](#architecture--task-tracker)
+  - [Table of Contents](#table-of-contents)
+  - [1. Context \& Goals](#1-context--goals)
+  - [2. High‑Level System Components](#2-highlevel-system-components)
+  - [3. Logical Layering (Clean Architecture)](#3-logical-layering-clean-architecture)
+  - [4. Cross‑Cutting Concerns](#4-crosscutting-concerns)
+  - [5. Test Strategy (Per Requirements)](#5-test-strategy-per-requirements)
+  - [6. Architecture Rationale](#6-architecture-rationale)
+    - [6.1 Clean Architecture Approach](#61-clean-architecture-approach)
+    - [6.2 Technology Choices](#62-technology-choices)
+    - [6.3 Design Patterns Used](#63-design-patterns-used)
+    - [6.4 Trade-offs Made](#64-trade-offs-made)
+  - [7. Summary](#7-summary)
+  - [8. Architecture Charts (Text Diagrams)](#8-architecture-charts-text-diagrams)
+    - [8.1 High‑Level Components](#81-highlevel-components)
+    - [8.2 Request \& Logging Flow (Example)](#82-request--logging-flow-example)
+    - [8.3 Reminder Worker Flow (Example)](#83-reminder-worker-flow-example)
+
+---
+
 ## 1. Context & Goals
 
 - Full‑stack Task Tracker application where users:
@@ -277,11 +299,11 @@ This architecture description:
 
 ---
 
-## 7. Architecture Charts (Text Diagrams)
+## 8. Architecture Charts (Text Diagrams)
 
 The following diagrams give a visual overview of the system. They are descriptive only and do not add new requirements.
 
-### 7.1 High‑Level Components
+### 8.1 High‑Level Components
 
 ```mermaid
 flowchart LR
@@ -298,7 +320,7 @@ flowchart LR
   Worker --> DB
 ```
 
-### 7.2 Request & Logging Flow (Example)
+### 8.2 Request & Logging Flow (Example)
 
 ```mermaid
 sequenceDiagram
@@ -316,7 +338,7 @@ sequenceDiagram
   FE-->>U: Show success toast
 ```
 
-### 7.3 Reminder Worker Flow (Example)
+### 8.3 Reminder Worker Flow (Example)
 
 ```mermaid
 sequenceDiagram

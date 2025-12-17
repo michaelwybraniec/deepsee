@@ -35,17 +35,20 @@ docker compose logs -f
 ## Automatic Initialization
 
 On first startup, the API automatically:
+
 1. Waits for database to be ready
 2. Creates database schema
 3. Creates test user (`testuser` / `testpassword`)
 4. Seeds 50 sample tasks
 
 **Test User Credentials** (displayed in API logs):
+
 - Username: `testuser`
 - Email: `test@example.com`
 - Password: `testpassword`
 
 **View credentials:**
+
 ```bash
 docker compose logs api | grep -A 5 "TEST USER CREDENTIALS"
 ```
@@ -53,6 +56,7 @@ docker compose logs api | grep -A 5 "TEST USER CREDENTIALS"
 The credentials are clearly displayed in the API container logs when initialization completes.
 
 Customize via environment variables:
+
 - `TEST_USERNAME` - Test username (default: `testuser`)
 - `TEST_EMAIL` - Test email (default: `test@example.com`)
 - `TEST_PASSWORD` - Test password (default: `testpassword`)
@@ -60,15 +64,16 @@ Customize via environment variables:
 
 ## Access Points
 
-- **Frontend**: http://localhost:5173
-- **API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
-- **Grafana**: http://localhost:3000 (admin/admin)
-- **pgAdmin**: http://localhost:8888 (admin@example.com/admin)
+- **Frontend**: <http://localhost:5173>
+- **API**: <http://localhost:8000>
+- **API Docs**: <http://localhost:8000/docs>
+- **Grafana**: <http://localhost:3000> (admin/admin)
+- **pgAdmin**: <http://localhost:8888> (login: `admin`@`example.com` / password: `admin`)
 
 ## Volumes
 
 Data persists in Docker volumes:
+
 - `postgres_data` - Database data
 - `redis_data` - Redis data
 - `uploads_data` - File uploads
@@ -79,6 +84,7 @@ Data persists in Docker volumes:
 ## Clean Slate
 
 Remove all data and start fresh:
+
 ```bash
 docker compose down -v
 docker compose up
