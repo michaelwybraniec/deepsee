@@ -4,9 +4,13 @@ import sys
 import time
 import os
 
-# Force unbuffered output for Docker
-sys.stdout.reconfigure(line_buffering=True)
-sys.stderr.reconfigure(line_buffering=True)
+# Force unbuffered output for Docker (Python 3.7+)
+try:
+    sys.stdout.reconfigure(line_buffering=True)
+    sys.stderr.reconfigure(line_buffering=True)
+except AttributeError:
+    # Python < 3.7 or reconfigure not available
+    os.environ['PYTHONUNBUFFERED'] = '1'
 
 sys.path.insert(0, '.')
 

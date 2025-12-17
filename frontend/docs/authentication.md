@@ -16,6 +16,7 @@
 ## Security Considerations
 
 **Token Storage**: Currently uses `localStorage` for JWT tokens. For production with XSS concerns, consider:
+
 - HTTP-only cookies (requires backend changes)
 - Token refresh mechanism
 - Secure token expiration handling

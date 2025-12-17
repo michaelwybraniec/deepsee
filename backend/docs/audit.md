@@ -5,6 +5,7 @@ Audit trail tracks specific user actions (task created, updated, deleted, attach
 ## Action Types
 
 Automatically logged actions:
+
 - `task_created`, `task_updated`, `task_deleted`
 - `attachment_uploaded`, `attachment_deleted`
 - `reminder_sent` (system action, no user_id)

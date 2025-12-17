@@ -26,5 +26,6 @@ test-results/
 .DS_Store
 .idea/
 .vscode/
+pyrightconfig.json
 
 

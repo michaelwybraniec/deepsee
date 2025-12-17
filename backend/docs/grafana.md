@@ -2,8 +2,8 @@
 
 ## Access
 
-- **Grafana**: http://localhost:3000 (default: l:`admin` / p:`admin`)
-- **Prometheus**: http://localhost:9090
+- **Grafana**: [http://localhost:3000](http://localhost:3000) (default: l:`admin` / p:`admin`)
+- **Prometheus**: [http://localhost:9090](http://localhost:9090)
 
 ## Start Services
 
@@ -14,6 +14,7 @@ docker compose up -d prometheus grafana
 ## Dashboard
 
 **Task Tracker Dashboard** (automatically provisioned) shows:
+
 - Request volume (requests/sec)
 - Error rate (%)
 - Request latency (p50/p95)
