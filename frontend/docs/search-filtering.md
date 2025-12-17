@@ -24,4 +24,4 @@ All filters are passed as query parameters to `GET /api/tasks`:
 
 ## Related
 
-- [Backend Search & Filter API](../backend/docs/search-filter-api-design.md)
+- [Backend Search & Filter API](../backend/docs/search-filters.md)

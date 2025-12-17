@@ -9,8 +9,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
+    # Port not exposed to host - services connect via Docker network
+    # Use Adminer (port 8888) to access database from host
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tasktracker}"]
       interval: 10s
@@ -147,19 +147,24 @@ services:
     depends_on:
       - prometheus
 
-  # Adminer - Database web interface
-  adminer:
-    image: adminer:latest
-    container_name: task-tracker-adminer
+  # pgAdmin - PostgreSQL database web interface
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: task-tracker-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
     ports:
-      - "8888:8080"
+      - "8888:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
     networks:
       - backend-network
     depends_on:
       database:
         condition: service_healthy
-    environment:
-      ADMINER_DEFAULT_SERVER: database
 
 volumes:
   postgres_data:
@@ -167,6 +172,7 @@ volumes:
   uploads_data:
   prometheus_data:
   grafana_data:
+  pgadmin_data:
 
 networks:
   backend-network:

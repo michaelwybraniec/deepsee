@@ -33,7 +33,7 @@ Design a basic rate limiting strategy (per-user or per-IP) at the API boundary t
    - Increment counter on request, check if limit exceeded.
    - Return 429 if exceeded, continue if not.
 7. Document design:
-   - Create `backend/docs/rate-limiting-design.md` or add to code comments.
+   - Create `backend/docs/rate-limiting.md` or add to code comments.
    - Document limit key, thresholds, window, storage, algorithm, error response.
 
 **Implementation hints:**
@@ -79,7 +79,7 @@ Design a basic rate limiting strategy (per-user or per-IP) at the API boundary t
 ## Notes
 Actual implementation is covered in task 8.3. This task only designs the strategy.
 
-**Completed**: Created `backend/docs/rate-limiting-design.md` with complete rate limiting strategy:
+**Completed**: Created `backend/docs/rate-limiting.md` with complete rate limiting strategy:
 - Limit key: Per-user for authenticated endpoints, per-IP for unauthenticated endpoints
 - Thresholds: 100 requests per minute (configurable via environment variables)
 - Algorithm: Fixed window counter with Redis

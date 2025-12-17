@@ -27,4 +27,4 @@ All task operations use `src/services/taskApi.js`:
 
 ## Related
 
-- [Backend Task API](../backend/docs/task-model.md)
+- [Backend Task API](../backend/docs/api.md) - API schema in Swagger/ReDoc

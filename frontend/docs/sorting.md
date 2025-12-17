@@ -15,4 +15,4 @@
 
 ## Related
 
-- [Backend Search & Filter API](../backend/docs/search-filter-api-design.md#sorting)
+- [Backend Search & Filter API](../backend/docs/search-filters.md#sorting)

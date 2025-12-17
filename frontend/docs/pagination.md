@@ -23,4 +23,4 @@
 
 ## Related
 
-- [Backend Search & Filter API](../backend/docs/search-filter-api-design.md#pagination)
+- [Backend Search & Filter API](../backend/docs/search-filters.md#pagination)

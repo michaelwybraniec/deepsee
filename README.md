@@ -22,9 +22,9 @@ This repository contains the implementation of the Task Tracker application for 
 - **Health Check (Worker)**: http://localhost:8000/api/health/worker
 
 **Infrastructure Services:**
-- **PostgreSQL Database**: `localhost:5433` (host port, container uses 5432)
+- **PostgreSQL Database**: Internal Docker network only (use pgAdmin to access)
 - **Redis**: `localhost:6379`
-- **Adminer (Database Web UI)**: http://localhost:8888
+- **pgAdmin (Database Web UI)**: http://localhost:8888 (default: `admin@example.com` / `admin`)
 
 ### 📚 Documentation
 
@@ -37,34 +37,23 @@ This repository contains the implementation of the Task Tracker application for 
 - **[Suggestions](docs/suggestions.md)** - Optional best practices
 
 #### Backend Documentation (`backend/docs/`)
-- **[API Documentation](backend/docs/api-documentation.md)** - Swagger/OpenAPI usage guide
-- **[API Endpoints Summary](backend/docs/api-endpoints-summary.md)** - Complete API reference
-- **[Swagger Auth Guide](backend/docs/swagger-auth-guide.md)** - How to authenticate in Swagger UI
-- **[Quick Start](backend/docs/quick-start.md)** - Backend setup guide
-- **[Database Access](backend/docs/database-access.md)** - Database connection and query examples
+- **[API Documentation](backend/docs/api.md)** - Swagger/OpenAPI usage guide (all endpoints documented in `/docs` and `/redoc`)
+- **[Database Access](backend/docs/database-access.md)** - Database connection, pgAdmin web UI, and seed script
 - **[Testing](backend/docs/testing.md)** - Backend testing guide
 
 **Feature-Specific Documentation:**
-- **[Authentication Requirements](backend/docs/auth-requirements.md)** - Auth design and implementation
+- **[Authentication Design](backend/docs/auth-design.md)** - JWT authentication architecture
 - **[Authorization](backend/docs/authorization.md)** - Authorization guards and permissions
-- **[Task Model](backend/docs/task-model.md)** - Task data model design
-- **[Task Fields](backend/docs/task-fields.md)** - Task field specifications
-- **[Attachment Requirements](backend/docs/attachment-requirements.md)** - Attachment feature design
-- **[Attachment Design](backend/docs/attachment-design.md)** - Attachment storage and metadata
-- **[Search & Filter Requirements](backend/docs/search-filter-requirements.md)** - Search/filter design
-- **[Search & Filter API Design](backend/docs/search-filter-api-design.md)** - API design for search/filter
-- **[Tag Filtering (Partial Match)](backend/docs/tag-filtering-partial-match.md)** - Tag matching implementation
-- **[Audit Trail Requirements](backend/docs/audit-trail-requirements.md)** - Audit logging design
-- **[Audit Schema Design](backend/docs/audit-schema-design.md)** - Audit event schema
-- **[Audit Trail Usage](backend/docs/audit-trail-usage.md)** - How to query audit events
-- **[Rate Limiting Requirements](backend/docs/rate-limiting-requirements.md)** - Rate limiting design
-- **[Rate Limiting Design](backend/docs/rate-limiting-design.md)** - Rate limiting implementation
-- **[Monitoring & Logging Requirements](backend/docs/monitoring-logging-requirements.md)** - Observability design
+- **[Task Model](backend/docs/task-model.md)** - Task model implementation
+- **[Attachment Design](backend/docs/attachments.md)** - Attachment storage and security
+- **[Attachment Design](backend/docs/attachments.md)** - Attachment storage and metadata
+- **[Search & Filter API](backend/docs/search-filters.md)** - Search/filter implementation notes
+- **[Tag Filtering](backend/docs/tag-filtering.md)** - Tag matching implementation
+- **[Audit Trail](backend/docs/audit.md)** - Audit trail query and action types
+- **[Rate Limiting](backend/docs/rate-limiting.md)** - Rate limiting implementation
 - **[Monitoring Usage](backend/docs/monitoring-usage.md)** - How to access logs and metrics
-- **[Prometheus & Grafana Usage](backend/docs/prometheus-grafana-usage.md)** - Observability dashboards guide
-- **[Notification Requirements](backend/docs/notification-requirements.md)** - Reminder worker design
-- **[Worker Design](backend/docs/worker-design.md)** - Background worker architecture
-- **[Worker Usage](backend/docs/worker-usage.md)** - How to use and test the worker
+- **[Grafana](backend/docs/grafana.md)** - Metrics dashboards
+- **[Worker](backend/docs/worker.md)** - Background worker implementation
 
 #### Frontend Documentation (`frontend/docs/`)
 - **[Task 10 Review](frontend/docs/task-10-review.md)** - Frontend implementation review
@@ -99,7 +88,7 @@ This repository contains the implementation of the Task Tracker application for 
    - **ReDoc**: http://localhost:8000/redoc
    - **Prometheus**: http://localhost:9090
    - **Grafana**: http://localhost:3000 (default: `admin` / `admin`)
-   - **Adminer (Database UI)**: http://localhost:8888
+   - **pgAdmin (Database UI)**: http://localhost:8888 (default: `admin@example.com` / `admin`)
 
 **Services:**
 - `api` - Backend API (port 8000)
@@ -109,7 +98,7 @@ This repository contains the implementation of the Task Tracker application for 
 - `frontend` - React frontend (port 5173)
 - `prometheus` - Metrics collection (port 9090)
 - `grafana` - Metrics visualization (port 3000)
-- `adminer` - Database web interface (port 8888)
+- `pgadmin` - PostgreSQL database web interface (port 8888)
 
 **Stop services:**
 ```bash
@@ -155,6 +144,54 @@ npm run start:frontend
 
 The backend will be available at **http://localhost:8000** and the frontend at **http://localhost:5173**.
 
+## 🗄️ Database Management
+
+The project includes **pgAdmin** (web UI) for database management and supports command-line access.
+
+**Quick Access:**
+- **pgAdmin Web UI**: http://localhost:8888 (login: `admin@example.com` / `admin`)
+- **Console Access**: `docker exec -it task-tracker-db psql -U tasktracker -d task_tracker`
+
+**Connection Details:**
+- Host: `database` (from Docker network) or `localhost` (from host)
+- Port: `5432`
+- Database: `task_tracker`
+- Username: `tasktracker`
+- Password: `changeme`
+
+See **[Database Access Guide](backend/docs/database-access.md)** for:
+- Complete pgAdmin setup and usage instructions
+- Console/command-line database access
+- SQL query examples
+- Data export/import
+- All database management operations
+
+## 🌱 Seeding Sample Data
+
+To populate the database with sample tasks for testing:
+
+**Using Docker Compose:**
+```bash
+# Create 50 tasks for seed_user (default)
+docker exec task-tracker-api python scripts/seed_tasks.py
+
+# Create custom number of tasks for a specific user
+docker exec task-tracker-api python scripts/seed_tasks.py --count 50 --user-id 1
+```
+
+**Using Manual Setup:**
+```bash
+cd backend
+source .venv/bin/activate
+python scripts/seed_tasks.py --count 50 --user-id 1
+```
+
+**Options:**
+- `--count`: Number of tasks to create (default: 50)
+- `--user-id`: User ID to assign tasks to (default: creates/uses `seed_user`)
+
+The seed script creates tasks with varied statuses, priorities, due dates, and tags. See [backend/docs/database-access.md](backend/docs/database-access.md) for more details.
+
 ## 🧪 Running Tests
 
 **Backend Tests:**
@@ -198,21 +235,18 @@ docs/
 ```text
 backend/docs/
 ├── README.md                    # Backend documentation index
-├── api-documentation.md         # Swagger/OpenAPI usage
-├── api-endpoints-summary.md     # Complete API reference
-├── quick-start.md               # Backend setup guide
+├── api.md                       # Swagger/OpenAPI usage
 ├── database-access.md           # Database connection examples
 ├── testing.md                   # Backend testing guide
-├── auth-requirements.md         # Authentication design
+├── auth-design.md               # JWT authentication architecture
 ├── authorization.md             # Authorization implementation
-├── task-model.md                # Task data model
-├── attachment-requirements.md   # Attachment design
+├── task-model.md                # Task model implementation
+├── attachments.md               # Attachment storage and security
 ├── search-filter-requirements.md # Search/filter design
-├── audit-trail-requirements.md  # Audit logging design
-├── rate-limiting-requirements.md # Rate limiting design
+├── audit.md                     # Audit trail query and action types
 ├── monitoring-usage.md          # Logs and metrics access
-├── prometheus-grafana-usage.md  # Observability dashboards
-└── worker-usage.md              # Background worker usage
+├── grafana.md                   # Metrics dashboards
+└── worker.md                    # Background worker
 ```
 
 ### Project Management (`agentic-sdlc/`)

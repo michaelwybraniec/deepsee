@@ -7,36 +7,28 @@ This directory contains comprehensive documentation for the Task Tracker API bac
 ### Getting Started
 
 - [Monitoring & Logging Usage](monitoring-usage.md) - How to use structured logging, metrics, and health checks
-- **[Quick Start Guide](quick-start.md)** - Setup, installation, and running the API
 - **[Testing Guide](testing.md)** - Complete testing guide and best practices ⭐
 - **[Database Access](database-access.md)** - How to access and manage the SQLite database
 
 ### Authentication & Authorization
-- **[Auth Requirements](auth-requirements.md)** - Authentication and authorization requirements
-- **[Authorization Documentation](authorization.md)** - Authorization rules and implementation
-- **[Swagger Auth Guide](swagger-auth-guide.md)** - How to use authentication in Swagger UI
+- **[API Documentation](api.md)** - API docs including authentication in Swagger UI
+- **[Auth Design](auth-design.md)** - JWT authentication architecture
+- **[Authorization](authorization.md)** - Authorization rules and implementation
 
 ### Features
-- **[Task Fields](task-fields.md)** - Task data model fields
-- **[Task Model](task-model.md)** - Task data model design
-- **[Search & Filter Requirements](search-filter-requirements.md)** - Search, filter, sort, and pagination requirements
-- **[Search & Filter API Design](search-filter-api-design.md)** - API design for search and filtering
-- **[Tag Filtering (Partial Match)](tag-filtering-partial-match.md)** - Tag matching implementation details
-- **[Attachment Requirements](attachment-requirements.md)** - Attachment feature requirements
-- **[Attachment Design](attachment-design.md)** - Attachment storage and model design
+- **[Task Model](task-model.md)** - Task model implementation
+- **[Search & Filter API](search-filters.md)** - Search/filter implementation notes
+- **[Tag Filtering](tag-filtering.md)** - Tag matching implementation details
+- **[Attachment Design](attachments.md)** - Attachment storage and security
 
 ### Background Workers
-- **[Worker Usage](worker-usage.md)** - How to use the reminder worker
-- **[Worker Design](worker-design.md)** - Reminder worker architecture and design
-- **[Notification Requirements](notification-requirements.md)** - Notification system requirements
+- **[Worker](worker.md)** - Background worker implementation
 
 ### Audit Trail
-- **[Audit Trail Requirements](audit-trail-requirements.md)** - Audit trail requirements and specifications
-- **[Audit Schema Design](audit-schema-design.md)** - Database schema and domain model design
-- **[Audit Trail Usage](audit-trail-usage.md)** - How to query and use audit events ⭐
+- **[Audit Trail](audit.md)** - Query audit events and action types ⭐
 
 ### API Documentation
-- **[API Documentation](api-documentation.md)** - API documentation (if exists)
+- **[API Documentation](api.md)** - Swagger/OpenAPI usage guide
 
 ## Quick Reference
 
@@ -74,37 +66,30 @@ sqlite3 task_tracker.db
 ## Documentation by Feature
 
 ### Task Management
-- Task fields and model: `task-fields.md`, `task-model.md`
-- Search and filtering: `search-filter-requirements.md`, `search-filter-api-design.md`
-- Tag filtering: `tag-filtering-partial-match.md`
+- Task model: `task-model.md`
+- Search and filtering: `search-filters.md`
+- Tag filtering: `tag-filtering.md`
 
 ### Attachments
-- Requirements: `attachment-requirements.md`
-- Design: `attachment-design.md`
+- Design: `attachments.md`
 
 ### Authentication
-- Setup: `auth-requirements.md`
-- Usage: `swagger-auth-guide.md`
+- API usage: `api.md`
+- Design: `auth-design.md`
 - Authorization: `authorization.md`
 
 ### Workers & Notifications
-- Worker usage: `worker-usage.md`
-- Worker design: `worker-design.md`
-- Requirements: `notification-requirements.md`
+- Worker: `worker.md`
 
 ### Audit Trail
-- Requirements: `audit-trail-requirements.md`
-- Schema: `audit-schema-design.md`
-- **Usage: `audit-trail-usage.md`** ⭐
+- **Usage: `audit.md`** ⭐
 
 ### Rate Limiting
-- Requirements: `rate-limiting-requirements.md`
-- Design: `rate-limiting-design.md`
+- Design: `rate-limiting.md`
 
 ### Monitoring & Observability
-- Requirements: `monitoring-logging-requirements.md`
 - Usage: `monitoring-usage.md`
-- Dashboards: `prometheus-grafana-usage.md`
+- Dashboards: `grafana.md`
 
 ## Contributing
 

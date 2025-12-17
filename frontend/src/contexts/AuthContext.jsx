@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/api';
-import { AuthContext } from './authContext';
+
+export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
@@ -32,7 +33,22 @@ export function AuthProvider({ children }) {
       
       return { success: true, user: userData };
     } catch (error) {
-      const errorMessage = error.response?.data?.detail || error.message || 'Login failed';
+      let errorMessage = 'Login failed';
+      
+      if (error.response?.data?.detail) {
+        const detail = error.response.data.detail;
+        // Handle both string and object error formats
+        if (typeof detail === 'string') {
+          errorMessage = detail;
+        } else if (detail.error?.message) {
+          errorMessage = detail.error.message;
+        } else if (detail.message) {
+          errorMessage = detail.message;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       return { success: false, error: errorMessage };
     }
   };
@@ -70,3 +86,14 @@ export function AuthProvider({ children }) {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
+// Hook for using auth context
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+export default AuthProvider;

@@ -92,7 +92,7 @@ This document provides a self-assessment of the Task Tracker implementation, inc
 - **Cons**: Additional infrastructure dependency
 - **Decision**: Redis is standard for rate limiting, graceful degradation ensures reliability
 
-**Reference**: See `backend/docs/rate-limiting-design.md` for detailed design
+**Reference**: See `backend/docs/rate-limiting.md` for detailed design
 
 ### 2.4 Storage: Local Filesystem vs. S3
 
@@ -107,7 +107,7 @@ This document provides a self-assessment of the Task Tracker implementation, inc
 - **Cons**: Not scalable across multiple servers, requires volume management in Docker
 - **Decision**: Appropriate for assignment scope, interface allows future migration
 
-**Reference**: See `backend/docs/attachment-design.md` for detailed design
+**Reference**: See `backend/docs/attachments.md` for detailed design
 
 ### 2.5 Architecture: Clean Architecture vs. Simpler Structure
 

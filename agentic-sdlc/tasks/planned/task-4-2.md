@@ -83,7 +83,7 @@ The actual storage backend is a design decision; the requirement is to support u
 - Attachment model implemented in `backend/domain/models/attachment.py`
 - Storage interface defined in `backend/application/attachments/storage_interface.py`
 - Local filesystem storage implemented in `backend/infrastructure/attachments/storage.py`
-- Design documented in `backend/docs/attachment-design.md`
+- Design documented in `backend/docs/attachments.md`
 - Security considerations: filename sanitization, path traversal prevention, file size limits (10MB), access control
 
 ## Strengths

@@ -21,4 +21,4 @@ Attachments can be uploaded:
 
 ## Related
 
-- [Backend Attachment API](../backend/docs/attachment-design.md)
+- [Backend Attachment API](../backend/docs/attachments.md)

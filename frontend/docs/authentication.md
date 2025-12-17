@@ -22,5 +22,5 @@
 
 ## Related
 
-- [Backend Auth](../backend/docs/auth-requirements.md)
+- [Backend Auth Design](../backend/docs/auth-design.md)
 - [Routing](routing.md) - Protected route implementation

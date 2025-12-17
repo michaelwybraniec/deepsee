@@ -32,7 +32,7 @@ Design API query parameters and internal logic for searching by title/descriptio
 4. Design response format:
    - `{"tasks": [...], "pagination": {"page": 1, "page_size": 20, "total": 100, "total_pages": 5}}`.
 5. Document design:
-   - Create `backend/docs/search-filter-api-design.md` or add to code comments.
+   - Create `backend/docs/search-filters.md` or add to code comments.
    - Document query parameters, formats, examples, and internal logic.
 
 **Implementation hints:**
@@ -79,7 +79,7 @@ Design API query parameters and internal logic for searching by title/descriptio
 ## Notes
 This decouples deciding the interface from actual coding work. The actual implementation happens in tasks 5.3 and 5.4.
 
-**Completed**: Created `backend/docs/search-filter-api-design.md` documenting:
+**Completed**: Created `backend/docs/search-filters.md` documenting:
 - Query parameters: `q` (search), `status`, `priority`, `tags`, `due_date`, `due_date_from`, `due_date_to`, `sort`, `page`, `page_size`
 - Response format with pagination metadata
 - Internal query building logic (SQLAlchemy query builder)

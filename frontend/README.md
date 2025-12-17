@@ -211,4 +211,4 @@ npm run test:e2e
 - [Requirements](../docs/requirements.md) - Original assignment requirements (see §10 "Front-End")
 - [E2E Tests README](tests/e2e/README.md) - Playwright E2E test documentation
 - [Backend API Documentation](../backend/docs/README.md) - Backend API docs
-- [Backend API Endpoints Summary](../backend/docs/api-endpoints-summary.md) - Complete API reference
+- [Backend API Documentation](../backend/docs/api.md) - Swagger/OpenAPI usage (all endpoints in `/docs` and `/redoc`)

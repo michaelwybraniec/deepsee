@@ -6,25 +6,23 @@ import { useAuth } from '../contexts/useAuth';
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     // Client-side validation
     if (!username.trim()) {
-      setError('Username is required');
+      toast.error('Username is required');
       setLoading(false);
       return;
     }
 
     if (!password) {
-      setError('Password is required');
+      toast.error('Password is required');
       setLoading(false);
       return;
     }
@@ -37,12 +35,21 @@ function LoginPage() {
         // Redirect to task list on success
         navigate('/tasks');
       } else {
-        const errorMsg = result.error || 'Login failed. Please check your credentials.';
-        setError(errorMsg);
+        // Ensure error is always a string
+        let errorMsg = 'Login failed. Please check your credentials.';
+        if (result.error) {
+          if (typeof result.error === 'string') {
+            errorMsg = result.error;
+          } else if (result.error.message) {
+            errorMsg = result.error.message;
+          } else {
+            errorMsg = JSON.stringify(result.error);
+          }
+        }
         toast.error(errorMsg);
       }
     } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -60,11 +67,6 @@ function LoginPage() {
           </div>
         </div>
         <form className="space-y-5" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-md p-3">
-              <div className="text-sm text-red-800 font-medium">{error}</div>
-            </div>
-          )}
           <div>
             <label htmlFor="username" className="sr-only">
               Username
