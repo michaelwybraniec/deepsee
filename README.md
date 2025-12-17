@@ -82,7 +82,7 @@ graph TB
         Files[("File System<br/>Docker Volume<br/>Attachments")]
         
         Repos -->|SQL<br/>SQLAlchemy| PostgreSQL
-        Middleware -->|Key-Value<br/>TTL| Redis
+        Middleware -->|Rate Limit Cache| Redis
         Storage -->|File I/O| Files
     end
     
@@ -106,6 +106,7 @@ graph TB
         AWP["AWP - Agentic Workflow Protocol<br/>Backlog, Context Engineering & MCP"]
         
         AWP -.->|Workflow Context| FastAPI
+        AWP -.->|Workflow Context| React
     end
 ```
 
