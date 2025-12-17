@@ -31,64 +31,91 @@ npm run start:frontend
 
 ```mermaid
 graph TB
-    subgraph "Client"
-        Browser[Browser]
+    subgraph Presentation["Presentation Layer"]
+        Browser[Web Browser]
+        React["React SPA<br/>Vite + Tailwind<br/>:5173"]
+        
+        Browser -->|HTTPS| React
     end
     
-    subgraph "Frontend"
-        React["React UI :5173"]
-        Pages["Pages<br/>Login, Tasks"]
-        Components["Components<br/>Layout, Routes"]
-        Services["Services<br/>API Clients"]
-        Context["Context<br/>Auth"]
+    subgraph Application["Application Layer"]
+        Pages["Page Components<br/>Login, Tasks, Detail"]
+        Components["UI Components<br/>Layout, Forms"]
+        Services["API Client<br/>Axios + JWT"]
+        State["State Management<br/>React Context"]
         
         React --> Pages
         Pages --> Components
         Pages --> Services
-        Components --> Context
+        Components --> State
     end
     
-    subgraph "Backend"
-        API["FastAPI :8000"]
-        Routes["API Routes"]
-        UseCases["Use Cases"]
-        Domain["Domain Models"]
-        Repos["Repositories"]
+    subgraph API["API Gateway"]
+        FastAPI["FastAPI Server<br/>:8000"]
+        Middleware["Middleware<br/>Auth, Rate Limit, CORS"]
+        Routes["REST Endpoints<br/>/api/auth, /api/tasks"]
+        
+        Services -->|REST API<br/>JWT Bearer| FastAPI
+        FastAPI --> Middleware
+        Middleware --> Routes
+    end
+    
+    subgraph Business["Business Logic Layer"]
+        UseCases["Use Cases<br/>Task CRUD, Auth"]
+        Domain["Domain Models<br/>Task, User, Attachment"]
         
         Routes --> UseCases
         UseCases --> Domain
+    end
+    
+    subgraph Infrastructure["Infrastructure Layer"]
+        Repos["Repositories<br/>SQLAlchemy ORM"]
+        Storage["File Storage<br/>Local Filesystem"]
+        
         UseCases --> Repos
+        UseCases --> Storage
     end
     
-    subgraph "Background"
-        Worker["Worker<br/>Reminders"]
+    subgraph Data["Data Persistence"]
+        PostgreSQL[("PostgreSQL 15<br/>:5432<br/>Relational DB")]
+        Redis[("Redis 7<br/>:6379<br/>In-Memory Cache<br/>Rate Limiting")]
+        Files[("File System<br/>Docker Volume<br/>Attachments")]
+        
+        Repos -->|SQL<br/>SQLAlchemy| PostgreSQL
+        Middleware -->|Key-Value<br/>TTL| Redis
+        Storage -->|File I/O| Files
     end
     
-    subgraph "Data"
-        DB["PostgreSQL<br/>:5432"]
-        Redis["Redis :6379<br/>Rate Limiting"]
-        Storage["File Storage"]
+    subgraph Background["Background Processing"]
+        Scheduler["APScheduler<br/>Cron Jobs"]
+        Worker["Worker Service<br/>Reminder Notifications"]
+        
+        Scheduler --> Worker
+        Worker -->|SQL Queries| PostgreSQL
     end
     
-    subgraph "Observability"
-        Prometheus["Prometheus :9090"]
-        Grafana["Grafana :3000"]
+    subgraph Monitoring["Observability Stack"]
+        Prometheus["Prometheus<br/>:9090<br/>Metrics Collection"]
+        Grafana["Grafana<br/>:3000<br/>Dashboards"]
+        
+        FastAPI -->|Prometheus Metrics| Prometheus
+        Prometheus -->|Query API| Grafana
     end
     
-    subgraph "Tools"
-        pgAdmin["pgAdmin :8888"]
+    subgraph DevTools["Development Tools"]
+        pgAdmin["pgAdmin 4<br/>:8888<br/>DB Admin UI"]
+        
+        pgAdmin -->|PostgreSQL Protocol| PostgreSQL
     end
     
-    Browser --> React
-    Services --> API
-    API --> Routes
-    Repos --> DB
-    API --> Redis
-    API --> Storage
-    Worker --> DB
-    API --> Prometheus
-    Prometheus --> Grafana
-    pgAdmin --> DB
+    subgraph Engineering["Engineering Context"]
+        AWP["AWP Protocol<br/>Agentic Workflow<br/>Task Management"]
+        MCP["MCP Server<br/>Model Context Protocol<br/>Codebase Context"]
+        
+        AWP -.->|Workflow Context| FastAPI
+        MCP -.->|Code Context| FastAPI
+        MCP -.->|Documentation| React
+    end
 ```
 
 **Service Access:**
