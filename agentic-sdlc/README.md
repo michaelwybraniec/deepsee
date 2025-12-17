@@ -1,10 +1,10 @@
 # Agentic SDLC - Project Backlog
 
-This directory contains the **Agentic Software Development Life Cycle (ASDLC)** project backlog and workflow documentation for the Task Tracker application with Agentic Workflow Protocol authored by Michael Wybraniec (www.one-front.com) and maintained together with an open source engineering community.
+This directory contains the **Agentic Software Development Life Cycle (ASDLC)** project backlog and workflow documentation for the Task Tracker application with **AWP - Agentic Workflow Protocol** authored by Michael Wybraniec (<http://www.one-front.com>) and maintained together with an open source engineering community. The main purpose of **AWP** is to scale 10x development while reaming in control.
 
 ## Directory Structure
 
-```
+```text
 agentic-sdlc/
 ├── README.md              # This file - overview of the structure
 ├── AWP.md                 # Agentic Workflow Protocol - workflow instructions
@@ -20,7 +20,9 @@ agentic-sdlc/
 ## Key Files
 
 ### `AWP.md` - Agentic Workflow Protocol
+
 The workflow protocol that defines how to work with tasks. Contains:
+
 - **Core workflow commands**: `awp check`, `awp update`, `awp commit`, `awp next`, `awp handoff`
 - **Task lifecycle**: Starting, working on, and completing tasks
 - **Handling issues**: How to document and resolve blockers, unclear requirements, etc.
@@ -29,7 +31,9 @@ The workflow protocol that defines how to work with tasks. Contains:
 **👉 Start here**: Read `AWP.md` to understand the workflow before working on tasks.
 
 ### `project-backlog.md` - Main Backlog Index
+
 The high-level overview of all planned tasks. Contains:
+
 - **Planned Tasks**: Hierarchical list of all 11 main tasks and their child tasks
 - **How to Use This Backlog**: Quick start guide and workflow commands
 - **Task links**: Direct links to all task files
@@ -38,7 +42,9 @@ The high-level overview of all planned tasks. Contains:
 **👉 Use this**: To see the big picture and find the next task to work on.
 
 ### `tasks/planned/` - Task Files
+
 Individual task files containing detailed implementation guidance. Each task file includes:
+
 - **Task metadata**: ID, title, status, priority, owner, estimated effort
 - **Description**: Step-by-step instructions for implementation
 - **Dependencies**: Prerequisite tasks that must be completed first
@@ -76,6 +82,7 @@ Tasks are organized in a two-level hierarchy:
 ### Task Status
 
 Tasks can have the following status values:
+
 - `[ ] Pending` - Not yet started
 - `[x] In Progress` - Currently being worked on
 - `[x] Completed` - Finished and verified
@@ -117,6 +124,7 @@ Tasks can have the following status values:
 When you encounter issues (blockers, unclear requirements, etc.):
 
 1. **Document in task file**: Add to the "Notes" section with format:
+
    ```markdown
    **Issue [Type]**: Description. Impact: [what's affected]. Resolution: [if known] or [needs decision/escalation]
    ```
@@ -245,4 +253,3 @@ Each main task is broken down into detailed child tasks (49 total child tasks) w
 ---
 
 **Next Steps**: Read [AWP.md](AWP.md) to understand the workflow, then check [project-backlog.md](project-backlog.md) to find your next task.
-

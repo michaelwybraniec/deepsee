@@ -37,6 +37,7 @@ python3 scripts/query_audit_events.py --all
 ## Event Structure
 
 Each event contains:
+
 - `action_type`: Type of action
 - `user_id`: User who performed action (NULL for system actions)
 - `resource_type`: Type of resource (e.g., "task", "attachment")

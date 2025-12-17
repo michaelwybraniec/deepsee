@@ -183,6 +183,30 @@ npm run test:e2e:headed
 
 See [tests/e2e/README.md](tests/e2e/README.md) for detailed test documentation.
 
+## Docker
+
+**Using Docker Compose:**
+
+- See [Docker Setup](../docs/docker.md) for full guide
+- Frontend runs automatically with backend and other services
+- Access at <http://localhost:5173>
+
+**Environment Variables:**
+
+In Docker, the API URL is configured via `VITE_API_BASE_URL` (or `VITE_API_URL` in docker-compose.yml). The frontend container connects to the API service via Docker network.
+
+**Manual Docker Commands:**
+
+```bash
+# Build frontend image
+docker build -t task-tracker-frontend ./frontend
+
+# Run frontend container
+docker run -p 5173:5173 -e VITE_API_BASE_URL=http://localhost:8000 task-tracker-frontend
+```
+
+**Note:** When running in Docker Compose, the frontend automatically connects to the API service. For manual Docker setup, ensure the API URL is correctly configured.
+
 ## Quick Reference
 
 **Start Development Server:**

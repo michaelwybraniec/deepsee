@@ -37,13 +37,6 @@ test.describe('Authentication', () => {
     
     // Optional: Check if any error indication exists (div, toast, or text)
     // This is a smoke test, so we're lenient about how the error is displayed
-    const pageContent = await page.content();
-    const hasErrorIndication = 
-      pageContent.includes('bg-red-50') || 
-      pageContent.includes('error') || 
-      pageContent.includes('failed') ||
-      pageContent.includes('invalid');
-    
     // If no error indication found, that's okay for a smoke test - main thing is we didn't redirect
     // In a full test suite, we'd assert on specific error message
   });

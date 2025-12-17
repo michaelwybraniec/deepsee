@@ -2,6 +2,7 @@ import { useState, useMemo, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/api';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -88,6 +89,7 @@ export function AuthProvider({ children }) {
 }
 
 // Hook for using auth context
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

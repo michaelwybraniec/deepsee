@@ -5,6 +5,7 @@
 ## Validation Rules
 
 ### Authentication
+
 - **Username**: Required, trimmed
 - **Password**: Required, minimum 8 characters
 - **Email**: Valid email format (registration)
@@ -12,10 +13,12 @@
 - **New Password**: Must be different from current password
 
 ### Tasks
+
 - **Title**: Required, non-empty after trim
 - **Status/Priority**: Valid enum values (enforced by dropdowns)
 
 ### Attachments
+
 - **File Size**: Maximum 10MB per file
 
 ## Implementation

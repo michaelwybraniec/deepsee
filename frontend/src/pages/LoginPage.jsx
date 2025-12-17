@@ -48,7 +48,7 @@ function LoginPage() {
         }
         toast.error(errorMsg);
       }
-    } catch (err) {
+    } catch {
       toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);

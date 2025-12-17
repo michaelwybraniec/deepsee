@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { getTask, updateTask } from '../services/taskApi';
@@ -21,11 +21,7 @@ function EditTaskPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchTask();
-  }, [id]);
-
-  const fetchTask = async () => {
+  const fetchTask = useCallback(async () => {
     setLoading(true);
     setError('');
     const result = await getTask(id);
@@ -56,7 +52,11 @@ function EditTaskPage() {
       setError(result.error || 'Failed to load task');
     }
     setLoading(false);
-  };
+  }, [id, user]);
+
+  useEffect(() => {
+    fetchTask();
+  }, [fetchTask]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,7 +102,7 @@ function EditTaskPage() {
         setError(errorMsg);
         toast.error(errorMsg);
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setSaving(false);

@@ -15,21 +15,29 @@ function TaskDetailPage() {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    fetchTask();
-  }, [id]);
-
-  const fetchTask = async () => {
-    setLoading(true);
-    setError('');
-    const result = await getTask(id);
+    let cancelled = false;
     
-    if (result.success) {
-      setTask(result.data);
-    } else {
-      setError(result.error || 'Failed to load task');
-    }
-    setLoading(false);
-  };
+    const fetchTask = async () => {
+      setLoading(true);
+      setError('');
+      const result = await getTask(id);
+      
+      if (cancelled) return;
+      
+      if (result.success) {
+        setTask(result.data);
+      } else {
+        setError(result.error || 'Failed to load task');
+      }
+      setLoading(false);
+    };
+
+    fetchTask();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this task?')) {
