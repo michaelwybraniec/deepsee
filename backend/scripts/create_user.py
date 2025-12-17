@@ -53,6 +53,7 @@ def create_user(username: str, email: str, password: str) -> User:
         print(f"   ID: {user.id}")
         print(f"   Username: {user.username}")
         print(f"   Email: {user.email}")
+        print(f"   Password: {password}")
         
         return user
         

@@ -1,66 +1,46 @@
-## Backend
+# Backend
 
-### Quick Start
+## Quick Start
 
-**1. Install Dependencies:**
 ```bash
 cd backend
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-**2. Set Environment Variables:**
-
-Copy `.env.example` to `.env` and configure:
-```bash
-cp .env.example .env
-# Edit .env and set your JWT_SECRET_KEY (minimum 32 characters)
-```
-
-**3. Start the Server:**
-```bash
-cd backend
 source .venv/bin/activate
-uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+pip install -r requirements.txt
+cp .env.example .env  # Set JWT_SECRET_KEY (min 32 chars)
+uvicorn api.main:app --reload
 ```
 
-Server runs on `http://localhost:8000`
+Server: http://localhost:8000 | Docs: http://localhost:8000/docs
 
-**4. Verify:**
-- API: http://localhost:8000/health
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+## Documentation
 
-### Documentation
+All documentation in [`docs/`](docs/):
 
-Comprehensive documentation is available in the [`docs/`](docs/) directory:
+- **[Architecture](docs/architecture.md)** - Clean Architecture layers
+- **[API](docs/api.md)** - Swagger/OpenAPI endpoints
+- **[Testing](docs/testing.md)** - Testing guide
+- **[Database](docs/database-access.md)** - Database access
+- **[Auth](docs/auth-design.md)** - JWT authentication
+- **[Authorization](docs/authorization.md)** - Access control
+- **[Tasks](docs/task-model.md)** - Task model
+- **[Search & Filter](docs/search-filter-api-design.md)** - Search/filter API
+- **[Attachments](docs/attachments.md)** - File storage
+- **[Worker](docs/worker.md)** - Background jobs
+- **[Audit](docs/audit.md)** - Audit trail
+- **[Rate Limiting](docs/rate-limiting-design.md)** - Rate limiting
+- **[Monitoring](docs/monitoring-usage.md)** - Logs & metrics
+- **[Grafana](docs/grafana.md)** - Dashboards
 
-**Getting Started:**
-- **[API Documentation](docs/api.md)** - Swagger/OpenAPI usage guide (all endpoints in `/docs` and `/redoc`) ⭐
-- **[Testing Guide](docs/testing.md)** - Complete testing guide and best practices ⭐
+## Scripts
 
-**Key Features:**
-- **[Audit Trail](docs/audit.md)** - Query audit events and action types ⭐
-- **[Worker](docs/worker.md)** - Background worker
-- **[Monitoring Usage](docs/monitoring-usage.md)** - How to access logs and metrics
-- **[Grafana](docs/grafana.md)** - Metrics dashboards
-
-**Full Documentation Index:**
-- **[Complete Documentation Index](docs/README.md)** - All backend documentation organized by category
-
-### Quick Reference
-
-**Query Audit Events:**
 ```bash
-cd backend
+# Query audit events
 .venv/bin/python3 scripts/query_audit_events.py
-```
 
-**Seed Sample Tasks:**
-```bash
-cd backend
-.venv/bin/python3 scripts/seed_tasks.py
-# Or specify count and user ID:
-.venv/bin/python3 scripts/seed_tasks.py --count 50 --user-id 1
+# Create user
+.venv/bin/python3 scripts/create_user.py <username> <email> <password>
+
+# Seed tasks
+.venv/bin/python3 scripts/seed_tasks.py [--count 50] [--user-id 1]
 ```

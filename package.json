@@ -6,11 +6,21 @@
   "scripts": {
     "start:backend": "cd backend && .venv/bin/python3 -m uvicorn api.main:app --reload",
     "start:frontend": "cd frontend && npm run dev",
+    "install:backend": "cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
     "install:frontend": "cd frontend && npm install",
     "build:frontend": "cd frontend && npm run build",
+    "test:backend": "cd backend && .venv/bin/pytest tests/ -v",
     "test:e2e": "cd frontend && npm run test:e2e",
     "test:e2e:ui": "cd frontend && npm run test:e2e:ui",
-    "test:e2e:headed": "cd frontend && npm run test:e2e:headed"
+    "test:e2e:headed": "cd frontend && npm run test:e2e:headed",
+    "seed": "cd backend && .venv/bin/python3 scripts/seed_tasks.py",
+    "user:create": "cd backend && .venv/bin/python3 scripts/create_user.py",
+    "audit:query": "cd backend && .venv/bin/python3 scripts/query_audit_events.py",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:init": "docker compose down -v && docker compose up --build -d && sleep 5 && docker compose logs api | grep -A 10 'TEST USER CREDENTIALS' || docker compose logs api",
+    "docker:creds": "docker compose logs api | grep -A 10 'TEST USER CREDENTIALS' || echo 'API not running or credentials not found. Run: npm run docker:init'"
   },
   "keywords": [
     "task-tracker",

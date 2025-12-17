@@ -13,3 +13,4 @@
 **Idempotency**: Uses `reminder_sent_at` timestamp column (atomic UPDATE prevents duplicates)
 
 **Disable**: Set `ENVIRONMENT=test` to prevent worker from starting
+

@@ -13,7 +13,8 @@ System fields:
 - created_at (datetime, auto-set) - Creation timestamp
 - updated_at (datetime, auto-updated) - Last update timestamp
 
-Storage: Local filesystem (development) - files stored in backend/uploads/{task_id}/{filename}
+Storage: Local filesystem (development) - files stored in uploads/{task_id}/{filename}
+Storage path format: {task_id}/{filename} (relative to uploads directory)
 """
 
 from datetime import datetime, UTC

@@ -50,6 +50,10 @@ services:
       RATE_LIMIT_WINDOW_SECONDS: ${RATE_LIMIT_WINDOW_SECONDS:-60}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://frontend:5173}
       ENVIRONMENT: ${ENVIRONMENT:-development}
+      TEST_USERNAME: ${TEST_USERNAME:-testuser}
+      TEST_EMAIL: ${TEST_EMAIL:-test@example.com}
+      TEST_PASSWORD: ${TEST_PASSWORD:-testpassword}
+      SEED_TASK_COUNT: ${SEED_TASK_COUNT:-50}
     ports:
       - "8000:8000"
     depends_on:
@@ -63,7 +67,7 @@ services:
     networks:
       - backend-network
       - frontend-network
-    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    command: ["/bin/sh", "scripts/start.sh"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/api"]
       interval: 30s

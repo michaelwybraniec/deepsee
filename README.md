@@ -47,10 +47,10 @@ This repository contains the implementation of the Task Tracker application for 
 - **[Task Model](backend/docs/task-model.md)** - Task model implementation
 - **[Attachment Design](backend/docs/attachments.md)** - Attachment storage and security
 - **[Attachment Design](backend/docs/attachments.md)** - Attachment storage and metadata
-- **[Search & Filter API](backend/docs/search-filters.md)** - Search/filter implementation notes
+- **[Search & Filter API](backend/docs/search-filter-api-design.md)** - Search/filter implementation notes
 - **[Tag Filtering](backend/docs/tag-filtering.md)** - Tag matching implementation
 - **[Audit Trail](backend/docs/audit.md)** - Audit trail query and action types
-- **[Rate Limiting](backend/docs/rate-limiting.md)** - Rate limiting implementation
+- **[Rate Limiting Design](backend/docs/rate-limiting-design.md)** - Rate limiting implementation
 - **[Monitoring Usage](backend/docs/monitoring-usage.md)** - How to access logs and metrics
 - **[Grafana](backend/docs/grafana.md)** - Metrics dashboards
 - **[Worker](backend/docs/worker.md)** - Background worker implementation
@@ -71,44 +71,33 @@ This repository contains the implementation of the Task Tracker application for 
 **Prerequisites:**
 - Docker and Docker Compose installed
 
-**Steps:**
-1. Copy environment file:
-   ```bash
-   cp .env.example .env
-   ```
-2. Edit `.env` and set your values (especially `JWT_SECRET_KEY` with at least 32 characters)
-3. Start all services:
-   ```bash
-   docker compose up
-   ```
-4. Access the application:
-   - **Frontend**: http://localhost:5173
-   - **Backend API**: http://localhost:8000
-   - **API Documentation**: http://localhost:8000/docs (Swagger UI)
-   - **ReDoc**: http://localhost:8000/redoc
-   - **Prometheus**: http://localhost:9090
-   - **Grafana**: http://localhost:3000 (default: `admin` / `admin`)
-   - **pgAdmin (Database UI)**: http://localhost:8888 (default: `admin@example.com` / `admin`)
-
-**Services:**
-- `api` - Backend API (port 8000)
-- `worker` - Background worker for reminders
-- `database` - PostgreSQL database (port 5432)
-- `redis` - Redis for rate limiting (port 6379)
-- `frontend` - React frontend (port 5173)
-- `prometheus` - Metrics collection (port 9090)
-- `grafana` - Metrics visualization (port 3000)
-- `pgadmin` - PostgreSQL database web interface (port 8888)
-
-**Stop services:**
+**Quick Start:**
 ```bash
-docker compose down
+cp .env.example .env  # Set JWT_SECRET_KEY (min 32 chars)
+npm run docker:up     # or: docker compose up
 ```
 
-**Stop and remove volumes (clean slate):**
+**Automatic Setup:**
+On first startup, Docker automatically:
+- Creates database schema
+- Creates test user: `testuser` / `testpassword`
+- Seeds 50 sample tasks
+
+**Access:**
+- Frontend: http://localhost:5173
+- API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
+- Grafana: http://localhost:3000 (admin/admin)
+- pgAdmin: http://localhost:8888 (admin@example.com/admin)
+
+**Commands:**
 ```bash
-docker compose down -v
+npm run docker:up      # Start all services
+npm run docker:down    # Stop all services
+npm run docker:logs    # View logs
 ```
+
+**Full Documentation:** See [Docker Setup Guide](docs/docker.md) for details.
 
 ### Option 2: Manual Setup
 
