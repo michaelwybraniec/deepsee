@@ -1,0 +1,101 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  # Scrape logs from Docker containers
+  - job_name: docker
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+    relabel_configs:
+      # Capture ALL containers (don't filter - we want to see everything)
+      # We'll label them appropriately below
+      
+      # Exclude Loki and Promtail logs (they're infrastructure, very verbose)
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.*-)?(loki|promtail)(-.*)?$'
+        action: drop
+      
+      # Try to use Docker Compose service label first (most reliable)
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_service']
+        regex: '(.+)'
+        target_label: service
+        replacement: '${1}'
+      
+      # For task-tracker containers: Extract service name from container name
+      - source_labels: ['__meta_docker_container_name', 'service']
+        regex: '/task-tracker-([^/]+);$'
+        target_label: service
+        replacement: '${1}'
+      
+      # For any container: Use container name as service (fallback)
+      - source_labels: ['__meta_docker_container_name', 'service']
+        regex: '/([^/]+);$'
+        target_label: service
+        replacement: '${1}'
+      
+      # Map 'db' to 'database' for consistency
+      - source_labels: ['service']
+        regex: '^db$'
+        target_label: service
+        replacement: 'database'
+      
+      # Ensure all logs have a service label (no unknown_service)
+      - source_labels: ['service']
+        regex: '.+'
+        action: keep
+      
+      # Remove any existing service_name label (clear Promtail's default)
+      - action: labeldrop
+        regex: 'service_name'
+      
+      # Set service_name to match service (Grafana sometimes uses service_name)
+      - source_labels: ['service']
+        target_label: service_name
+      
+      # Set job label to service name
+      - source_labels: ['service']
+        target_label: job
+      
+      # Add a label to identify task-tracker vs other containers
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/task-tracker-.*'
+        target_label: project
+        replacement: 'task-tracker'
+      
+      - source_labels: ['__meta_docker_container_name', 'project']
+        regex: '/task-tracker-.*;'
+        target_label: project
+        replacement: 'other'
+      
+      # For containers not matching task-tracker, set project to their compose project or 'other'
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_project', 'project']
+        regex: '(.+);$'
+        target_label: project
+        replacement: '${1}'
+      
+      - source_labels: ['project']
+        regex: '^$'
+        target_label: project
+        replacement: 'other'
+      
+      # Set container label (full container name without leading slash)
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.+)'
+        target_label: container
+        replacement: '${1}'
+      
+      # Set log stream (stdout/stderr)
+      - source_labels: ['__meta_docker_container_log_stream']
+        target_label: stream
+      
+      # Add Docker Compose project label
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_project']
+        target_label: compose_project
