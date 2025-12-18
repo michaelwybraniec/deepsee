@@ -16,6 +16,7 @@ sys.path.insert(0, '.')
 
 from infrastructure.database import SessionLocal, init_db
 from domain.models.user import User
+from domain.models.task import Task
 from scripts.create_user import create_user
 from scripts.seed_tasks import seed_tasks
 from sqlalchemy import text
@@ -82,12 +83,19 @@ def init_docker():
         print("You can now login at http://localhost:5173")
         print("="*60 + "\n")
     
-    # Seed tasks
+    # Seed tasks (only if user has no tasks yet)
     if user:
-        task_count = int(os.getenv("SEED_TASK_COUNT", "50"))
-        print(f"🌱 Seeding {task_count} sample tasks...")
-        seed_tasks(count=task_count, user_id=user.id)
-        print("✅ Database seeded successfully!\n")
+        db = SessionLocal()
+        existing_tasks = db.query(Task).filter(Task.owner_user_id == user.id).count()
+        db.close()
+        
+        if existing_tasks == 0:
+            task_count = int(os.getenv("SEED_TASK_COUNT", "50"))
+            print(f"🌱 Seeding {task_count} sample tasks...")
+            seed_tasks(count=task_count, user_id=user.id)
+            print("✅ Database seeded successfully!\n")
+        else:
+            print(f"✅ Database already has {existing_tasks} tasks, skipping seed.\n")
     else:
         print("⚠️  Skipping task seeding (no user available)\n")
     

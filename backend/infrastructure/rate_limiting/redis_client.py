@@ -36,10 +36,22 @@ def get_redis_client() -> Optional[redis.Redis]:
     
     # Create new client
     try:
-        host = os.getenv("REDIS_HOST", "localhost")
-        port = int(os.getenv("REDIS_PORT", "6379"))
-        password = os.getenv("REDIS_PASSWORD") or None
-        db = int(os.getenv("REDIS_DB", "0"))
+        # Support REDIS_URL (e.g., redis://redis:6379/0) or individual env vars
+        redis_url = os.getenv("REDIS_URL")
+        if redis_url:
+            # Parse redis:// URL format
+            from urllib.parse import urlparse
+            parsed = urlparse(redis_url)
+            host = parsed.hostname or "localhost"
+            port = parsed.port or 6379
+            password = parsed.password or None
+            db = int(parsed.path.lstrip('/')) if parsed.path else 0
+        else:
+            # Fallback to individual environment variables
+            host = os.getenv("REDIS_HOST", "localhost")
+            port = int(os.getenv("REDIS_PORT", "6379"))
+            password = os.getenv("REDIS_PASSWORD") or None
+            db = int(os.getenv("REDIS_DB", "0"))
         
         _redis_client = redis.Redis(
             host=host,

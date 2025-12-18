@@ -8,5 +8,17 @@ scrape_configs:
   - job_name: 'task-tracker-api'
     metrics_path: '/api/metrics'
     static_configs:
-      - targets: ['host.docker.internal:8000']  # Use host.docker.internal to reach localhost from container
+      - targets: ['api:8000']  # Use Docker service name (both are on backend-network)
+    scrape_interval: 15s
+
+  - job_name: 'grafana'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['grafana:3000']  # Grafana's own metrics
+    scrape_interval: 15s
+
+  - job_name: 'prometheus'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['localhost:9090']  # Prometheus scraping itself
     scrape_interval: 15s

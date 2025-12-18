@@ -12,7 +12,7 @@ services:
     # Port not exposed to host - services connect via Docker network
     # Use Adminer (port 8888) to access database from host
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tasktracker}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tasktracker} -d ${POSTGRES_DB:-task_tracker}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile
     container_name: task-tracker-api
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-tasktracker}:${POSTGRES_PASSWORD:-changeme}@database:5432/${POSTGRES_DB:-task_tracker}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-tasktracker}:${POSTGRES_PASSWORD:-changeme}@database:5432/${POSTGRES_DB:-task_tracker}?sslmode=disable
       REDIS_URL: redis://redis:6379/0
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-changeme-min-32-characters-long-secret-key-please}
       RATE_LIMIT_ENABLED: ${RATE_LIMIT_ENABLED:-true}
@@ -81,7 +81,7 @@ services:
       dockerfile: Dockerfile
     container_name: task-tracker-worker
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-tasktracker}:${POSTGRES_PASSWORD:-changeme}@database:5432/${POSTGRES_DB:-task_tracker}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-tasktracker}:${POSTGRES_PASSWORD:-changeme}@database:5432/${POSTGRES_DB:-task_tracker}?sslmode=disable
       REDIS_URL: redis://redis:6379/0
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-changeme-min-32-characters-long-secret-key-please}
       ENVIRONMENT: ${ENVIRONMENT:-development}
@@ -94,7 +94,7 @@ services:
       - ./backend:/app
     networks:
       - backend-network
-    command: python -m worker.scheduler
+    command: python -m worker
     restart: unless-stopped
 
   # Frontend service
@@ -133,6 +133,38 @@ services:
     depends_on:
       - api
 
+  # Loki - Log aggregation
+  loki:
+    image: grafana/loki:latest
+    container_name: task-tracker-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Promtail - Log collector
+  promtail:
+    image: grafana/promtail:latest
+    container_name: task-tracker-promtail
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - backend-network
+    depends_on:
+      - loki
+
   # Grafana service
   grafana:
     image: grafana/grafana:latest
@@ -141,6 +173,10 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
+      # Enable Grafana's own metrics endpoint
+      - GF_METRICS_ENABLED=true
+      - GF_METRICS_BASIC_AUTH_ENABLED=false
+      - GF_METRICS_ENDPOINT=/metrics
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
@@ -150,6 +186,7 @@ services:
       - backend-network
     depends_on:
       - prometheus
+      - loki
 
   # pgAdmin - PostgreSQL database web interface
   pgadmin:
@@ -177,6 +214,7 @@ volumes:
   prometheus_data:
   grafana_data:
   pgadmin_data:
+  loki_data:
 
 networks:
   backend-network:
