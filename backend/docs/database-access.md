@@ -9,6 +9,7 @@
 - Database: `task_tracker`
 - Username: `tasktracker`
 - Password: `changeme` (set via `POSTGRES_PASSWORD` env var)
+- **SSL**: Disabled (`?sslmode=disable`) - Docker PostgreSQL doesn't have SSL enabled by default
 
 **SQLite (Manual Setup):**
 
@@ -84,4 +85,46 @@ docker exec task-tracker-api python scripts/reset_database.py --no-recreate
 
 # Skip confirmation (use with caution!)
 docker exec task-tracker-api python scripts/reset_database.py --force
+```
+
+## Troubleshooting
+
+### SSL Connection Error
+
+**Error:** `pq: SSL is not enabled on the server`
+
+**Solution:** The Docker PostgreSQL container doesn't have SSL enabled. The connection string in `docker-compose.yml` includes `?sslmode=disable` to handle this.
+
+If you're connecting manually (e.g., from host machine), add `?sslmode=disable` to your connection string:
+
+```bash
+# Correct format
+DATABASE_URL=postgresql://tasktracker:changeme@localhost:5432/task_tracker?sslmode=disable
+```
+
+**Note:** For production environments, you should enable SSL on PostgreSQL and use appropriate SSL mode (`require`, `verify-ca`, or `verify-full`).
+
+### Connection Refused
+
+If you can't connect from the host machine:
+
+1. **Check if database port is exposed:** The database port is not exposed to the host by default (internal Docker network only).
+2. **Use pgAdmin:** Access via <http://localhost:8888> instead.
+3. **Or use Docker exec:** `docker exec -it task-tracker-db psql -U tasktracker -d task_tracker`
+
+### Database Not Initialized
+
+If tables don't exist:
+
+```bash
+# Initialize schema
+docker exec task-tracker-api python -c "from infrastructure.database import init_db; init_db()"
+```
+
+### Data Persistence
+
+Database data is stored in the `postgres_data` Docker volume and persists across container restarts. To completely remove data:
+
+```bash
+docker compose down -v  # Removes volumes
 ```

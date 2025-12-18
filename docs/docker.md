@@ -10,6 +10,8 @@ Docker Compose runs the entire application stack:
 - **worker** - Background worker
 - **frontend** - React UI (port 5173)
 - **prometheus** - Metrics (port 9090)
+- **loki** - Log aggregation (port 3100, internal only)
+- **promtail** - Log collector
 - **grafana** - Dashboards (port 3000)
 - **pgadmin** - Database UI (port 8888)
 
@@ -68,6 +70,9 @@ Customize via environment variables:
 - **API**: <http://localhost:8000>
 - **API Docs**: <http://localhost:8000/docs>
 - **Grafana**: <http://localhost:3000> (admin/admin)
+  - **Metrics**: Dashboards → Task Tracker - System Metrics
+  - **Logs**: Drilldown → Logs (Loki data source)
+- **Prometheus**: <http://localhost:9090>
 - **pgAdmin**: <http://localhost:8888> (login: `admin`@`example.com` / password: `admin`)
 
 ## Volumes
@@ -78,6 +83,7 @@ Data persists in Docker volumes:
 - `redis_data` - Redis data
 - `uploads_data` - File uploads
 - `prometheus_data` - Metrics data
+- `loki_data` - Log data
 - `grafana_data` - Grafana dashboards
 - `pgadmin_data` - pgAdmin settings
 

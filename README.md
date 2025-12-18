@@ -198,6 +198,9 @@ npm run test:e2e       # E2E tests
 
 - Prometheus: <http://localhost:9090>
 - Grafana: <http://localhost:3000> (admin/admin)
+  - **Metrics**: Dashboards → Task Tracker - System Metrics
+  - **Logs**: Drilldown → Logs (Loki data source)
+- Loki: <http://localhost:3100> (log aggregation, internal)
 - pgAdmin: <http://localhost:8888> (email: `admin`@`example.com` / password: `admin`)
 
 ## Key Features
@@ -209,14 +212,14 @@ npm run test:e2e       # E2E tests
 - ✅ [Background Worker (reminder notifications)](backend/docs/worker.md) - [Backend](backend/docs/worker.md)
 - ✅ [Audit Trail](backend/docs/audit.md) - [Backend](backend/docs/audit.md)
 - ✅ [Rate Limiting](backend/docs/rate-limiting-design.md) - [Backend](backend/docs/rate-limiting-design.md)
-- ✅ [Monitoring & Observability](backend/docs/monitoring-usage.md) (Prometheus + Grafana) - [Monitoring](backend/docs/monitoring-usage.md) | [Grafana](backend/docs/grafana.md)
+- ✅ [Monitoring & Observability](backend/docs/monitoring-usage.md) (Prometheus + Grafana + Loki) - [Monitoring](backend/docs/monitoring-usage.md) | [Grafana](backend/docs/grafana.md) | [Logs](backend/docs/loki-logs.md)
 - ✅ [Comprehensive Testing](backend/docs/testing.md) (68 backend + 10 E2E tests) - [Backend](backend/docs/testing.md) | [Frontend E2E](frontend/tests/e2e/README.md)
 
 ## Technology Stack
 
 - **Backend**: Python 3.11+, FastAPI, SQLAlchemy, PostgreSQL
 - **Frontend**: React 19, Vite, Tailwind CSS
-- **Infrastructure**: Docker Compose, Redis, Prometheus, Grafana
+- **Infrastructure**: Docker Compose, Redis, Prometheus, Grafana, Loki
 - **Testing**: Pytest, Playwright
 
 See [Technology Stack](docs/technology.md) for detailed decisions.

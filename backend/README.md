@@ -44,8 +44,8 @@ pip install -r requirements.txt
 3. **Database URL** (optional, defaults to SQLite):
 
    ```bash
-   # PostgreSQL (Docker)
-   DATABASE_URL=postgresql://tasktracker:changeme@localhost:5432/task_tracker
+   # PostgreSQL (Docker) - Note: sslmode=disable for local Docker setup
+   DATABASE_URL=postgresql://tasktracker:changeme@localhost:5432/task_tracker?sslmode=disable
    
    # SQLite (default, no config needed)
    # DATABASE_URL=sqlite:///./task_tracker.db
